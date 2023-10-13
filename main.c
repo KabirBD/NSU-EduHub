@@ -1,11 +1,14 @@
 // Header Section
 #include "library.h"
 
+// main function
 int main()
 {
+    clr();
+    logo();
 
-logo();
 /*
+
     do
     {
         system("cls");

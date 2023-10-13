@@ -1,16 +1,18 @@
 void courseInfoQuery()
 {
     clr();
-    printf("Enter course initial (cse115): ");
+    printf("Enter course initial (Format: CSE115): ");
     char initial[10];
     scanf("%s", initial);
-    int courseLenth = sizeof(courses) / sizeof(courses[0]);
+    int courseLenth = sizeof(coreCourses) / sizeof(coreCourses[0]);
     for (int i = 0; i < courseLenth; i++)
     {
-        if (strcmp(courses[i].initial, initial) == 0)
+        if (strcmp(coreCourses[i].initial, initial) == 0)
         {
-            printf("\nTitle: %s\n\n", courses[i].title);
-            printWrap(courses[i].description, 60);
+            printf("\nName: %s", coreCourses[i].name);
+            printf("\nCredit: %d", coreCourses[i].credit);
+            printf("\nPre-requisites: %s\n\n", coreCourses[i].require);
+            printWrap(coreCourses[i].description, 60);
         }
     }
 }

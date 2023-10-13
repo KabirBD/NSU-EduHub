@@ -10,7 +10,7 @@
 #include "./library/menu.c"
 #include "./library/wrap.c"
 #include "./library/collumn.c"
-#include "./library/CSEcourses.c"
+#include "./library/courses.c"
 #include "./library/courseInfoQuery.c"
 #include "./library/complex.c"
 
@@ -35,5 +35,10 @@ void complex();
 // wrap text function
 void printWrap(const char *text, int lineWidth);
 // CSE courses query and display
-struct courseObj courses[];
+struct courseObj coreCourses[];
+struct courseObj algorithCourses[];
+struct courseObj softwareCourses[];
+struct courseObj networkCourses[];
+struct courseObj AICourses[];
+struct courseObj bioinformaticsCourses[];
 void courseInfoQuery();
