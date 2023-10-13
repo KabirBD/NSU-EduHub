@@ -1,15 +1,5 @@
 
 *.exe
 .vscode/settings.json
-temp/collumnprint.c
-temp/complexMultiply.c
-temp/courseDetails.c
-temp/eval.c
-temp/findVerb.c
-temp/logo.txt
-temp/singnUp.c
-temp/singnUp.o
-temp/temp.c
-temp/temp.py
-temp/VerbForms.c
+temp/
 *.o
