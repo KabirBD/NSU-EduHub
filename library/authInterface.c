@@ -12,12 +12,12 @@ int authInterface()
         {
         case '1':
         // Do what if user select sign in option
-            printf("Sign in selected");
+            signin();
             return 1;
             break;
         case '2':
         // Do what if user select sign up option
-            printf("Sign up selected");
+            signup();
             return 2;
             break;
         case '3':

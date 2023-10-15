@@ -9,6 +9,7 @@
 #include "./library/logo.c"
 #include "./library/smallFunctions.c"
 #include "./library/authInterface.c"
+#include "./library/authentication.c"
 #include "./library/option.c"
 #include "./library/manu.c"
 #include "./library/wrap.c"
@@ -32,6 +33,10 @@ void colPrint(int colN, int colLnth, char *arr[]);
 void logo();
 // authentifacion interface
 int authInterface();
+//sign in
+int signin();
+// signup
+int signup();
 // showOption( title, options, number of options)
 int showOption(char title[], char *options[], int n);
 // display manu
