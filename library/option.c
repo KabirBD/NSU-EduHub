@@ -15,12 +15,15 @@ int showOption(char title[], char *options[], int n)
             printf("%s\n", title);
 
         for (int i = 0; i < n; i++)
-            printf("\t%c %s\n", (optnSelected[i] ? '>' : ' '), options[i]);
+            if (n > 0 && n <= 9)
+                printf("\t%c %d. %s\n", (optnSelected[i] ? '>' : ' '), (i + 1), options[i]);
+            else
+                printf("\t%c %s\n", (optnSelected[i] ? '>' : ' '), options[i]);
     }
     display();
     while ((key = getch()) != 13 && key != 32)
     {
-        switch (getch())
+        switch (key)
         {
         case 72: // Up arrow
             if (index != 0)
@@ -35,6 +38,11 @@ int showOption(char title[], char *options[], int n)
             else
                 index = 0;
             display();
+            break;
+        }
+        if (n <= 9 && key >= '1' && key <= (n + '0'))
+        {
+            index = key - '1';
             break;
         }
     };
