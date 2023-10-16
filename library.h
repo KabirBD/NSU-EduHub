@@ -17,7 +17,9 @@
 #include "./library/courses.c"
 #include "./library/courseInfoQuery.c"
 #include "./library/menu.c"
-#include "./library/complex.c"
+#include "./library/complex.c" 
+#include "./library/gradePoint.c" 
+#include "./library/cgpaCalculator.c" 
 
 
 /// Initialize our functions
@@ -69,3 +71,7 @@ const char* USERNUM = "userNUM.txt";
 account *current_user = NULL;
 
 account temp;
+
+//cgpa calculation
+double getGradePoint(int score);
+void cgpaCalculator();
