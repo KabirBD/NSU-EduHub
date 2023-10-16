@@ -5,9 +5,7 @@
 int main()
 {
 
-    if (authInterface())
-        return 0;
-    ;
+    if (authInterface() == 1 || authInterface() == 2) 
     displayMenu();
 
     return 0;
