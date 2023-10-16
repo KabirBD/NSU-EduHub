@@ -36,10 +36,6 @@ void colPrint(int colN, int colLnth, char *arr[]);
 void logo();
 // authentifacion interface
 int authInterface();
-//sign in
-int signin();
-// signup
-int signup();
 // showOption( title, options, number of options)
 int showOption(char title[], char *options[], int n);
 // display menu
