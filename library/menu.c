@@ -1,52 +1,48 @@
 int displayMenu()
 {
+
     // What to do if my information selected
     void userInfoMenu()
     {
-       
-        printf("\n User Info"); //testing
-        if (getch())
-            ;
-    };
+        printf("\n User Info"); // testing
+    }
+
+
     // What to do if tools selected
     void toolsMenu()
     {
         // another menu will be called (will be added later)
-        printf("\n tools"); //testing
-        
-        if (getch())
-            ;
-    };
+        clr();
+        cgpaCalculator();
+    }
+
+
     // What to do if Course Advising selected
     void courseMenu()
     {
         // another menu will be called (will be added later)
         clr();
-            courseInfoQuery(); //just for testing
+        courseInfoQuery(); // just for testing
+    }
 
-        if (getch())
-            ;
-    };
+
     // What to do if Class Schedule selected
     void scheduleMenu()
     {
         // class routine functionality will be added later
-        clr();
-        printf("\n class schedule"); //testing
-        if (getch())
-            ;
-    };
+        printf("\n Class schedule"); // testing
+    }
+
+
     // What to do if Helpline selected
     void helpline()
     {
-        //temoprary code for testing
+        // temoprary code for testing
         system("cls");
         printf("\nHelpline Numbers:");
         printf("\n\tZarraf Rahman");
+    }
 
-        if (getch())
-            ;
-    };
     // if about selected
     void about()
     {
@@ -59,16 +55,23 @@ int displayMenu()
         printf("\n\tMd. Kabir Hosen");
         printf("\n\tMd. Hasibul Hasan Sarker");
         printf("\n Website: https://nsueduhub.com\n\n\n");
+    }
 
-        printf("\n Press any key to go back... ");
-        if (getch())
-            displayMenu();
-    };
+
     void exit(){
-        //do nothing will act like exit functionality
+        // do nothing will act like exit functionality
     };
 
-        // main menu options
+
+    void closeDialog()
+    {
+        printf("\nPress any key to go back ");
+        if (getch())
+            ;
+    }
+
+
+    // main menu options
     void mainMenu()
     {
         clr();
@@ -78,21 +81,27 @@ int displayMenu()
         {
         case 0:
             userInfoMenu();
+            closeDialog();
             break;
         case 1:
             toolsMenu();
+            closeDialog();
             break;
         case 2:
             courseMenu();
+            closeDialog();
             break;
         case 3:
             scheduleMenu();
+            closeDialog();
             break;
         case 4:
             helpline();
+            closeDialog();
             break;
         case 5:
             about();
+            closeDialog();
             break;
         case 6:
             exit();
