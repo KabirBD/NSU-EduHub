@@ -1,5 +1,3 @@
-
-/// Internal Libraries
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
@@ -16,10 +14,10 @@
 #include "./library/collumn.c"
 #include "./library/courses.c"
 #include "./library/courseInfoQuery.c"
-#include "./library/menu.c"
-#include "./library/complex.c" 
 #include "./library/gradePoint.c" 
 #include "./library/cgpaCalculator.c" 
+#include "./library/menu.c"
+#include "./library/complex.c" 
 
 
 /// Initialize our functions
@@ -74,4 +72,4 @@ account temp;
 
 //cgpa calculation
 double getGradePoint(int score);
-void cgpaCalculator();
+void   cgpaCalculator();
