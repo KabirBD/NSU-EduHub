@@ -11,7 +11,7 @@
 #include "./library/authInterface.c"
 #include "./library/authentication.c"
 #include "./library/option.c"
-#include "./library/manu.c"
+#include "./library/menu.c"
 #include "./library/wrap.c"
 #include "./library/collumn.c"
 #include "./library/courses.c"
