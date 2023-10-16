@@ -39,8 +39,8 @@ int signin();
 int signup();
 // showOption( title, options, number of options)
 int showOption(char title[], char *options[], int n);
-// display manu
-int displayManu();
+// display menu
+int displayMenu();
 // calculate complex number
 void complex();
 // wrap text function

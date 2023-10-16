@@ -8,7 +8,7 @@ int main()
     if (authInterface())
         return 0;
     ;
-    displayManu();
+    displayMenu();
 
     return 0;
 }

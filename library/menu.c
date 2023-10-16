@@ -1,7 +1,7 @@
-int displayManu()
+int displayMenu()
 {
     // What to do if my information selected
-    void userInfoManu()
+    void userInfoMenu()
     {
         printf("\n User Info");
         // char *infoList[] = {"My department", "Completed Corses", "Currentl Enrolling Courses"};
@@ -12,7 +12,7 @@ int displayManu()
             ;
     };
     // What to do if tools selected
-    void toolsManu()
+    void toolsMenu()
     {
         printf("\n tools");
         // char *toolsList[] = {"CGPA calculator", "Converters", "Problem Solvers"};
@@ -25,7 +25,7 @@ int displayManu()
             ;
     };
     // What to do if Course Advising selected
-    void courseManu()
+    void courseMenu()
     {
         // printf("\n course");
         // char *options[] = {"View All Courses Details", "Courses You Can Take in the Next Semester", "Courses You Can't Take"};
@@ -50,7 +50,7 @@ int displayManu()
             ;
     };
     // What to do if Class Schedule selected
-    void scheduleManu()
+    void scheduleMenu()
     {
         system("cls");
         // printf("You choose: %s", options[selected]);
@@ -81,12 +81,12 @@ int displayManu()
 
         printf("\n Press any key to go back... ");
         if (getch())
-            displayManu();
+            displayMenu();
     };
     void exit(){};
 
-        // main manu options
-    void mainManu()
+        // main menu options
+    void mainMenu()
     {
         clr();
         char *options[] = {"My information", "Tools", "Course Advising", "Class Schedule", "Helpline", "About", "Exit"};
@@ -94,16 +94,16 @@ int displayManu()
         switch (showOption("Choose an option below:", options, 7))
         {
         case 0:
-            userInfoManu();
+            userInfoMenu();
             break;
         case 1:
-            toolsManu();
+            toolsMenu();
             break;
         case 2:
-            courseManu();
+            courseMenu();
             break;
         case 3:
-            scheduleManu();
+            scheduleMenu();
             break;
         case 4:
             helpline();
@@ -116,5 +116,5 @@ int displayManu()
             break;
         };
     };
-    mainManu();
+    mainMenu();
 }
