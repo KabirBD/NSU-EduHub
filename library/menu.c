@@ -3,48 +3,26 @@ int displayMenu()
     // What to do if my information selected
     void userInfoMenu()
     {
-        printf("\n User Info");
-        // char *infoList[] = {"My department", "Completed Corses", "Currentl Enrolling Courses"};
-        // selected = showOption("View or Edit your information:", infoList, 3);
-        // system("cls");
-        // printf("You choose: %s", infoList[selected]);
+       
+        printf("\n User Info"); //testing
         if (getch())
             ;
     };
     // What to do if tools selected
     void toolsMenu()
     {
-        printf("\n tools");
-        // char *toolsList[] = {"CGPA calculator", "Converters", "Problem Solvers"};
-        // selected = showOption("View or Edit your information:", toolsList, 3);
-        // system("cls");
-        // if (selected == 2)
-        //     complex();
-        // printf("You choose: %s", toolsList[selected]);
+        // another menu will be called (will be added later)
+        printf("\n tools"); //testing
+        
         if (getch())
             ;
     };
     // What to do if Course Advising selected
     void courseMenu()
     {
-        // printf("\n course");
-        // char *options[] = {"View All Courses Details", "Courses You Can Take in the Next Semester", "Courses You Can't Take"};
-        // selected = showOption("Select any option:", options, 3);
-        // switch (selected)
-        // {
-        // case 0:
-        // {
-        //     clr();
-        //     courseInfoQuery();
-        //     break;
-        // }
-        // default:
-        // {
-        //     printf("\n\t Invalid Option \n ");
-        // }
-        // }
+        // another menu will be called (will be added later)
         clr();
-            courseInfoQuery();
+            courseInfoQuery(); //just for testing
 
         if (getch())
             ;
@@ -52,24 +30,27 @@ int displayMenu()
     // What to do if Class Schedule selected
     void scheduleMenu()
     {
-        system("cls");
-        // printf("You choose: %s", options[selected]);
+        // class routine functionality will be added later
+        clr();
+        printf("\n class schedule"); //testing
         if (getch())
             ;
     };
     // What to do if Helpline selected
     void helpline()
     {
+        //temoprary code for testing
         system("cls");
         printf("\nHelpline Numbers:");
         printf("\n\tZarraf Rahman");
+
         if (getch())
             ;
     };
     // if about selected
     void about()
     {
-        // About Page design
+        // About Page design (We sill move this code into a function later)
         clr();
         logo();
         printf("\n\n Version: 1.0.0");
@@ -83,7 +64,9 @@ int displayMenu()
         if (getch())
             displayMenu();
     };
-    void exit(){};
+    void exit(){
+        //do nothing will act like exit functionality
+    };
 
         // main menu options
     void mainMenu()

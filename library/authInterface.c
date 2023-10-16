@@ -33,6 +33,7 @@ int authInterface()
 
     if (checkSelected() == 3)
     {
+        //return 1 if user select exit
         return 1;
     };
 
