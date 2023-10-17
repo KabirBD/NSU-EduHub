@@ -4,6 +4,7 @@ int displayMenu()
     // What to do if my information selected
     void userInfoMenu()
     {
+        clr();
         printf("\n User Info"); // testing
     }
 
@@ -11,7 +12,7 @@ int displayMenu()
     // What to do if tools selected
     void toolsMenu()
     {
-        // another menu will be called (will be added later)
+        // another menu of tools will be called (will be added later)
         clr();
         cgpaCalculator();
     }
@@ -20,7 +21,7 @@ int displayMenu()
     // What to do if Course Advising selected
     void courseMenu()
     {
-        // another menu will be called (will be added later)
+        // another menu of course navigation will be called (will be added later)
         clr();
         courseInfoQuery(); // just for testing
     }
@@ -30,6 +31,7 @@ int displayMenu()
     void scheduleMenu()
     {
         // class routine functionality will be added later
+        clr();
         printf("\n Class schedule"); // testing
     }
 
@@ -37,8 +39,8 @@ int displayMenu()
     // What to do if Helpline selected
     void helpline()
     {
-        // temoprary code for testing
-        system("cls");
+        // helpline page
+        clr();
         printf("\nHelpline Numbers:");
         printf("\n\tZarraf Rahman");
     }
@@ -82,26 +84,32 @@ int displayMenu()
         case 0:
             userInfoMenu();
             closeDialog();
+            mainMenu();
             break;
         case 1:
             toolsMenu();
             closeDialog();
+            mainMenu();
             break;
         case 2:
             courseMenu();
             closeDialog();
+            mainMenu();
             break;
         case 3:
             scheduleMenu();
             closeDialog();
+            mainMenu();
             break;
         case 4:
             helpline();
             closeDialog();
+            mainMenu();
             break;
         case 5:
             about();
             closeDialog();
+            mainMenu();
             break;
         case 6:
             exit();
