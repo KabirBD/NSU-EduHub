@@ -1,11 +1,14 @@
+//Internal libraries
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
 #include <conio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <windows.h>
 
 /// Import our own library functions
+#include "./library/colorPrint.c"
 #include "./library/logo.c"
 #include "./library/smallFunctions.c"
 #include "./library/authInterface.c"
@@ -14,13 +17,14 @@
 #include "./library/collumn.c"
 #include "./library/courses.c"
 #include "./library/courseInfoQuery.c"
-#include "./library/gradePoint.c" 
-#include "./library/cgpaCalculator.c" 
+#include "./library/gradePoint.c"
+#include "./library/cgpaCalculator.c"
 #include "./library/menu.c"
-#include "./library/complex.c" 
-
+#include "./library/complex.c"
 
 /// Initialize our functions
+// print colorful text
+int colorPrint(char output[], char color[]);
 // small functions
 // clear console
 void clr();
@@ -53,23 +57,23 @@ struct courseObj AICourses[];
 struct courseObj bioinformaticsCourses[];
 
 int user_num = 0;
-typedef struct acc //declares a struct of accounts.
+typedef struct acc // declares a struct of accounts.
 {
     char name[50];
     char pass[50];
-}account;
+} account;
 
-account acc_num[100]; //declares an array of user structs
+account acc_num[100]; // declares an array of user structs
 
-const char* SCAN_FORMAT = "(%[^,], %[^)])\n"; 
-const char* PRINT_FORMAT = "(%s, %s)\n"; 
-const char* FILENAME = "userCredentials.txt"; 
-const char* USERNUM = "userNUM.txt"; 
+const char *SCAN_FORMAT = "(%[^,], %[^)])\n";
+const char *PRINT_FORMAT = "(%s, %s)\n";
+const char *FILENAME = "userCredentials.txt";
+const char *USERNUM = "userNUM.txt";
 
 account *current_user = NULL;
 
 account temp;
 
-//cgpa calculation
+// cgpa calculation
 double getGradePoint(int score);
-void   cgpaCalculator();
+void cgpaCalculator();

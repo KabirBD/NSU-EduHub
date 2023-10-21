@@ -2,10 +2,10 @@ int displayMenu()
 {
 
     // What to do if my information selected
-    void userInfoMenu()
+    void dashboard()
     {
         clr();
-        printf("\n User Info"); // testing
+        colorPrint("\n Dashboard", "r"); // testing
     }
 
 
@@ -67,7 +67,7 @@ int displayMenu()
 
     void closeDialog()
     {
-        printf("\nPress any key to go back ");
+        colorPrint("\n Press any key to go back..\n", "g");
         if (getch())
             ;
     }
@@ -77,12 +77,12 @@ int displayMenu()
     void mainMenu()
     {
         clr();
-        char *options[] = {"My information", "Tools", "Course Advising", "Class Schedule", "Helpline", "About", "Exit"};
+        char *options[] = {"Dashboard", "Tools", "Course Advising", "Class Schedule", "Helpline", "About", "Exit"};
 
         switch (showOption("Choose an option below:", options, 7))
         {
         case 0:
-            userInfoMenu();
+            dashboard();
             closeDialog();
             mainMenu();
             break;
