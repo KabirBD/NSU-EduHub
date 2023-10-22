@@ -166,7 +166,7 @@ int signUp()
     {
         if(strcmp(acc_num[i].name,acc_num[user_num].name ) == 0)
         {
-            printf("User name already exists. Please try again.");
+            printf("User name already exists. Please try again.\n");
             return 0;
         }
     }
@@ -253,7 +253,7 @@ int signIn()
             {
             case '1':
                 printf("Sign in selected.\n");
-                usleep(500000); // program pauses for half a second.
+                usleep(200000); // program pauses for half a second.
                 clr();
                 if (signIn())
                     return 1;
@@ -264,7 +264,7 @@ int signIn()
                 }
             case '2':
                 printf("Sign up selected\n");
-                usleep(500000); // program pauses for half a second.
+                usleep(200000); // program pauses for half a second.
                 clr();
                 if (signUp())
                     return 1;
