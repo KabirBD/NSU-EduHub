@@ -1,3 +1,4 @@
+char userName[20];
 int authInterface()
 {
     int user_num = 0;
@@ -175,6 +176,8 @@ int signUp()
     readUserdata();  
     namepassCheck(acc_num[n].name,acc_num[n].pass);
 
+    strcpy(userName, acc_num[n].name); // I need current username for saving user info (Kabir)
+
     user_num++;
     saveUsernum();
 
@@ -230,6 +233,7 @@ int signIn()
     if (namepassCheck(temp.name, password) == 1) 
     {
         printf("Sign in successful.\n");
+        strcpy(userName, temp.name); // I need current username for saving user info (Kabir)
         return 1;
         saveUsernum();
     }
