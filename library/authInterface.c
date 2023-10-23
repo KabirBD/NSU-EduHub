@@ -95,6 +95,7 @@ void readUsernum()
 void writeUserdata(FILE *file_ptr, int k)
 {
     fprintf_s(file_ptr,PRINT_FORMAT,acc_num[k].name,acc_num[k].pass);
+    fclose(file_ptr); //close the file 
 };
 
 void readUserdata()
