@@ -16,7 +16,7 @@ void courseInfoQuery()
         if (strcmp(coreCourses[i].initial, initial) == 0)
         {
             printf("\nName: %s", coreCourses[i].name);
-            printf("\nCredit: %d", coreCourses[i].credit);
+            printf("\nCredit: %.1f", coreCourses[i].credit);
             printf("\nPre-requisites: %s\n\n", coreCourses[i].require);
             printWrap(coreCourses[i].description, 60);
             printf("Source: http://ece.northsouth.edu/\n");
