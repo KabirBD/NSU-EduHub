@@ -3,7 +3,7 @@ struct courseObj
 {
     char initial[10];
     char name[100];
-    int credit;
+    float credit;
     char require[25];
     char description[2000];
 };
