@@ -14,3 +14,8 @@ void row(int n) // print a horizontal line of n number of characters(-)
     printf("\n");
 }
 
+void toUpperCase(char *str) {
+    for (int i = 0; str[i] != '\0'; i++) {
+        str[i] = toupper((unsigned char)str[i]);
+    }
+}

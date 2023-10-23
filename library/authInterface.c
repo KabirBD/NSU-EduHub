@@ -1,3 +1,4 @@
+char userName[20];
 int authInterface()
 {
     int user_num = 0;
@@ -93,7 +94,8 @@ void readUsernum()
 
 void writeUserdata(FILE *file_ptr, int k)
 {
-    fprintf(file_ptr,PRINT_FORMAT,acc_num[k].name,acc_num[k].pass);
+    fprintf_s(file_ptr,PRINT_FORMAT,acc_num[k].name,acc_num[k].pass);
+    fclose(file_ptr); //close the file
 };
 
 void readUserdata()
@@ -181,7 +183,7 @@ int signUp()
     {
         if(strcmp(acc_num[i].name,acc_num[user_num].name ) == 0)
         {
-            printf("User name already exists. Please try again.");
+            printf("User name already exists. Please try again.\n");
             return 0;
         }
     }
@@ -189,6 +191,8 @@ int signUp()
     
     readUserdata();  
     namepassCheck(acc_num[n].name,acc_num[n].pass);
+
+    strcpy(userName, acc_num[n].name); // I need current username for saving user info (Kabir)
 
     user_num++;
     saveUsernum();
@@ -245,6 +249,7 @@ int signIn()
     if (namepassCheck(temp.name, password) == 1) 
     {
         printf("Sign in successful.\n");
+        strcpy(userName, temp.name); // I need current username for saving user info (Kabir)
         return 1;
         saveUsernum();
     }
@@ -268,7 +273,7 @@ int signIn()
             {
             case '1':
                 printf("Sign in selected.\n");
-                usleep(500000); // program pauses for half a second.
+                usleep(200000); // program pauses for half a second.
                 clr();
                 if (signIn())
                     return 1;
@@ -279,7 +284,7 @@ int signIn()
                 }
             case '2':
                 printf("Sign up selected\n");
-                usleep(500000); // program pauses for half a second.
+                usleep(200000); // program pauses for half a second.
                 clr();
                 if (signUp())
                     return 1;
