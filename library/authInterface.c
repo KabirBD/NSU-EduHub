@@ -95,7 +95,7 @@ void readUsernum()
 void writeUserdata(FILE *file_ptr, int k)
 {
     fprintf_s(file_ptr,PRINT_FORMAT,acc_num[k].name,acc_num[k].pass);
-    fclose(file_ptr); //close the file 
+    fclose(file_ptr); //close the file
 };
 
 void readUserdata()
@@ -163,6 +163,21 @@ int signUp()
 
     printf("Enter your password: ");
     getInput(acc_num[user_num].pass);
+
+    while(strlen(acc_num[user_num].pass)<= 8)
+    {
+        while(1)
+        {
+        printf("The password is too short.\n");
+        printf("Enter your password: ");
+        getInput(acc_num[user_num].pass);
+        if(strlen(acc_num[user_num].pass)<= 8)
+            continue;
+        else
+            break;
+        }
+
+    }
 
     for(int i = 0; i<user_num;i++)
     {
