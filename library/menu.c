@@ -1,22 +1,27 @@
 int displayMenu()
 {
-
-    // What to do if my information selected
-    void dashboard()
-    {
-        clr();
-        colorPrint("\n Dashboard", "r"); // testing
-    }
-
-
     // What to do if tools selected
     void toolsMenu()
     {
         // another menu of tools will be called (will be added later)
         clr();
-        cgpaCalculator();
+        char *options[] = {"CGPA Calculator", "Not Decided", "Main Menu"};
+        switch (showOption("Choose an option below:", options, 3))
+        {
+        case 0:
+            clr();
+            cgpaCalculator();
+            closeDialog();
+            toolsMenu();
+            break;
+        case 1:
+            clr();
+            colorPrint("\n This is another option\n", "b");
+            closeDialog();
+            toolsMenu();
+            break;
+        }
     }
-
 
     // What to do if Course Advising selected
     void courseMenu()
@@ -26,7 +31,6 @@ int displayMenu()
         courseInfoQuery(); // just for testing
     }
 
-
     // What to do if Class Schedule selected
     void scheduleMenu()
     {
@@ -34,7 +38,6 @@ int displayMenu()
         clr();
         printf("\n Class schedule"); // testing
     }
-
 
     // What to do if Helpline selected
     void helpline()
@@ -59,36 +62,26 @@ int displayMenu()
         printf("\n Website: https://nsueduhub.com\n\n\n");
     }
 
-
     void exit(){
         // do nothing will act like exit functionality
     };
-
-
-    void closeDialog()
-    {
-        colorPrint("\n Press any key to go back..\n", "g");
-        if (getch())
-            ;
-    }
-
 
     // main menu options
     void mainMenu()
     {
         clr();
-        char *options[] = {"Dashboard", "Tools", "Course Advising", "Class Schedule", "Helpline", "About", "Exit"};
+        char *options[] = {"My information", "Tools", "Course Advising", "Class Schedule", "Helpline", "About", "Exit"};
 
         switch (showOption("Choose an option below:", options, 7))
         {
         case 0:
             dashboard();
-            closeDialog();
+            // closeDialog();
             mainMenu();
             break;
         case 1:
             toolsMenu();
-            closeDialog();
+            // closeDialog();
             mainMenu();
             break;
         case 2:
