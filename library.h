@@ -25,6 +25,8 @@
 
 /// Initialize our functions
 // print colorful text
+void setColor(char color[]);
+void resetColor();
 int colorPrint(char output[], char color[]);
 // small functions
 // clear console
