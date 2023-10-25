@@ -20,30 +20,43 @@
 #include "./library/gradePoint.c"
 #include "./library/cgpaCalculator.c"
 #include "./library/menu.c"
+#include "./library/dashboard.c"
 #include "./library/complex.c"
 
 /// Initialize our functions
 // print colorful text
+void setColor(char color[]);
+void resetColor();
 int colorPrint(char output[], char color[]);
 // small functions
 // clear console
 void clr();
-void courseInfoQuery();
 // print new line
 void n();
 // print a horizontal line of n number of characters(-)
 void row(int n);
+// print spaces of n number
+void sp(int n);
+//string upper case
+void toUpperCase(char *str);
+// return suffix of a number
+const char *getSuffix(int n);
+// wait for a chaacter input to complete the function
+void closeDialog();
 // print array as a row of multiple collumn
 // colPrint(number collumn, collumn width, array of cell data)
 void colPrint(int colN, int colLnth, char *arr[]);
 // print logo
 void logo();
 // authentifacion interface
+char userName[20];
 int authInterface();
 // showOption( title, options, number of options)
 int showOption(char title[], char *options[], int n);
 // display menu
 int displayMenu();
+//dashboard functionalities
+void dashboard();
 // calculate complex number
 void complex();
 // wrap text function
@@ -55,24 +68,7 @@ struct courseObj softwareCourses[];
 struct courseObj networkCourses[];
 struct courseObj AICourses[];
 struct courseObj bioinformaticsCourses[];
-
-int user_num = 0;
-typedef struct acc // declares a struct of accounts.
-{
-    char name[50];
-    char pass[50];
-} account;
-
-account acc_num[100]; // declares an array of user structs
-
-const char *SCAN_FORMAT = "(%[^,], %[^)])\n";
-const char *PRINT_FORMAT = "(%s, %s)\n";
-const char *FILENAME = "userCredentials.txt";
-const char *USERNUM = "userNUM.txt";
-
-account *current_user = NULL;
-
-account temp;
+void courseInfoQuery();
 
 // cgpa calculation
 double getGradePoint(int score);

@@ -1,5 +1,4 @@
-
-int colorPrint(char output[], char color[])
+void setColor(char color[])
 {
     HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
     if (color == "r" || color == "red")
@@ -14,9 +13,16 @@ int colorPrint(char output[], char color[])
         SetConsoleTextAttribute(console, FOREGROUND_INTENSITY | FOREGROUND_BLUE | FOREGROUND_GREEN);
     else if (color == "m" || color == "magenta")
         SetConsoleTextAttribute(console, FOREGROUND_INTENSITY | FOREGROUND_BLUE | FOREGROUND_RED);
-
-    int size = printf("%s", output);
-
+}
+void resetColor()
+{
+    HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleTextAttribute(console, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+}
+int colorPrint(char output[], char color[])
+{
+    setColor(color);
+    int size = printf("%s", output);
+    resetColor();
     return size;
 }

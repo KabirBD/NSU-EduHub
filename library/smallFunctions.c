@@ -11,11 +11,47 @@ void row(int n) // print a horizontal line of n number of characters(-)
 {
     for (int i = 1; i <= n; ++i)
         printf("-");
-    printf("\n");
+}
+void sp(int n) // print spaces of n number
+{
+    for (int i = 1; i <= n; ++i)
+        printf(" ");
 }
 
-void toUpperCase(char *str) {
-    for (int i = 0; str[i] != '\0'; i++) {
+void toUpperCase(char *str)
+{
+    for (int i = 0; str[i] != '\0'; i++)
+    {
         str[i] = toupper((unsigned char)str[i]);
     }
+}
+
+const char *getSuffix(int n)
+{
+    // Handle the special cases first (11, 12, and 13)
+    if (n >= 11 && n <= 13)
+    {
+        return "th";
+    }
+
+    // For other numbers, determine the suffix based on the last digit
+    int lastDigit = n % 10;
+    switch (lastDigit)
+    {
+    case 1:
+        return "st";
+    case 2:
+        return "nd";
+    case 3:
+        return "rd";
+    default:
+        return "th";
+    }
+}
+
+void closeDialog()
+{
+    colorPrint("\n Press any key to go back..\n", "g");
+    if (getch())
+        ;
 }
