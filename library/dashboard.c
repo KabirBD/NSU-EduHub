@@ -205,23 +205,30 @@ void dashboard()
         printf("%d", thisUser.numOfEnrollingCourses);
         colorPrint("\n Total Credits of Currently Enrolling Courses: ", "g");
         printf("%.1f\n\n", thisUser.completingCredit);
-        row(118);
-        colorPrint("\n\n List of Completed Courses:", "y");
-        colorPrint("\n\tInitial        Course Name                                                 Credit    Grade\n", "b");
-        for (int i = 0; i < thisUser.numOfEnrolledCourses; i++)
+        // if user has completed any course
+        if (thisUser.numOfEnrolledCourses)
         {
-            printf("\t%-15s%-60s%-10.1f%-10s\n", thisUser.enrolledCourses[i].initial, thisUser.enrolledCourses[i].name, thisUser.enrolledCourses[i].credit, thisUser.enrolledCourses[i].grade);
-            pointSum += thisUser.enrolledCourses[i].credit * gradeToPoint(thisUser.enrolledCourses[i].grade);
+            row(118);
+            colorPrint("\n\n List of Completed Courses:", "y");
+            colorPrint("\n\tInitial        Course Name                                                 Credit    Grade\n", "b");
+            for (int i = 0; i < thisUser.numOfEnrolledCourses; i++)
+            {
+                printf("\t%-15s%-60s%-10.1f%-10s\n", thisUser.enrolledCourses[i].initial, thisUser.enrolledCourses[i].name, thisUser.enrolledCourses[i].credit, thisUser.enrolledCourses[i].grade);
+                pointSum += thisUser.enrolledCourses[i].credit * gradeToPoint(thisUser.enrolledCourses[i].grade);
+            }
+            colorPrint("\t-------------------------------------------------------------------------------------------", "y");
+            colorPrint("\n\t                                                                       Current CGPA: ", "g");
+            printf("%.2f\n", pointSum / thisUser.completedCredit);
+            n();
         }
-        colorPrint("\t-------------------------------------------------------------------------------------------", "y");
-        colorPrint("\n\t                                                                     Current CGPA:   ", "g");
-        printf("%.2f\n", pointSum / thisUser.completedCredit);
-        n();
-        row(118);
-        colorPrint("\n\n List of Currently Enrolling Courses:", "y");
-        colorPrint("\n\tInitial        Course Name                                                 Credit\n", "b");
-        for (int i = 0; i < thisUser.numOfEnrollingCourses; i++)
-            printf("\t%-15s%-60s%-10.1f\n", thisUser.enrollingCourses[i].initial, thisUser.enrollingCourses[i].name, thisUser.enrollingCourses[i].credit);
+        if (thisUser.numOfEnrollingCourses)
+        {
+            row(118);
+            colorPrint("\n\n List of Currently Enrolling Courses:", "y");
+            colorPrint("\n\tInitial        Course Name                                                 Credit\n", "b");
+            for (int i = 0; i < thisUser.numOfEnrollingCourses; i++)
+                printf("\t%-15s%-60s%-10.1f\n", thisUser.enrollingCourses[i].initial, thisUser.enrollingCourses[i].name, thisUser.enrollingCourses[i].credit);
+        }
         n();
         row(118);
         n();
@@ -244,7 +251,7 @@ void dashboard()
         if (!validity)
         {
             colorPrint("Invalid grade.", "r");
-            colorPrint(" Format: a, A, b+, B+\n", "r");
+            colorPrint(" Example: 'a' or 'A', 'b+' or 'B+'\n", "c");
         }
         return validity;
     }
@@ -253,15 +260,36 @@ void dashboard()
     {
         // Clear the thisUser struct (for demonstration purposes)
         memset(&thisUser, 0, sizeof(struct userInfo));
-        colorPrint("Which semester are you studying? ", "b");
-        scanf("%d", &thisUser.semester);
+        while (1)
+        {
+            colorPrint("Which semester are you studying? ", "b");
+            scanf("%d", &thisUser.semester);
+            if (thisUser.semester < 1 || thisUser.semester > 20)
+            {
+                colorPrint("Invalid Semester!", "r");
+                usleep(500000);
+                clr();
+            }
+            else
+                break;
+        }
 
         if (thisUser.semester > 1)
         {
             thisUser.trail = showOption("Select your trail", trails, 7);
             clr();
+            while(1){
             colorPrint("How many courses have you completed? ", "b");
             scanf("%d", &thisUser.numOfEnrolledCourses);
+            if (thisUser.numOfEnrolledCourses < 1 || thisUser.numOfEnrolledCourses > 100)
+            {
+                colorPrint("Invalid Number!", "r");
+                usleep(500000);
+                clr();
+            }
+            else
+                break;
+            }
 
             thisUser.completedCredit = 0;
             for (int i = 0; i < thisUser.numOfEnrolledCourses; i++)
@@ -299,8 +327,19 @@ void dashboard()
         }
         clr();
 
-        colorPrint("How many courses have you taken this semester? : ", "b");
-        scanf("%d", &thisUser.numOfEnrollingCourses);
+        while (1)
+        {
+            colorPrint("How many courses have you taken this semester? : ", "b");
+            scanf("%d", &thisUser.numOfEnrollingCourses);
+            if (thisUser.numOfEnrollingCourses < 1 || thisUser.numOfEnrollingCourses >100)
+            {
+                colorPrint("Invalid Number!", "r");
+                usleep(500000);
+                clr();
+            }
+            else
+                break;
+        }
 
         thisUser.completingCredit = 0;
         for (int i = 0; i < thisUser.numOfEnrollingCourses; i++)
