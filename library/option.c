@@ -12,13 +12,38 @@ int showOption(char title[], char *options[], int n)
             optnSelected[i] = 0;
         optnSelected[index] = 1;
         if (title[0] != '\0') // Check if title is not an empty string
-            printf("%s\n", title);
+        {
+            colorPrint(title, "g");
+            printf("\n");
+        }
 
         for (int i = 0; i < n; i++)
+        {
             if (n > 0 && n <= 9)
-                printf("\t%c %d. %s\n", (optnSelected[i] ? '>' : ' '), (i + 1), options[i]);
+            {
+                if (optnSelected[i])
+                {
+                    setColor("b");
+                    printf("\t> %d. %s\n", (i + 1), options[i]);
+                    resetColor();
+                }
+                else
+                    printf("\t  %d. %s\n", (i + 1), options[i]);
+            }
             else
-                printf("\t%c %s\n", (optnSelected[i] ? '>' : ' '), options[i]);
+            {
+                if (optnSelected[i])
+                {
+                    setColor("b");
+                    printf("\t> %s\n", options[i]);
+                    printf("\t> %d. %s\n", (i + 1), options[i]);
+                    resetColor();
+                }
+                else
+                    printf("\t  %s\n", options[i]);
+                printf("\t  %d. %s\n", (i + 1), options[i]);
+            }
+        }
     }
     display();
     while ((key = getch()) != 13 && key != 32)
