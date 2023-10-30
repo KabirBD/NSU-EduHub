@@ -36,12 +36,10 @@ int showOption(char title[], char *options[], int n)
                 {
                     setColor("b");
                     printf("\t> %s\n", options[i]);
-                    printf("\t> %d. %s\n", (i + 1), options[i]);
                     resetColor();
                 }
                 else
                     printf("\t  %s\n", options[i]);
-                printf("\t  %d. %s\n", (i + 1), options[i]);
             }
         }
     }
@@ -56,6 +54,7 @@ int showOption(char title[], char *options[], int n)
             else
                 index = n - 1;
             display();
+            
             break;
         case 80: // Down arrow
             if (index != (n - 1))

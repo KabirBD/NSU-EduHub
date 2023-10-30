@@ -1,27 +1,27 @@
 int displayMenu()
 {
     // What to do if tools selected
-    void toolsMenu()
-    {
-        // another menu of tools will be called (will be added later)
-        clr();
-        char *options[] = {"CGPA Calculator", "Not Decided", "Main Menu"};
-        switch (showOption("Choose an option below:", options, 3))
-        {
-        case 0:
-            clr();
-            cgpaCalculator();
-            closeDialog();
-            toolsMenu();
-            break;
-        case 1:
-            clr();
-            colorPrint("\n This is another option\n", "b");
-            closeDialog();
-            toolsMenu();
-            break;
-        }
-    }
+    // void toolsMenu()
+    // {
+    //     // another menu of tools will be called (will be added later)
+    //     clr();
+    //     char *options[] = {"Calculate Single Semester CGPA", "Calculate Multiple Semester CGPA", "Main Menu"};
+    //     switch (showOption("Choose an option below:", options, 3))
+    //     {
+    //     case 0:
+    //         clr();
+    //         cgpaCalculator();
+    //         closeDialog();
+    //         toolsMenu();
+    //         break;
+    //     case 1:
+    //         clr();
+    //         multiCgpaCalculator();
+    //         closeDialog();
+    //         toolsMenu();
+    //         break;
+    //     }
+    // }
 
     // What to do if Course Advising selected
     void courseMenu()
@@ -70,36 +70,36 @@ int displayMenu()
     void mainMenu()
     {
         clr();
-        char *options[] = {"My information", "Tools", "Course Advising", "Class Schedule", "Helpline", "About", "Exit"};
+        char *options[] = {"Dashboard", "Course Advising", "Class Schedule", "CGPA Insight",  "Helpline", "About", "Exit"};
 
         switch (showOption("Choose an option below:", options, 7))
         {
-        case 0:
+        case 0: //1
             dashboard();
             // closeDialog();
             mainMenu();
             break;
-        case 1:
-            toolsMenu();
-            // closeDialog();
-            mainMenu();
-            break;
-        case 2:
+        case 1: //2
             courseMenu();
             closeDialog();
             mainMenu();
             break;
-        case 3:
-            scheduleMenu();
+        case 2: //3
+            manageClassSchedule();
+            closeDialog();
+            mainMenu();
+            break;      
+        case 3: //4
+            cgpaInsight();
             closeDialog();
             mainMenu();
             break;
-        case 4:
+        case 4: //5
             helpline();
             closeDialog();
             mainMenu();
             break;
-        case 5:
+        case 5: //6
             about();
             closeDialog();
             mainMenu();

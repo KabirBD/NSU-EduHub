@@ -17,11 +17,11 @@
 #include "./library/collumn.c"
 #include "./library/courses.c"
 #include "./library/courseInfoQuery.c"
-#include "./library/gradePoint.c"
-#include "./library/cgpaCalculator.c"
 #include "./library/menu.c"
 #include "./library/dashboard.c"
 #include "./library/complex.c"
+#include "./library/classSchedule.c"
+#include "./library/cgpa.c"
 
 /// Initialize our functions
 // print colorful text
@@ -71,5 +71,14 @@ struct courseObj bioinformaticsCourses[];
 void courseInfoQuery();
 
 // cgpa calculation
-double getGradePoint(int score);
-void cgpaCalculator();
+// double getGradePoint(int score);
+// void cgpaCalculator();
+// void multiCgpaCalculator();
+
+
+void manageClassSchedule();
+
+void cgpaInsight();
+
+
+void toolsmenu();
