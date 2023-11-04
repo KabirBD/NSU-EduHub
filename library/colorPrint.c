@@ -1,18 +1,27 @@
 void setColor(char color[])
 {
     HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
-    if (color == "r" || color == "red")
+    switch (color[0])
+    {
+    case 'r':
         SetConsoleTextAttribute(console, FOREGROUND_INTENSITY | FOREGROUND_RED);
-    else if (color == "g" || color == "green")
+        break;
+    case 'g':
         SetConsoleTextAttribute(console, FOREGROUND_INTENSITY | FOREGROUND_GREEN);
-    else if (color == "b" || color == "blue")
+        break;
+    case 'b':
         SetConsoleTextAttribute(console, FOREGROUND_INTENSITY | FOREGROUND_BLUE);
-    else if (color == "y" || color == "yellow")
+        break;
+    case 'y':
         SetConsoleTextAttribute(console, FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN);
-    else if (color == "c" || color == "cyan")
+        break;
+    case 'c':
         SetConsoleTextAttribute(console, FOREGROUND_INTENSITY | FOREGROUND_BLUE | FOREGROUND_GREEN);
-    else if (color == "m" || color == "magenta")
+        break;
+    case 'm':
         SetConsoleTextAttribute(console, FOREGROUND_INTENSITY | FOREGROUND_BLUE | FOREGROUND_RED);
+        break;
+    }
 }
 void resetColor()
 {
