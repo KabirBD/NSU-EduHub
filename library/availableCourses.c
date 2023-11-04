@@ -23,6 +23,8 @@ void availableCourses()
         struct courseInfo enrollingCourses[20];
     } thisUser;
 
+    char *trails[] = {"Not Selected", "Algorithms and Computation", "Software Engineering", "Networks", "Computer Architecture and VLSI", "Artificial Intelligence", "Bioinformatics"};
+
     // Function to load user data from a file
     void loadUserData(const char *filename)
     {
@@ -135,87 +137,21 @@ void availableCourses()
                 row(107);
             }
         }
-        switch (thisUser.trail)
+        if (thisUser.trail)
         {
-        case 1:
-            courseLenth = sizeof(algorithCourses) / sizeof(algorithCourses[0]);
-            colorPrint("\nAlgorithms and Computation Courses\n", "g");
+            n();
+            colorPrint(trails[thisUser.trail], "g");
+            n();
+            getTrailCourses(thisUser.trail);
             row(107);
-            for (int i = 0; i < courseLenth; i++)
+            for (int i = 0; i < trailLnth; i++)
             {
-                if (!foundInCompletedCurses(algorithCourses[i].initial, thisUser.numOfEnrolledCourses) && !foundInEnrollingCurses(algorithCourses[i].initial, thisUser.numOfEnrollingCourses) && checkRequire(algorithCourses[i].require))
+                if (!foundInCompletedCurses(trailCourses[i].initial, thisUser.numOfEnrolledCourses) && !foundInEnrollingCurses(trailCourses[i].initial, thisUser.numOfEnrollingCourses) && checkRequire(trailCourses[i].require))
                 {
-                    printf("\n| %-10s| %-60s| %-8.1f| %-20s|\n", algorithCourses[i].initial, algorithCourses[i].name, algorithCourses[i].credit, algorithCourses[i].require);
+                    printf("\n| %-10s| %-60s| %-8.1f| %-20s|\n", trailCourses[i].initial, trailCourses[i].name, trailCourses[i].credit, trailCourses[i].require);
                     row(107);
                 }
             }
-            break;
-        case 2:
-            courseLenth = sizeof(softwareCourses) / sizeof(softwareCourses[0]);
-            colorPrint("\nSoftware Engineering Courses\n", "g");
-            row(107);
-            for (int i = 0; i < courseLenth; i++)
-            {
-
-                if (!foundInCompletedCurses(softwareCourses[i].initial, thisUser.numOfEnrolledCourses) && !foundInEnrollingCurses(softwareCourses[i].initial, thisUser.numOfEnrollingCourses) && checkRequire(softwareCourses[i].require))
-                {
-                    printf("\n| %-10s| %-60s| %-8.1f| %-20s|\n", softwareCourses[i].initial, softwareCourses[i].name, softwareCourses[i].credit, softwareCourses[i].require);
-                    row(107);
-                }
-            }
-            break;
-        case 3:
-            courseLenth = sizeof(networkCourses) / sizeof(networkCourses[0]);
-            colorPrint("\nNetworks Courses\n", "g");
-            row(107);
-            for (int i = 0; i < courseLenth; i++)
-            {
-                if (!foundInCompletedCurses(networkCourses[i].initial, thisUser.numOfEnrolledCourses) && !foundInEnrollingCurses(networkCourses[i].initial, thisUser.numOfEnrollingCourses) && checkRequire(networkCourses[i].require))
-                {
-                    printf("\n| %-10s| %-60s| %-8.1f| %-20s|\n", networkCourses[i].initial, networkCourses[i].name, networkCourses[i].credit, networkCourses[i].require);
-                    row(107);
-                }
-            }
-            break;
-        case 4:
-            courseLenth = sizeof(architectureCourses) / sizeof(architectureCourses[0]);
-            colorPrint("\nComputer Architecture and VLSI Courses\n", "g");
-            row(107);
-            for (int i = 0; i < courseLenth; i++)
-            {
-                if (!foundInCompletedCurses(architectureCourses[i].initial, thisUser.numOfEnrolledCourses) && !foundInEnrollingCurses(architectureCourses[i].initial, thisUser.numOfEnrollingCourses) && checkRequire(architectureCourses[i].require))
-                {
-                    printf("\n| %-10s| %-60s| %-8.1f| %-20s|\n", architectureCourses[i].initial, architectureCourses[i].name, architectureCourses[i].credit, architectureCourses[i].require);
-                    row(107);
-                }
-            }
-            break;
-        case 5:
-            courseLenth = sizeof(AICourses) / sizeof(AICourses[0]);
-            colorPrint("\nArtificial Intelligence Courses\n", "g");
-            row(107);
-            for (int i = 0; i < courseLenth; i++)
-            {
-                if (!foundInCompletedCurses(AICourses[i].initial, thisUser.numOfEnrolledCourses) && !foundInEnrollingCurses(AICourses[i].initial, thisUser.numOfEnrollingCourses) && checkRequire(AICourses[i].require))
-                {
-                    printf("\n| %-10s| %-60s| %-8.1f| %-20s|\n", AICourses[i].initial, AICourses[i].name, AICourses[i].credit, AICourses[i].require);
-                    row(107);
-                }
-            }
-            break;
-        case 6:
-            courseLenth = sizeof(bioinformaticsCourses) / sizeof(bioinformaticsCourses[0]);
-            colorPrint("\nBioinformatics Courses\n", "g");
-            row(107);
-            for (int i = 0; i < courseLenth; i++)
-            {
-                if (!foundInCompletedCurses(bioinformaticsCourses[i].initial, thisUser.numOfEnrolledCourses) && !foundInEnrollingCurses(bioinformaticsCourses[i].initial, thisUser.numOfEnrollingCourses) && checkRequire(bioinformaticsCourses[i].require))
-                {
-                    printf("\n| %-10s| %-60s| %-8.1f| %-20s|\n", bioinformaticsCourses[i].initial, bioinformaticsCourses[i].name, bioinformaticsCourses[i].credit, bioinformaticsCourses[i].require);
-                    row(107);
-                }
-            }
-            break;
         }
     }
 
