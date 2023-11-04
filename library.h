@@ -66,6 +66,10 @@ struct courseObj softwareCourses[];
 struct courseObj networkCourses[];
 struct courseObj AICourses[];
 struct courseObj bioinformaticsCourses[];
+struct courseObj *trailCourses;
+int trailLnth;
+// get a particular trail courses in trailCourses object with traillnth from the index of trail
+void getTrailCourses(int trail);
 
 // course manager
 void courseInfoQuery();
