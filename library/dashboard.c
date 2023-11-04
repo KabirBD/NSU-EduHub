@@ -968,7 +968,7 @@ void dashboard()
             {
                 if (thisUser.trail != 0)
                 {
-                    switch (showOption("\n If you change the trail, courses of your previous trail will be removed from\n completed and currently enrolling courses lists.\nDo you want to continue?", yesno, 2))
+                    switch (showOption("\n If you change the trail, courses of your previous trail will be removed from\n completed and currently enrolling courses lists.\n Do you want to continue?", yesno, 2))
                     {
                     case 0:
                         deleteTrailCourses(thisUser.trail);
