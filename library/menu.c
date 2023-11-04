@@ -1,27 +1,5 @@
 int displayMenu()
 {
-    // What to do if tools selected
-    // void toolsMenu()
-    // {
-    //     // another menu of tools will be called (will be added later)
-    //     clr();
-    //     char *options[] = {"Calculate Single Semester CGPA", "Calculate Multiple Semester CGPA", "Main Menu"};
-    //     switch (showOption("Choose an option below:", options, 3))
-    //     {
-    //     case 0:
-    //         clr();
-    //         cgpaCalculator();
-    //         closeDialog();
-    //         toolsMenu();
-    //         break;
-    //     case 1:
-    //         clr();
-    //         multiCgpaCalculator();
-    //         closeDialog();
-    //         toolsMenu();
-    //         break;
-    //     }
-    // }
 
     // What to do if Course Advising selected
     void courseMenu()
@@ -98,7 +76,6 @@ int displayMenu()
         {
         case 0: // 1
             dashboard();
-            // closeDialog();
             mainMenu();
             break;
         case 1: // 2
