@@ -1,32 +1,66 @@
 void courseInfoQuery()
 {
-    // clr();
-    printf("Enter course initial (Format: cse115): ");
+    char *trails[] = {"Not Selected", "Algorithms and Computation", "Software Engineering", "Networks", "Computer Architecture and VLSI", "Artificial Intelligence", "Bioinformatics"};
+
+    colorPrint("Enter course initial (Format: cse115): ", "g");
     int courseFound = 0;
     char initial[10];
     scanf("%s", initial);
-
-    for (int i = 0; initial[i]; i++)
-    {
-        initial[i] = toupper((unsigned char)initial[i]);
-    }
+    toUpperCase(initial);
     int courseLenth = sizeof(coreCourses) / sizeof(coreCourses[0]);
     for (int i = 0; i < courseLenth; i++)
     {
         if (strcmp(coreCourses[i].initial, initial) == 0)
         {
-            printf("\nName: %s", coreCourses[i].name);
-            printf("\nCredit: %.1f", coreCourses[i].credit);
-            printf("\nPre-requisites: %s\n\n", coreCourses[i].require);
-            printWrap(coreCourses[i].description, 60);
-            printf("Source: http://ece.northsouth.edu/\n");
+            n();
+            row(80);
+            colorPrint("\n\nCourse Type: ", "g");
+            printf("Core Course");
+            colorPrint("\nCourse Name: ", "g");
+            printf("%s", coreCourses[i].name);
+            colorPrint("\nCredit: ", "g");
+            printf("%.1f", coreCourses[i].credit);
+            colorPrint("\nPre-requisites: ", "g");
+            printf("%s\n\n", coreCourses[i].require);
+            colorPrint("Description:\n", "g");
+            printWrap(coreCourses[i].description, 80);
+            n();
+            row(80);
+            colorPrint("\nSource: http://ece.northsouth.edu/\n", "b");
             courseFound = 1;
-            break;
+            return;
         }
     }
-    if (!courseFound)
+    for (int trail = 1; trail <= 6; trail++)
     {
-        printf("ERROR: Couldn't find this initial.\n\n");
-        courseInfoQuery();
+        getTrailCourses(trail);
+        for (int i = 0; i < trailLnth; i++)
+        {
+            if (strcmp(trailCourses[i].initial, initial) == 0)
+            {
+                n();
+                row(80);
+                colorPrint("\n\nCourse Type: ", "g");
+                printf(trails[trail]);
+                colorPrint("\nCourse Name: ", "g");
+                printf("%s", trailCourses[i].name);
+                colorPrint("\nCredit: ", "g");
+                printf("%.1f", trailCourses[i].credit);
+                colorPrint("\nPre-requisites: ", "g");
+                printf("%s\n\n", trailCourses[i].require);
+                colorPrint("Description:\n", "g");
+                printWrap(trailCourses[i].description, 80);
+                n();
+                row(80);
+                colorPrint("\nSource: http://ece.northsouth.edu/\n", "b");
+                courseFound = 1;
+                return;
+            }
+        }
     }
+
+    colorPrint(" Couldn't find this initial.", "r");
+    usleep(1000000);
+    clr();
+    courseInfoQuery();
 }

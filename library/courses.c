@@ -7,6 +7,9 @@ struct courseObj
     char require[25];
     char description[2000];
 };
+// a particular trail will be stored by functtion getTrailCourses(int trail)
+struct courseObj *trailCourses;
+int trailLnth;
 
 struct courseObj coreCourses[] = {
     {"ENG102", "Introduction to Composition", 3, "", "Development of integrated language skills with special focus on the mechanics of the writing process and the study of grammar with an emphasis on syntax. Writing unified, coherent paragraphs with topic sentences and controlling ideas"},
@@ -110,3 +113,35 @@ struct courseObj bioinformaticsCourses[] = {
     {"CSE448", "Genome Sequence & Analysis", 3, "", "The completion of the human genome sequence is just the latest achievement in genome sequencing. Armed with the complete genome sequence, scientists need to identify the genes encoded within, to assign functions to the genes, and to put these into functional and metabolic pathways. This course will provide an overview of the laboratory and computational techniques beginning with genome sequencing and annotation, extending to bioinformatics analysis and comparative genomics and including functional genomics"},
     {"CSE449", "Structural Bioinformatics", 3, "", "Deriving and visualizing macromolecular structures, X-ray crystallography, NMR spectroscopy, electron microscopy, structure visualization, examining and interpreting structural data, Protein Data Bank (PDB), structures classification schemes (CATH, SCOP), structure validation software, secondary structure assignment, structure comparison and alignment, domain assignment, functional assignment from structure, protein docking, comparative assessment of protein structure prediction (CASP), comparative modeling, fold recognition, ab-initio structure prediction"},
     {"CSE496", "Special Topics", 3, "", "Availability of a faculty to teach a course on current topic of interests not listed in the curriculum. (as an example: CSE 495 Quantum Computing, CSE 495 Optical Computing etc.)"}};
+
+// get a particular trail courses in trailCourses object with traillnth from the index of trail
+void getTrailCourses(int trail)
+{
+    switch (trail)
+    {
+    case 1:
+        trailCourses = algorithCourses;
+        trailLnth = sizeof(algorithCourses) / sizeof(algorithCourses[0]);
+        break;
+    case 2:
+        trailCourses = softwareCourses;
+        trailLnth = sizeof(softwareCourses) / sizeof(softwareCourses[0]);
+        break;
+    case 3:
+        trailCourses = networkCourses;
+        trailLnth = sizeof(networkCourses) / sizeof(networkCourses[0]);
+        break;
+    case 4:
+        trailCourses = architectureCourses;
+        trailLnth = sizeof(architectureCourses) / sizeof(architectureCourses[0]);
+        break;
+    case 5:
+        trailCourses = AICourses;
+        trailLnth = sizeof(AICourses) / sizeof(AICourses[0]);
+        break;
+    case 6:
+        trailCourses = bioinformaticsCourses;
+        trailLnth = sizeof(bioinformaticsCourses) / sizeof(bioinformaticsCourses[0]);
+        break;
+    }
+}

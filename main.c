@@ -5,8 +5,8 @@
 int main()
 {
 
-    int result = authInterface();
-    if (result == 1) 
+    int status = authInterface();
+    if (status == 1) 
         displayMenu();
 
     return 0;
