@@ -27,8 +27,30 @@ int displayMenu()
     void courseMenu()
     {
         // another menu of course navigation will be called (will be added later)
-        clr();
-        courseInfoQuery(); // just for testing
+        char *options[] = {"Courses List", "Search Course", "Courses You Can Enroll", "Go back"};
+        switch (showOption("Select an option", options, 4))
+        {
+        case 0:
+            clr();
+            courseTable();
+            closeDialog();
+            courseMenu();
+            break;
+        case 1:
+            clr();
+            courseInfoQuery();
+            closeDialog();
+            courseMenu();
+            break;
+        case 2:
+            clr();
+            availableCourses();
+            closeDialog();
+            courseMenu();
+            break;
+        case 3:
+            break;
+        }
     }
 
     // What to do if Class Schedule selected
@@ -70,36 +92,35 @@ int displayMenu()
     void mainMenu()
     {
         clr();
-        char *options[] = {"Dashboard", "Course Advising", "Class Schedule", "CGPA Insight",  "Helpline", "About", "Exit"};
+        char *options[] = {"Dashboard", "Course Manager", "Class Schedule", "CGPA Insight", "Helpline", "About", "Exit"};
 
         switch (showOption("Choose an option below:", options, 7))
         {
-        case 0: //1
+        case 0: // 1
             dashboard();
             // closeDialog();
             mainMenu();
             break;
-        case 1: //2
+        case 1: // 2
             courseMenu();
-            closeDialog();
             mainMenu();
             break;
-        case 2: //3
+        case 2: // 3
             manageClassSchedule();
             closeDialog();
             mainMenu();
-            break;      
-        case 3: //4
+            break;
+        case 3: // 4
             cgpaInsight();
             closeDialog();
             mainMenu();
             break;
-        case 4: //5
+        case 4: // 5
             helpline();
             closeDialog();
             mainMenu();
             break;
-        case 5: //6
+        case 5: // 6
             about();
             closeDialog();
             mainMenu();
