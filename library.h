@@ -14,14 +14,12 @@
 #include "./library/authInterface.c"
 #include "./library/option.c"
 #include "./library/wrap.c"
-#include "./library/collumn.c"
 #include "./library/courses.c"
 #include "./library/courseInfoQuery.c"
 #include "./library/courseTable.c"
 #include "./library/availableCourses.c"
 #include "./library/menu.c"
 #include "./library/dashboard.c"
-#include "./library/complex.c"
 #include "./library/classSchedule.c"
 #include "./library/cgpa.c"
 
@@ -45,9 +43,6 @@ void toUpperCase(char *str);
 const char *getSuffix(int n);
 // wait for a chaacter input to complete the function
 void closeDialog();
-// print array as a row of multiple collumn
-// colPrint(number collumn, collumn width, array of cell data)
-void colPrint(int colN, int colLnth, char *arr[]);
 // print logo
 void logo();
 // authentifacion interface
@@ -59,8 +54,6 @@ int showOption(char title[], char *options[], int n);
 int displayMenu();
 //dashboard functionalities
 void dashboard();
-// calculate complex number
-void complex();
 // wrap text function
 void printWrap(const char *text, int lineWidth);
 // CSE courses query and display
