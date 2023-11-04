@@ -54,92 +54,17 @@ void dashboard()
                 break;
             }
         }
-
-        if (trail == 1)
+        if (trail)
         {
-            for (int i = 0; i < 6; i++)
+            getTrailCourses(trail);
+            for (int i = 0; i < trailLnth; i++)
             {
-                if (strcmp(algorithCourses[i].initial, initial) == 0)
+                if (strcmp(trailCourses[i].initial, initial) == 0)
                 {
-                    strcpy(courseInit, algorithCourses[i].initial);
-                    strcpy(courseName, algorithCourses[i].name);
-                    strcpy(courseRequire, algorithCourses[i].require);
-                    courseCredit = algorithCourses[i].credit;
-                    found = 1;
-                    break;
-                }
-            }
-        }
-        else if (trail == 2)
-        {
-            for (int i = 0; i < 6; i++)
-            {
-                if (strcmp(softwareCourses[i].initial, initial) == 0)
-                {
-                    strcpy(courseInit, softwareCourses[i].initial);
-                    strcpy(courseName, softwareCourses[i].name);
-                    strcpy(courseRequire, softwareCourses[i].require);
-                    courseCredit = softwareCourses[i].credit;
-                    found = 1;
-                    break;
-                }
-            }
-        }
-        else if (trail == 3)
-        {
-            for (int i = 0; i < 6; i++)
-            {
-                if (strcmp(networkCourses[i].initial, initial) == 0)
-                {
-                    strcpy(courseInit, networkCourses[i].initial);
-                    strcpy(courseName, networkCourses[i].name);
-                    strcpy(courseRequire, networkCourses[i].require);
-                    courseCredit = networkCourses[i].credit;
-                    found = 1;
-                    break;
-                }
-            }
-        }
-        else if (trail == 4)
-        {
-            for (int i = 0; i < 5; i++)
-            {
-                if (strcmp(architectureCourses[i].initial, initial) == 0)
-                {
-                    strcpy(courseInit, architectureCourses[i].initial);
-                    strcpy(courseName, architectureCourses[i].name);
-                    strcpy(courseRequire, architectureCourses[i].require);
-                    courseCredit = architectureCourses[i].credit;
-                    found = 1;
-                    break;
-                }
-            }
-        }
-        else if (trail == 5)
-        {
-            for (int i = 0; i < 7; i++)
-            {
-                if (strcmp(AICourses[i].initial, initial) == 0)
-                {
-                    strcpy(courseInit, AICourses[i].initial);
-                    strcpy(courseName, AICourses[i].name);
-                    strcpy(courseRequire, AICourses[i].require);
-                    courseCredit = AICourses[i].credit;
-                    found = 1;
-                    break;
-                }
-            }
-        }
-        else if (trail == 6)
-        {
-            for (int i = 0; i < 5; i++)
-            {
-                if (strcmp(bioinformaticsCourses[i].initial, initial) == 0)
-                {
-                    strcpy(courseInit, bioinformaticsCourses[i].initial);
-                    strcpy(courseName, bioinformaticsCourses[i].name);
-                    strcpy(courseRequire, bioinformaticsCourses[i].require);
-                    courseCredit = bioinformaticsCourses[i].credit;
+                    strcpy(courseInit, trailCourses[i].initial);
+                    strcpy(courseName, trailCourses[i].name);
+                    strcpy(courseRequire, trailCourses[i].require);
+                    courseCredit = trailCourses[i].credit;
                     found = 1;
                     break;
                 }
