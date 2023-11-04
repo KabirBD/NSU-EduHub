@@ -17,6 +17,8 @@
 #include "./library/collumn.c"
 #include "./library/courses.c"
 #include "./library/courseInfoQuery.c"
+#include "./library/courseTable.c"
+#include "./library/availableCourses.c"
 #include "./library/menu.c"
 #include "./library/dashboard.c"
 #include "./library/complex.c"
@@ -69,6 +71,8 @@ struct courseObj networkCourses[];
 struct courseObj AICourses[];
 struct courseObj bioinformaticsCourses[];
 void courseInfoQuery();
+void courseTable();
+void availableCourses();
 
 // cgpa calculation
 // double getGradePoint(int score);
