@@ -818,6 +818,45 @@ void dashboard()
         saveUserData(thisUserFile);
     }
 
+    // delete all coursers of this trail from completed and enrolling courses
+    void deleteTrailCourses(int trail)
+    {
+        getTrailCourses(trail);
+        for (int i = 0; i < trailLnth; i++)
+        {
+            for (int j = 0; j < thisUser.numOfEnrolledCourses; j++)
+            {
+                if (strcmp(trailCourses[i].initial, thisUser.enrolledCourses[j].initial) == 0)
+                {
+                    thisUser.numOfEnrolledCourses--;
+                    thisUser.completedCredit -= thisUser.enrolledCourses[j].credit;
+                    for (int k = j; j < thisUser.numOfEnrolledCourses; j++)
+                    {
+                        strcpy(thisUser.enrolledCourses[k].initial, thisUser.enrolledCourses[k + 1].initial);
+                        strcpy(thisUser.enrolledCourses[k].name, thisUser.enrolledCourses[k + 1].name);
+                        strcpy(thisUser.enrolledCourses[k].grade, thisUser.enrolledCourses[k + 1].grade);
+                        thisUser.enrolledCourses[k].credit = thisUser.enrolledCourses[k + 1].credit;
+                    }
+                }
+            }
+            for (int j = 0; j < thisUser.numOfEnrollingCourses; j++)
+            {
+                if (strcmp(trailCourses[i].initial, thisUser.enrollingCourses[j].initial) == 0)
+                {
+                    thisUser.numOfEnrollingCourses--;
+                    thisUser.completingCredit -= thisUser.enrollingCourses[j].credit;
+                    for (int k = j; j < thisUser.numOfEnrollingCourses; j++)
+                    {
+                        strcpy(thisUser.enrollingCourses[k].initial, thisUser.enrollingCourses[k + 1].initial);
+                        strcpy(thisUser.enrollingCourses[k].name, thisUser.enrollingCourses[k + 1].name);
+                        strcpy(thisUser.enrollingCourses[k].grade, thisUser.enrollingCourses[k + 1].grade);
+                        thisUser.enrollingCourses[k].credit = thisUser.enrollingCourses[k + 1].credit;
+                    }
+                }
+            }
+        }
+    }
+
     // user info edit functionalities
     void editMenu()
     {
@@ -839,10 +878,24 @@ void dashboard()
             loadUserData(thisUserFile);
             if (thisUser.semester > 1)
             {
-                getTrailInfo();
-                showUserData();
-                saveUserData(thisUserFile);
-                showUserData();
+                if (thisUser.trail != 0)
+                {
+                    switch (showOption("If you change the trail, courses of your previous trail will be removed from completed and currently enrolling courses lists.\nDo you want to continue?", yesno, 2))
+                    {
+                    case 0:
+                        deleteTrailCourses(thisUser.trail);
+                        getTrailInfo();
+                        saveUserData(thisUserFile);
+                        showUserData();
+                        break;
+                    }
+                }
+                else
+                {
+                    getTrailInfo();
+                    saveUserData(thisUserFile);
+                    showUserData();
+                }
             }
             else
             {
