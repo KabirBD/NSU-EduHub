@@ -1,4 +1,4 @@
-//Internal libraries
+// Internal libraries
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
@@ -7,7 +7,7 @@
 #include <unistd.h>
 #include <windows.h>
 
-/// Import our own library functions
+/// Import our own library functions files
 #include "./library/colorPrint.c"
 #include "./library/logo.c"
 #include "./library/smallFunctions.c"
@@ -24,10 +24,12 @@
 #include "./library/cgpa.c"
 
 /// Initialize our functions
+
 // print colorful text
 void setColor(char color[]);
 void resetColor();
 int colorPrint(char output[], char color[]);
+
 // small functions
 // clear console
 void clr();
@@ -37,45 +39,47 @@ void n();
 void row(int n);
 // print spaces of n number
 void sp(int n);
-//string upper case
+// string upper case
 void toUpperCase(char *str);
 // return suffix of a number
 const char *getSuffix(int n);
 // wait for a chaacter input to complete the function
 void closeDialog();
+
 // print logo
 void logo();
+
 // authentifacion interface
 char userName[20];
 int authInterface();
+
 // showOption( title, options, number of options)
 int showOption(char title[], char *options[], int n);
-// display menu
-int displayMenu();
-//dashboard functionalities
-void dashboard();
+
 // wrap text function
 void printWrap(const char *text, int lineWidth);
-// CSE courses query and display
+
+// CSE courses objects
 struct courseObj coreCourses[];
 struct courseObj algorithCourses[];
 struct courseObj softwareCourses[];
 struct courseObj networkCourses[];
 struct courseObj AICourses[];
 struct courseObj bioinformaticsCourses[];
+
+// course manager
 void courseInfoQuery();
 void courseTable();
 void availableCourses();
 
-// cgpa calculation
-// double getGradePoint(int score);
-// void cgpaCalculator();
-// void multiCgpaCalculator();
+// display main menu
+int displayMenu();
 
+// dashboard functionalities
+void dashboard();
 
+// class schedle management
 void manageClassSchedule();
 
+// cgpa calculations
 void cgpaInsight();
-
-
-void toolsmenu();
