@@ -1,9 +1,11 @@
 void dashboard()
 {
+    // setting username.dat as this user file name
     char thisUserFile[25];
     strcpy(thisUserFile, userName);
     strcat(thisUserFile, ".dat");
 
+    // structure used to store couse informations
     struct courseInfo
     {
         char initial[10];
@@ -21,8 +23,9 @@ void dashboard()
         struct courseInfo enrolledCourses[70];
         int numOfEnrollingCourses;
         struct courseInfo enrollingCourses[20];
-    } thisUser;
+    } thisUser; // logged in user info will be stored in thisUser object
 
+    // global variable for this function
     char courseInit[5];
     char courseName[100];
     float courseCredit;
@@ -33,6 +36,8 @@ void dashboard()
     char grades[13][5] = {"A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "F", "I", "W"};
     float point[13] = {4.0, 3.7, 3.3, 3.0, 2.7, 2.3, 2.0, 1.7, 1.3, 1.0, 0, 0, 0};
     int foundAt;
+
+    // check input is a valid & available initial or not
     int isValid(char initial[10], int trail)
     {
         int found = 0;
@@ -163,17 +168,18 @@ void dashboard()
     void loadUserData(const char *filename)
     {
         FILE *file = fopen(filename, "rb");
-        if (file == NULL)
+        if (file == NULL) // if no file found named username.dat,
         {
             perror("Error opening file");
-            thisUser.semester = 0;
+            thisUser.semester = 0; // to promt user to enter information
             return;
         }
 
         // Read user data from the file
         fread(&thisUser, sizeof(struct userInfo), 1, file);
+        // if there is no completed course and enrolling course
         if (thisUser.numOfEnrollingCourses == 0 && thisUser.numOfEnrolledCourses == 0)
-            thisUser.semester = 0;
+            thisUser.semester = 0; // to promt user to enter information
 
         fclose(file);
     }
@@ -192,6 +198,7 @@ void dashboard()
         }
         return point[index];
     }
+
     // display user information from file
     void showUserData()
     {
@@ -280,6 +287,7 @@ void dashboard()
         return validity;
     }
 
+    // check if the course is in completed courses list
     int foundInCompletedCurses(char givenInitial[10], int lnth)
     {
         int flag = 0;
@@ -294,6 +302,8 @@ void dashboard()
         }
         return flag;
     }
+
+    // check if the course is in enrolling courses list
     int foundInEnrollingCurses(char givenInitial[10], int lnth)
     {
         int flag = 0;
@@ -308,6 +318,7 @@ void dashboard()
         return flag;
     }
 
+    // analyse requirement of the course
     int checkRequire(char require[25])
     {
         if (strlen(require))
@@ -358,13 +369,56 @@ void dashboard()
         }
     }
 
+    // check if other courses require this course
     int isRequiredBy(char index)
     {
         int flag = 0;
         char require[25];
         for (int i = 0; i < thisUser.numOfEnrolledCourses; i++)
         {
-            isValid(thisUser.enrolledCourses[i].initial, thisUser.trail); //to get pre-requisites of that course
+            isValid(thisUser.enrolledCourses[i].initial, thisUser.trail); // to get pre-requisites of that course
+            strcpy(require, courseRequire);
+            if (strlen(require))
+            {
+                if (require[1] == '-')
+                {
+                    char *hyphen = strchr(require, '-');
+                    int credit = atoi(hyphen + 1);
+                    if (thisUser.completedCredit - thisUser.enrolledCourses[index].credit <= credit)
+                        return 1;
+                }
+                else
+                {
+                    char *comma = strchr(require, ',');
+                    if (comma != NULL)
+                    {
+                        char *
+                            requires[4];
+                        int n = 0;
+                        char *c = strtok(require, ",");
+                        while (c != NULL)
+                        {
+                            requires[n] = c;
+                            n++;
+                            c = strtok(NULL, ",");
+                        }
+                        for (int i = 0; i < n; i++)
+                        {
+                            if (strcmp(requires[i], thisUser.enrolledCourses[index].initial) == 0)
+                                return 1;
+                        }
+                    }
+                    else
+                    {
+                        if (strcmp(require, thisUser.enrolledCourses[index].initial) == 0)
+                            return 1;
+                    }
+                }
+            }
+        }
+        for (int i = 0; i < thisUser.numOfEnrollingCourses; i++)
+        {
+            isValid(thisUser.enrollingCourses[i].initial, thisUser.trail); // to get pre-requisites of that course
             strcpy(require, courseRequire);
             if (strlen(require))
             {
@@ -424,12 +478,14 @@ void dashboard()
                 break;
         }
     }
+
     // get trail info from user
     void getTrailInfo()
     {
         thisUser.trail = showOption("Select your trail", trails, 7);
     }
-    // get completed courses
+
+    // get completed courses from user
     void getCompletedCourses()
     {
         while (1)
@@ -445,7 +501,6 @@ void dashboard()
             else
                 break;
         }
-
         thisUser.completedCredit = 0;
         for (int i = 0; i < thisUser.numOfEnrolledCourses; i++)
         {
@@ -496,7 +551,8 @@ void dashboard()
             }
         }
     }
-    // get courses for this semester
+
+    // get courses for this semester from user
     void getEnrollingCourses()
     {
         while (1)
@@ -563,6 +619,7 @@ void dashboard()
             }
         }
     }
+
     // get all info from user
     void getUserInfo()
     {
@@ -592,7 +649,6 @@ void dashboard()
     // add a course in completed courses list
     void addCompletedCourse()
     {
-
         char initial[10];
         while (1)
         {
@@ -673,7 +729,6 @@ void dashboard()
             clr();
             colorPrint(" Can't delete. Some courses require this course.", "r");
             usleep(1000000);
-            
         }
         else
         {
@@ -689,6 +744,7 @@ void dashboard()
             saveUserData(thisUserFile);
         }
     }
+
     // add a course in enrolling courses list
     void addEnrollingCourse()
     {
@@ -736,6 +792,7 @@ void dashboard()
             }
         }
     }
+
     // delete a course from enrolling courses list
     void deleteEnrollingCourse()
     {
@@ -760,7 +817,6 @@ void dashboard()
         }
         saveUserData(thisUserFile);
     }
-
     int gradeImproved(char oldGrade[5], char newGrade[5])
     {
         int old, new;
@@ -777,6 +833,7 @@ void dashboard()
         }
         return (old > new);
     }
+
     // move all enrolling courses to completed courses list to start next semester
     void completeThisSemester()
     {
@@ -835,6 +892,7 @@ void dashboard()
         }
         saveUserData(thisUserFile);
     }
+
     // user info edit functionalities
     void editMenu()
     {
@@ -849,6 +907,7 @@ void dashboard()
             getSemeterInfo();
             saveUserData(thisUserFile);
             showUserData();
+            editMenu();
             break;
         case 1:
             clr();
@@ -856,17 +915,16 @@ void dashboard()
             if (thisUser.semester > 1)
             {
                 getTrailInfo();
+                showUserData();
                 saveUserData(thisUserFile);
                 showUserData();
-                editMenu();
             }
             else
             {
                 colorPrint("You Can not choose trail in 1st Semester.", "r");
                 usleep(2000000);
-                editMenu();
             }
-            break;
+            editMenu();
             break;
         case 2:
             clr();
@@ -875,14 +933,13 @@ void dashboard()
             {
                 addCompletedCourse();
                 showUserData();
-                editMenu();
             }
             else
             {
                 colorPrint("You Can Not Have a Completed Course in 1st Semester.", "r");
                 usleep(5000000);
-                editMenu();
             }
+            editMenu();
             break;
         case 3:
             clr();
@@ -891,14 +948,13 @@ void dashboard()
             {
                 deleteCompletedCourse();
                 showUserData();
-                editMenu();
             }
             else
             {
                 colorPrint("You don't have any completed course.", "r");
                 usleep(2000000);
-                editMenu();
             }
+            editMenu();
             break;
         case 4:
             clr();
@@ -914,19 +970,18 @@ void dashboard()
             {
                 deleteEnrollingCourse();
                 showUserData();
-                editMenu();
             }
             else
             {
                 colorPrint("You don't have any Enrolling course.", "r");
                 usleep(2000000);
-                editMenu();
             }
+            editMenu();
             break;
         }
     }
 
-    // dashboard menu
+    // to show dashboard menu
     void showDashboardMenu()
     {
         clr();
@@ -968,7 +1023,6 @@ void dashboard()
             case 0:
                 clr();
                 getUserInfo();
-                break;
             case 1:
                 showDashboardMenu();
             }
@@ -977,17 +1031,19 @@ void dashboard()
 
     // Load user data from the file
     loadUserData(thisUserFile);
-    if (thisUser.semester) // if user data found display user menu
+
+    if (thisUser.semester) // if user data found
     {
-        showDashboardMenu();
+        showDashboardMenu(); // display user menu
     }
     else
     {
-        // if no this user data not found then get user information
+        // if this user data not found then get user information
         clr();
         colorPrint("\n\n You haven't enterd your information yet.\n\n", "r");
         usleep(2000000);
         clr();
         getUserInfo();
+        showDashboardMenu();
     }
 }
