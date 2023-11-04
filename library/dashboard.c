@@ -294,10 +294,9 @@ void dashboard()
         }
     }
 
-    // check if other courses require this course
-    int isRequiredBy(char index)
+    // check if other courses require this enrolled course
+    int enrolledCourseIsRequiredBy(char index)
     {
-        int flag = 0;
         char require[25];
         for (int i = 0; i < thisUser.numOfEnrolledCourses; i++)
         {
@@ -386,6 +385,48 @@ void dashboard()
         return 0;
     }
 
+    // check if other courses require this enrolling course
+    int enrollingCourseIsRequiredBy(char index)
+    {
+        char require[25];
+        for (int i = 0; i < thisUser.numOfEnrollingCourses; i++)
+        {
+            isValid(thisUser.enrollingCourses[i].initial, thisUser.trail); // to get pre-requisites of that course
+            strcpy(require, courseRequire);
+            if (strlen(require))
+            {
+                if (require[1] != '-')
+                {
+                    char *comma = strchr(require, ',');
+                    if (comma != NULL)
+                    {
+                        char *
+                            requires[4];
+                        int n = 0;
+                        char *c = strtok(require, ",");
+                        while (c != NULL)
+                        {
+                            requires[n] = c;
+                            n++;
+                            c = strtok(NULL, ",");
+                        }
+                        for (int i = 0; i < n; i++)
+                        {
+                            if (strcmp(requires[i], thisUser.enrollingCourses[index].initial) == 0)
+                                return 1;
+                        }
+                    }
+                    else
+                    {
+                        if (strcmp(require, thisUser.enrollingCourses[index].initial) == 0)
+                            return 1;
+                    }
+                }
+            }
+        }
+        return 0;
+    }
+
     // get semester info from user
     void getSemeterInfo()
     {
@@ -401,6 +442,34 @@ void dashboard()
             }
             else
                 break;
+        }
+    }
+
+    // change semester of user
+    void changeSemeter()
+    {
+        while (1)
+        {
+            colorPrint("Which semester are you studying? ", "b");
+            int semester;
+            scanf("%d", &semester);
+            if (semester < 1 || semester > 20)
+            {
+                colorPrint("Invalid Semester!", "r");
+                usleep(500000);
+                clr();
+            }
+            else if (semester == 1 && thisUser.numOfEnrolledCourses != 0)
+            {
+                colorPrint("You can't have completed courses in 1st semester. Delete completed courses first.", "y");
+                usleep(1000000);
+                clr();
+            }
+            else
+            {
+                thisUser.semester = semester;
+                break;
+            }
         }
     }
 
@@ -649,7 +718,7 @@ void dashboard()
         int index = showOption("Select which course you want to delete", initials, thisUser.numOfEnrolledCourses);
         for (int i = 0; i < thisUser.numOfEnrolledCourses; i++)
             free(initials[i]);
-        if (isRequiredBy(index))
+        if (enrolledCourseIsRequiredBy(index))
         {
             clr();
             colorPrint(" Can't delete. Some courses require this course.", "r");
@@ -732,16 +801,28 @@ void dashboard()
         int index = showOption("Select which course you want to delete", initials, thisUser.numOfEnrollingCourses);
         for (int i = 0; i < thisUser.numOfEnrollingCourses; i++)
             free(initials[i]);
-        thisUser.numOfEnrollingCourses--;
-        thisUser.completingCredit -= thisUser.enrollingCourses[index].credit;
-        for (int i = index; i < thisUser.numOfEnrollingCourses; i++)
+
+        if (enrollingCourseIsRequiredBy(index))
         {
-            strcpy(thisUser.enrollingCourses[i].initial, thisUser.enrollingCourses[i + 1].initial);
-            strcpy(thisUser.enrollingCourses[i].name, thisUser.enrollingCourses[i + 1].name);
-            thisUser.enrollingCourses[i].credit = thisUser.enrollingCourses[i + 1].credit;
+            clr();
+            colorPrint(" Can't delete. Some courses require this course.", "r");
+            usleep(1000000);
         }
-        saveUserData(thisUserFile);
+        else
+        {
+            thisUser.numOfEnrollingCourses--;
+            thisUser.completingCredit -= thisUser.enrollingCourses[index].credit;
+            for (int i = index; i < thisUser.numOfEnrollingCourses; i++)
+            {
+                strcpy(thisUser.enrollingCourses[i].initial, thisUser.enrollingCourses[i + 1].initial);
+                strcpy(thisUser.enrollingCourses[i].name, thisUser.enrollingCourses[i + 1].name);
+                thisUser.enrollingCourses[i].credit = thisUser.enrollingCourses[i + 1].credit;
+            }
+            saveUserData(thisUserFile);
+        }
     }
+
+    // check if grade improved or not
     int gradeImproved(char oldGrade[5], char newGrade[5])
     {
         int old, new;
@@ -868,7 +949,7 @@ void dashboard()
         case 0:
             clr();
             loadUserData(thisUserFile);
-            getSemeterInfo();
+            changeSemeter();
             saveUserData(thisUserFile);
             showUserData();
             editMenu();
@@ -900,7 +981,7 @@ void dashboard()
             else
             {
                 colorPrint("You Can not choose trail in 1st Semester.", "r");
-                usleep(2000000);
+                usleep(1000000);
             }
             editMenu();
             break;
@@ -915,7 +996,7 @@ void dashboard()
             else
             {
                 colorPrint("You Can Not Have a Completed Course in 1st Semester.", "r");
-                usleep(5000000);
+                usleep(10000000);
             }
             editMenu();
             break;
@@ -930,7 +1011,7 @@ void dashboard()
             else
             {
                 colorPrint("You don't have any completed course.", "r");
-                usleep(2000000);
+                usleep(1000000);
             }
             editMenu();
             break;
@@ -952,7 +1033,7 @@ void dashboard()
             else
             {
                 colorPrint("You don't have any Enrolling course.", "r");
-                usleep(2000000);
+                usleep(1000000);
             }
             editMenu();
             break;
@@ -986,7 +1067,7 @@ void dashboard()
             {
                 clr();
                 colorPrint("No course in the enrolling courses list", "r");
-                usleep(2000000);
+                usleep(1000000);
                 showDashboardMenu();
             }
             break;
@@ -1019,7 +1100,7 @@ void dashboard()
         // if this user data not found then get user information
         clr();
         colorPrint("\n\n You haven't enterd your information yet.\n\n", "r");
-        usleep(2000000);
+        usleep(1000000);
         clr();
         getUserInfo();
         showDashboardMenu();
