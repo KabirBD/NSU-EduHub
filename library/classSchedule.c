@@ -4,29 +4,98 @@
 
 #define MAX_CLASSES 100
 
-// Define the struct to store class information
 struct Class {
     char name[50];
     char date[50];
     char time[50];
 };
 
-// Declare an array of structs to store classes
 struct Class classSchedule[MAX_CLASSES];
 int classCount = 0;
+
 
 // Function to add a new class
 void addClass() {
     if (classCount < MAX_CLASSES) {
-        printf("\nEnter class name: ");
-        scanf("%s", classSchedule[classCount].name);
-        while (getchar() != '\n');
+
+        // Class name validation
+        char inputClassName[10];
+        int isValidClassName = 0;
+        
+        while (!isValidClassName) {
+            printf("\nEnter class name: ");
+            scanf("%s", inputClassName);
+            while (getchar() != '\n');
+
+
+            for (int i = 0; i < sizeof(coreCourses) / sizeof(coreCourses[0]); i++) {
+                if (strcmp(inputClassName, coreCourses[i].initial) == 0) {
+                    isValidClassName = 1;
+                    strcpy(classSchedule[classCount].name, inputClassName); 
+                    break;
+                }
+            }
+
+            for (int i = 0; i < sizeof(algorithCourses) / sizeof(algorithCourses[0]); i++) {
+                if (strcmp(inputClassName, algorithCourses[i].initial) == 0) {
+                    isValidClassName = 1;
+                    strcpy(classSchedule[classCount].name, inputClassName); 
+                    break;
+                }
+            }
+
+            for (int i = 0; i < sizeof(softwareCourses) / sizeof(softwareCourses[0]); i++) {
+                if (strcmp(inputClassName, softwareCourses[i].initial) == 0) {
+                    isValidClassName = 1;
+                    strcpy(classSchedule[classCount].name, inputClassName); 
+                    break;
+                }
+            }
+
+            for (int i = 0; i < sizeof(networkCourses) / sizeof(networkCourses[0]); i++) {
+                if (strcmp(inputClassName, networkCourses[i].initial) == 0) {
+                    isValidClassName = 1;
+                    strcpy(classSchedule[classCount].name, inputClassName); 
+                    break;
+                }
+            }
+
+            for (int i = 0; i < sizeof(architectureCourses) / sizeof(architectureCourses[0]); i++) {
+                if (strcmp(inputClassName, architectureCourses[i].initial) == 0) {
+                    isValidClassName = 1;
+                    strcpy(classSchedule[classCount].name, inputClassName);
+                    break;
+                }
+            }
+
+            for (int i = 0; i < sizeof(AICourses) / sizeof(AICourses[0]); i++) {
+                if (strcmp(inputClassName, AICourses[i].initial) == 0) {
+                    isValidClassName = 1;
+                    strcpy(classSchedule[classCount].name, inputClassName);
+                    break;
+                }
+            }
+
+            for (int i = 0; i < sizeof(bioinformaticsCourses) / sizeof(bioinformaticsCourses[0]); i++) {
+                if (strcmp(inputClassName, bioinformaticsCourses[i].initial) == 0) {
+                    isValidClassName = 1;
+                    strcpy(classSchedule[classCount].name, inputClassName);
+                    break;
+                }
+            }
+
+            if (!isValidClassName) {
+                printf("Invalid class name. Please enter a valid class name (e.g. CSE115, ENG102, etc.) ");
+            }
+        }
+
+
 
         printf("Enter class date (DD/MM/YYYY): ");
         scanf("%s", classSchedule[classCount].date);
 
         // Date validation
-        while (strlen(classSchedule[classCount].date) != 10 || 
+        while (strlen(classSchedule[classCount].date) != 10 ||
                classSchedule[classCount].date[2] != '/' ||
                classSchedule[classCount].date[5] != '/') {
             printf("Invalid date format. Please enter in DD/MM/YYYY format: ");
@@ -49,27 +118,13 @@ void addClass() {
 
 
 
-// Function to view all classes sorted by date
+// Function to view all classes
 void viewAllClasses() {
     if (classCount == 0) {
         printf("\n\033[34mNo classes to display.\033[0m\n");
         return;
     }
 
-    // Sort classes by date
-    for (int i = 0; i < classCount - 1; i++) {
-        for (int j = 0; j < classCount - i - 1; j++) {
-            // Compare the dates of adjacent classes
-            if (strcmp(classSchedule[j].date, classSchedule[j + 1].date) > 0) {
-                // Swap the classes if they are out of order
-                struct Class temp = classSchedule[j];
-                classSchedule[j] = classSchedule[j + 1];
-                classSchedule[j + 1] = temp;
-            }
-        }
-    }
-
-    // Display all classes
     printf("\n\033[34mAll Classes:\033[0m\n");
     for (int i = 0; i < classCount; i++) {
         printf("\nName: %s\nDate: %s\nTime: %s\n\n", classSchedule[i].name, classSchedule[i].date, classSchedule[i].time);
@@ -83,7 +138,7 @@ void viewAllClasses() {
 // Function to search for classes by name, date, or time
 void searchClasses() {
     char searchQuery[50];
-    printf("Enter search query (name, date, or time): ");
+    printf("Enter search query (class name, date, or time): ");
     scanf("%s", searchQuery);
 
     printf("\n\033[34mSearch Results:\033[0m\n");
@@ -93,6 +148,10 @@ void searchClasses() {
         }
     }
 }
+
+
+
+
 
 // Function to update class information
 void updateClass() {
@@ -111,26 +170,28 @@ void updateClass() {
     scanf("%d", &choice);
 
     if (choice >= 1 && choice <= classCount) {
-        // Adjust the index for the array
         int index = choice - 1;
 
         printf("\nEnter updated class name: ");
         scanf("%s", classSchedule[index].name);
 
-        while (getchar() != '\n'); // Clear the input buffer
+        while (getchar() != '\n');
         printf("Enter updated class date (DD/MM/YYYY): ");
-        fgets(classSchedule[index].date, sizeof(classSchedule[index].date), stdin);
-        classSchedule[index].date[strcspn(classSchedule[index].date, "\n")] = '\0';
+        scanf("%s", classSchedule[index].date);
+        while (getchar() != '\n');
 
         printf("Enter updated class time: ");
-        fgets(classSchedule[index].time, sizeof(classSchedule[index].time), stdin);
-        classSchedule[index].time[strcspn(classSchedule[index].time, "\n")] = '\0';
+        scanf("%s", classSchedule[index].time);
+        while (getchar() != '\n');
 
         printf("\n\033[34mClass information updated successfully!\033[0m\n");
     } else {
         printf("Invalid selection. Please enter a valid class number.\n");
     }
 }
+
+
+
 
 
 // Function to delete a class
@@ -150,7 +211,6 @@ void deleteClass() {
     scanf("%d", &choice);
 
     if (choice >= 1 && choice <= classCount) {
-        // Adjust the index for the array
         int index = choice - 1;
 
         for (int i = index; i < classCount - 1; i++) {
@@ -170,6 +230,7 @@ void deleteClass() {
 // Function to export class information to a file
 void exportClasses() {
     FILE *file = fopen("class_schedule.txt", "w");
+
     if (file == NULL) {
         printf("Error opening file for export.\n");
         return;
@@ -196,7 +257,6 @@ void importClasses() {
 
     classCount = 0;
 
-    // Use a loop to read multiple class entries
     while (classCount < MAX_CLASSES &&
            fscanf(file, "Name: %s\nDate: %s\nTime: %s\n", 
            classSchedule[classCount].name, classSchedule[classCount].date, classSchedule[classCount].time) == 3) {
@@ -211,86 +271,11 @@ void importClasses() {
 
 
 
-
-// void manageClassSchedule() {
-//     int choice;
-
-//     clr();
-
-//     while (1) {
-//         printf("\n\033[32mClass Schedule Menu:\033[0m\n\n");
-//         printf("1. Add Class\n");
-//         printf("2. View All Classes\n");
-//         printf("3. Search Classes\n");
-//         printf("4. Update Class\n");
-//         printf("5. Delete Class\n");
-//         printf("6. Import Classes\n");
-//         printf("7. Export Classes\n");
-//         printf("8. Back to Main Menu\n\n");
-
-//         printf("Enter your choice: ");
-//         scanf("%d", &choice);
-
-//         switch (choice) {
-//             case 1:
-//                 clr();
-//                 addClass();
-//                 closeDialog();
-//                 manageClassSchedule();
-//                 break;
-//             case 2:
-//                 clr();
-//                 viewAllClasses();
-//                 closeDialog();
-//                 manageClassSchedule();
-//                 break;
-//             case 3:
-//                 clr();
-//                 searchClasses();
-//                 closeDialog();
-//                 manageClassSchedule();
-//                 break;
-//             case 4:
-//                 clr();
-//                 updateClass();
-//                 closeDialog();
-//                 manageClassSchedule();
-//                 break;
-//             case 5:
-//                 clr();
-//                 deleteClass();
-//                 closeDialog();
-//                 manageClassSchedule();
-//                 break;
-//             case 6:
-//                 clr();
-//                 importClasses();
-//                 closeDialog();
-//                 manageClassSchedule();
-//                 break;
-//             case 7:
-//                 clr();
-//                 exportClasses();
-//                 closeDialog();
-//                 manageClassSchedule();
-//                 break;
-//             case 8:
-//                 displayMenu();
-
-//             default:
-//                 printf("Invalid choice. Please try again.\n");
-//         }
-//     }
-// }
-
-
-
-
 void manageClassSchedule() {
 
     clr();
 
-    char *options[] = {"Add Class", "View All Classes", "Search Classes", "Update Classes", "Delete Classes", "Import Classes", "Export Classes", "Back to Main Menu"};
+    char *options[] = {"Add Class", "View All Classes", "Search Classes", "Update Classes", "Delete Classes", "Import Class Data", "Export Class Data", "Back to Main Menu"};
 
     switch (showOption("Choose an option below:", options, 8)) {
         
