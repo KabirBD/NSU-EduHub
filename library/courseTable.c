@@ -1,24 +1,7 @@
 void courseTable()
 {
-    // char *courseType[] = {"Core Courses", "Algorithms and Computation", "Software Engineering", "Networks", "Computer Architecture and VLSI", "Artificial Intelligence", "Bioinformatics"};
-    // int courseLenth;
+    colorPrint("\n\t\t\t\tList of All Courses for CSE Degree \n\n", "g");
 
-    // struct allCourses
-    // {
-    //     struct courseObj group[60];
-    // } courses[] = {{coreCourses}, {algorithCourses}, {softwareCourses}, {networkCourses}, {architectureCourses}, {AICourses}, {bioinformaticsCourses}};
-
-    // for (int i = 0; i < 7; i++)
-    // {
-    //     struct courseObj *courseList[] = courses[i].group;
-    //     courseLenth = sizeof(courseList) / sizeof(courseList[0]);
-    //     colorPrint(courseType[i], "g");
-    //     for (int j = 0; j < courseLenth; j++)
-    //     {
-    //         printf("\n| %-10s| %-60s| %-8.1f| %-20s|\n", courseList[j].initial, c "g"ourseList[j].name, courseList[j].credit, courseList[j].require);
-    //     }
-    //     n();
-    // }
     int courseLenth;
     courseLenth = sizeof(coreCourses) / sizeof(coreCourses[0]);
     colorPrint("Core Courses\n", "g");
@@ -104,6 +87,7 @@ void courseTable()
         printf("\n| %-10s| %-60s| %-8.1f| %-20s|\n", bioinformaticsCourses[i].initial, bioinformaticsCourses[i].name, bioinformaticsCourses[i].credit, bioinformaticsCourses[i].require);
         row(107);
     }
+    colorPrint("\n\n # In pre-requisites, c-[n] means that the course requires [n] credits completed \n", "y");
     n();
     n();
 }

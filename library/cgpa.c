@@ -55,11 +55,9 @@ void singleCgpaCalculator() {
 
     if (totalCreditHours == 0) {
         printf("Error: Total credit hours cannot be zero.\n");
-        // return -1.0; // Indicate an error
     } else {
         double cgpa = totalGradePoints / totalCreditHours;
         printf("\n\033[32mYour CGPA: %.2lf \033[0m\n", cgpa);
-        // return cgpa;
     }
 }
 
@@ -119,7 +117,7 @@ void multiCgpaCalculator() {
 }
 
 
-// Start --- What If CGPA Analysis
+// Start --- What If CGPA Analysis - Complete
 struct Course {
     int score;
     int creditHours;
@@ -186,49 +184,6 @@ void whatIfCgpa() {
 // End --- What If CGPA Analysis
 
 
-// void cgpaInsight() {
-//     int choice;
-
-//     clr();
-
-//     while (1) {
-//         printf("\n\033[32mCGPA Insight:\033[0m\n\n");
-//         printf("1. Calculate Single Semester CGPA\n");
-//         printf("2. Calculate Multiple Semester CGPA\n");
-//         printf("3. What If CGPA Analysis\n");
-//         printf("4. Back to Main Menu\n\n");
-
-//         printf("Enter your choice: ");
-//         scanf("%d", &choice);
-
-//         switch (choice) {
-//             case 1:
-//                 clr();
-//                 singleCgpaCalculator();
-//                 closeDialog();
-//                 cgpaInsight();
-//                 break;
-//             case 2:
-//                 clr();
-//                 multiCgpaCalculator();
-//                 closeDialog();
-//                 cgpaInsight();
-//                 break;
-//             case 3:
-//                 clr();
-//                 whatIfCgpa();
-//                 closeDialog();
-//                 cgpaInsight();
-//                 break;
-//             case 4:
-//                 displayMenu();
-//                 //printf("Goodbye!\n");
-//                 //return; // Return instead of exiting
-//             default:
-//                 printf("Invalid choice. Please try again.\n");
-//         }
-//     }
-// }
 
 
 

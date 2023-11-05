@@ -121,6 +121,7 @@ void availableCourses()
 
     void showList()
     {
+        colorPrint("\n This table contains all that courses which pre-requisites are fulfilled according to your selected trail,\n completed courses and enrolling courses. You can take any of these courses.\n\n", "y");
         int courseLenth;
         courseLenth = sizeof(coreCourses) / sizeof(coreCourses[0]);
         colorPrint("Core Courses\n", "g");

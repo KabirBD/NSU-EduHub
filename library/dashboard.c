@@ -134,21 +134,28 @@ void dashboard()
         row(50);
         colorPrint(" User Information ", "c");
         row(50);
-
-        colorPrint("\n\n User : ", "g");
-        printf("%s\n", userName);
-        colorPrint(" Current Semester : ", "g");
-        printf("%d\n", thisUser.semester);
-        colorPrint(" Trail : ", "g");
-        printf("%s", trails[thisUser.trail]);
-        colorPrint("\n Number of Completed Courses : ", "g");
-        printf("%d", thisUser.numOfEnrolledCourses);
-        colorPrint("\n Total Credits of Completed Courses: ", "g");
-        printf("%.1f", thisUser.completedCredit);
-        colorPrint("\n Number of Currently Enrolling Courses: ", "g");
-        printf("%d", thisUser.numOfEnrollingCourses);
-        colorPrint("\n Total Credits of Currently Enrolling Courses: ", "g");
-        printf("%.1f\n\n", thisUser.completingCredit);
+        void t()
+        {
+            printf("\t");
+            row(96);
+        }
+        printf("\n\n");
+        setColor("y");
+        printf("\t%-45s: %s\n", "Username", userName);
+        setColor("m");
+        printf("\t%-45s: %d%s\n", "Current Semester", thisUser.semester, getSuffix(thisUser.semester));
+        setColor("m");
+        printf("\t%-45s: %s\n", "Trail", trails[thisUser.trail]);
+        setColor("g");
+        printf("\t%-45s: %d\n", "Number of Completed Courses", thisUser.numOfEnrolledCourses);
+        setColor("g");
+        printf("\t%-45s: %d\n", "Number of Currently Enrolling Courses", thisUser.numOfEnrollingCourses);
+        setColor("c");
+        printf("\t%-45s: %.1f\n", "Total Credits of Completed Courses", thisUser.completedCredit);
+        setColor("c");
+        printf("\t%-45s: %.1f\n", "Total Credits of Currently Enrolling Courses", thisUser.completingCredit);
+        resetColor();
+        printf("\n\n");
         // if user has completed any course
         if (thisUser.numOfEnrolledCourses)
         {
@@ -206,7 +213,7 @@ void dashboard()
         }
         if (!validity)
         {
-            colorPrint("Invalid grade.", "r");
+            colorPrint(" Invalid grade", "r");
             colorPrint(" Example: 'a' or 'A', 'b+' or 'B+'\n", "c");
         }
         return validity;
@@ -432,11 +439,11 @@ void dashboard()
     {
         while (1)
         {
-            colorPrint("Which semester are you studying? ", "b");
+            colorPrint("\n Which semester are you studying? ", "b");
             scanf("%d", &thisUser.semester);
             if (thisUser.semester < 1 || thisUser.semester > 20)
             {
-                colorPrint("Invalid Semester!", "r");
+                colorPrint(" Invalid Semester", "r");
                 usleep(500000);
                 clr();
             }
@@ -450,7 +457,7 @@ void dashboard()
     {
         while (1)
         {
-            colorPrint("Which semester are you studying? ", "b");
+            colorPrint("\n Which semester are you studying? ", "b");
             int semester;
             scanf("%d", &semester);
             if (semester < 1 || semester > 20)
@@ -461,7 +468,7 @@ void dashboard()
             }
             else if (semester == 1 && thisUser.numOfEnrolledCourses != 0)
             {
-                colorPrint("You can't have completed courses in 1st semester. Delete completed courses first.", "y");
+                colorPrint(" You can't have completed courses in 1st semester. Delete completed courses first.", "y");
                 usleep(1000000);
                 clr();
             }
@@ -476,7 +483,7 @@ void dashboard()
     // get trail info from user
     void getTrailInfo()
     {
-        thisUser.trail = showOption("Select your trail", trails, 7);
+        thisUser.trail = showOption("\n Select your trail", trails, 7);
     }
 
     // get completed courses from user
@@ -484,11 +491,11 @@ void dashboard()
     {
         while (1)
         {
-            colorPrint("How many courses have you completed? ", "b");
+            colorPrint("\n How many courses have you completed? ", "b");
             scanf("%d", &thisUser.numOfEnrolledCourses);
             if (thisUser.numOfEnrolledCourses < 1 || thisUser.numOfEnrolledCourses > 100)
             {
-                colorPrint("Invalid Number!", "r");
+                colorPrint(" Invalid Number", "r");
                 usleep(500000);
                 clr();
             }
@@ -551,7 +558,7 @@ void dashboard()
     {
         while (1)
         {
-            colorPrint("How many courses have you taken this semester? : ", "b");
+            colorPrint("\n How many courses have you taken this semester? : ", "b");
             scanf("%d", &thisUser.numOfEnrollingCourses);
             if (thisUser.numOfEnrollingCourses < 1 || thisUser.numOfEnrollingCourses > 100)
             {
@@ -715,7 +722,7 @@ void dashboard()
             strcpy(initials[i], thisUser.enrolledCourses[i].initial);
         }
 
-        int index = showOption("Select which course you want to delete", initials, thisUser.numOfEnrolledCourses);
+        int index = showOption("\n Select which course you want to delete", initials, thisUser.numOfEnrolledCourses);
         for (int i = 0; i < thisUser.numOfEnrolledCourses; i++)
             free(initials[i]);
         if (enrolledCourseIsRequiredBy(index))
@@ -798,7 +805,7 @@ void dashboard()
             strcpy(initials[i], thisUser.enrollingCourses[i].initial);
         }
 
-        int index = showOption("Select which course you want to delete", initials, thisUser.numOfEnrollingCourses);
+        int index = showOption("\n Select which course you want to delete", initials, thisUser.numOfEnrollingCourses);
         for (int i = 0; i < thisUser.numOfEnrollingCourses; i++)
             free(initials[i]);
 
@@ -890,7 +897,7 @@ void dashboard()
         thisUser.completingCredit = 0;
         thisUser.numOfEnrollingCourses = 0;
 
-        switch (showOption("Do you want to add new courses for this semester now?", yesno, 2))
+        switch (showOption("\n Do you want to add new courses for this semester now?", yesno, 2))
         {
         case 0:
             clr();
@@ -961,7 +968,7 @@ void dashboard()
             {
                 if (thisUser.trail != 0)
                 {
-                    switch (showOption("If you change the trail, courses of your previous trail will be removed from completed and currently enrolling courses lists.\nDo you want to continue?", yesno, 2))
+                    switch (showOption("\n If you change the trail, courses of your previous trail will be removed from\n completed and currently enrolling courses lists.\n Do you want to continue?", yesno, 2))
                     {
                     case 0:
                         deleteTrailCourses(thisUser.trail);
@@ -980,7 +987,7 @@ void dashboard()
             }
             else
             {
-                colorPrint("You Can not choose trail in 1st Semester.", "r");
+                colorPrint("\n You Can not choose trail in 1st Semester.", "r");
                 usleep(1000000);
             }
             editMenu();
@@ -995,7 +1002,7 @@ void dashboard()
             }
             else
             {
-                colorPrint("You Can Not Have a Completed Course in 1st Semester.", "r");
+                colorPrint("\n You Can Not Have a Completed Course in 1st Semester.", "r");
                 usleep(10000000);
             }
             editMenu();
@@ -1010,7 +1017,7 @@ void dashboard()
             }
             else
             {
-                colorPrint("You don't have any completed course.", "r");
+                colorPrint("\n You don't have any completed course.", "r");
                 usleep(1000000);
             }
             editMenu();
@@ -1032,7 +1039,7 @@ void dashboard()
             }
             else
             {
-                colorPrint("You don't have any Enrolling course.", "r");
+                colorPrint("\n You don't have any Enrolling course.", "r");
                 usleep(1000000);
             }
             editMenu();
@@ -1066,7 +1073,7 @@ void dashboard()
             else
             {
                 clr();
-                colorPrint("No course in the enrolling courses list", "r");
+                colorPrint("\n No course in the enrolling courses list", "r");
                 usleep(1000000);
                 showDashboardMenu();
             }
@@ -1077,7 +1084,7 @@ void dashboard()
             break;
         case 3:
             clr();
-            switch (showOption("Do you really want to reset all your informations?", yesno, 2))
+            switch (showOption("\n Do you really want to reset all your informations?", yesno, 2))
             {
             case 0:
                 clr();
