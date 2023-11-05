@@ -70,9 +70,9 @@ int displayMenu()
     void mainMenu()
     {
         clr();
-        char *options[] = {"Dashboard", "Course Manager", "Class Schedule", "CGPA Insight", "Helpline", "About", "Exit"};
+        char *options[] = {"Dashboard", "Course Manager","Course Advisor", "Class Schedule", "CGPA Insight", "Helpline", "About", "Exit"};
 
-        switch (showOption("Choose an option below:", options, 7))
+        switch (showOption("Choose an option below:", options, 8))
         {
         case 0: // 1
             dashboard();
@@ -82,27 +82,31 @@ int displayMenu()
             courseMenu();
             mainMenu();
             break;
-        case 2: // 3
+        case 2: //3
+            courseAdvisor();
+            mainMenu();
+            break;
+        case 3: // 4
             manageClassSchedule();
             closeDialog();
             mainMenu();
             break;
-        case 3: // 4
+        case 4: // 5
             cgpaInsight();
             closeDialog();
             mainMenu();
             break;
-        case 4: // 5
+        case 5: // 6
             helpline();
             closeDialog();
             mainMenu();
             break;
-        case 5: // 6
+        case 6: // 7
             about();
             closeDialog();
             mainMenu();
             break;
-        case 6:
+        case 7: //8
             exit();
             break;
         };

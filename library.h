@@ -22,6 +22,7 @@
 #include "./library/dashboard.c"
 #include "./library/classSchedule.c"
 #include "./library/cgpa.c"
+#include "./library/courseAdvisor.c"
 
 /// Initialize our functions
 
@@ -87,3 +88,7 @@ void manageClassSchedule();
 
 // cgpa calculations
 void cgpaInsight();
+
+void courseAdvisor();
+
+

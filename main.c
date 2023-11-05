@@ -1,7 +1,7 @@
 // Header Section
 #include "library.h"
 
-// main function
+// main function2
 int main()
 {
 

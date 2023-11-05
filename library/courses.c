@@ -1,4 +1,3 @@
-
 struct courseObj
 {
     char initial[10];
