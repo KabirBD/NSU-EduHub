@@ -1,3 +1,5 @@
+char courseList[90][10];
+
 void dashboard()
 {
     // setting username.dat as this user file name
@@ -24,6 +26,10 @@ void dashboard()
         int numOfEnrollingCourses;
         struct courseInfo enrollingCourses[20];
     } thisUser; // logged in user info will be stored in thisUser object
+
+
+    int totalCourses = 0;
+    int indexZ = 1;
 
     // global variable for this function
     char courseInit[5];
@@ -84,6 +90,7 @@ void dashboard()
         }
 
         // Write user data to the file
+        fwrite(&courseList, sizeof(courseList),1, file);
         fwrite(&thisUser, sizeof(struct userInfo), 1, file);
 
         fclose(file);
@@ -101,7 +108,9 @@ void dashboard()
         }
 
         // Read user data from the file
+        fread(&courseList, sizeof(courseList),1, file);
         fread(&thisUser, sizeof(struct userInfo), 1, file);
+
         // if there is no completed course and enrolling course
         if (thisUser.numOfEnrollingCourses == 0 && thisUser.numOfEnrolledCourses == 0)
             thisUser.semester = 0; // to promt user to enter information
@@ -502,6 +511,8 @@ void dashboard()
             else
                 break;
         }
+
+        totalCourses += thisUser.numOfEnrolledCourses;
         thisUser.completedCredit = 0;
         for (int i = 0; i < thisUser.numOfEnrolledCourses; i++)
         {
@@ -521,6 +532,8 @@ void dashboard()
                     if (checkRequire(courseRequire))
                     {
                         strcpy(thisUser.enrolledCourses[i].initial, courseInit);
+                        strcpy(courseList[indexZ],courseInit);
+                        indexZ++;                       
                         strcpy(thisUser.enrolledCourses[i].name, courseName);
                         char grade[5];
                         do
@@ -570,6 +583,7 @@ void dashboard()
                 break;
         }
 
+        totalCourses += thisUser.numOfEnrollingCourses;
         thisUser.completingCredit = 0;
         for (int i = 0; i < thisUser.numOfEnrollingCourses; i++)
         {
@@ -596,6 +610,8 @@ void dashboard()
                         if (checkRequire(courseRequire))
                         {
                             strcpy(thisUser.enrollingCourses[i].initial, courseInit);
+                            strcpy(courseList[indexZ], courseInit);
+                            indexZ++;
                             strcpy(thisUser.enrollingCourses[i].name, courseName);
                             thisUser.enrollingCourses[i].credit = courseCredit;
                             thisUser.completingCredit += courseCredit;
@@ -636,6 +652,10 @@ void dashboard()
         }
         clr();
         getEnrollingCourses();
+
+        char totalCourse[10];
+        sprintf(totalCourse, "%d",totalCourses);
+        strcpy(courseList[0], totalCourse);
         // Save user data to a file
         saveUserData(thisUserFile);
 
