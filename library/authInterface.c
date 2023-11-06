@@ -161,8 +161,24 @@ int signUp()
     printf("Enter your account name: ");
     getInput(acc_num[user_num].name);
 
+    do {
+        getInput(acc_num[user_num].name);
+        if (strlen(acc_num[user_num].name) <= 4) 
+        {
+            printf("The username is too short.\n");
+        }
+    } while (strlen(acc_num[user_num].name) <= 4);
+
     printf("Enter your password: ");
     getInput(acc_num[user_num].pass);
+
+    do {
+        getInput(acc_num[user_num].pass);
+        if (strlen(acc_num[user_num].pass) <= 5) 
+        {
+            printf("The password is too short.\n");
+        }
+    } while (strlen(acc_num[user_num].pass) <= 5);
 
     for(int i = 0; i<user_num;i++)
     {
@@ -264,7 +280,7 @@ int signIn()
                     return 1;
                 else
                 {
-                    printf(" [ 1. Sign-in ]      [ 2. Sign-up ]       [ 3. Exit ]\n\n\n");
+                    printf("\t [ 1. Sign-in ]    [ 2. Sign-up ]    [ 3. Exit ]\n\n\n");
                     break; // Return indicating sign in was unsuccessful
                 }
             case '2':
@@ -274,7 +290,7 @@ int signIn()
                 if (signUp())
                     return 1;
                 else
-                    printf(" [ 1. Sign-in ]      [ 2. Sign-up ]       [ 3. Exit ]\n\n\n");
+                    printf("\t [ 1. Sign-in ]    [ 2. Sign-up ]    [ 3. Exit ]\n\n\n");
                     break;
             case '3':
                 // If user selects exit option
@@ -289,9 +305,9 @@ int signIn()
     
     clr();
     n();
-    printf(" Welcome To\n");
+    printf("\t      ============= Welcome To =============\n");
     logo();
-    printf(" [ 1. Sign-in ]      [ 2. Sign-up ]       [ 3. Exit ]\n\n\n");
+    printf("\t [ 1. Sign-in ]    [ 2. Sign-up ]    [ 3. Exit ]\n\n\n");
 
     return checkSelected();
 
