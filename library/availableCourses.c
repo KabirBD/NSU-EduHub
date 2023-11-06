@@ -1,5 +1,6 @@
 void availableCourses()
 {
+    char courseList[90][10];
     char thisUserFile[25];
     strcpy(thisUserFile, userName);
     strcat(thisUserFile, ".dat");
@@ -37,6 +38,7 @@ void availableCourses()
         }
 
         // Read user data from the file
+        fread(&courseList, sizeof(courseList), 1, file);
         fread(&thisUser, sizeof(struct userInfo), 1, file);
 
         fclose(file);
@@ -55,6 +57,8 @@ void availableCourses()
         }
         return flag;
     }
+
+    // if given initial is found in enrolling courses list
     int foundInEnrollingCurses(char givenInitial[10], int lnth)
     {
         int flag = 0;
@@ -69,6 +73,7 @@ void availableCourses()
         return flag;
     }
 
+    // check if requirement is fulfilled or not
     int checkRequire(char require[25])
     {
         if (strlen(require))
