@@ -1,5 +1,13 @@
 char courseList[90][10];
 
+typedef struct copyInfo
+{
+    int userSemester;
+    float doneCredit;
+}copyInfo;
+
+copyInfo copy;
+
 void dashboard()
 {
     // setting username.dat as this user file name
@@ -444,12 +452,13 @@ void dashboard()
     }
 
     // get semester info from user
-    void getSemeterInfo()
+    void getSemesterInfo()
     {
         while (1)
         {
             colorPrint("\n Which semester are you studying? ", "b");
             scanf("%d", &thisUser.semester);
+            copy.userSemester = thisUser.semester;
             if (thisUser.semester < 1 || thisUser.semester > 20)
             {
                 colorPrint(" Invalid Semester", "r");
@@ -462,7 +471,7 @@ void dashboard()
     }
 
     // change semester of user
-    void changeSemeter()
+    void changeSemester()
     {
         while (1)
         {
@@ -484,6 +493,7 @@ void dashboard()
             else
             {
                 thisUser.semester = semester;
+                copy.userSemester = semester;
                 break;
             }
         }
@@ -498,9 +508,12 @@ void dashboard()
     // get completed courses from user
     void getCompletedCourses()
     {
+        totalCourses = 0;
+        copy.doneCredit = 0;
+
         while (1)
         {
-            colorPrint("\n How many courses have you completed? ", "b");
+            colorPrint("\n How many courses have you completed (Including Lab courses)? ", "b");
             scanf("%d", &thisUser.numOfEnrolledCourses);
             if (thisUser.numOfEnrolledCourses < 1 || thisUser.numOfEnrolledCourses > 100)
             {
@@ -563,6 +576,8 @@ void dashboard()
                 colorPrint(" No course matches with this initial!\n", "r");
                 i--;
             }
+            
+            copy.doneCredit += thisUser.completedCredit;
         }
     }
 
@@ -571,7 +586,7 @@ void dashboard()
     {
         while (1)
         {
-            colorPrint("\n How many courses have you taken this semester? : ", "b");
+            colorPrint("\n How many courses have you taken this semester (Including Lab courses)? : ", "b");
             scanf("%d", &thisUser.numOfEnrollingCourses);
             if (thisUser.numOfEnrollingCourses < 1 || thisUser.numOfEnrollingCourses > 100)
             {
@@ -634,6 +649,8 @@ void dashboard()
                 colorPrint(" No course matches with this initial!\n", "r");
                 i--;
             }
+
+            copy.doneCredit += thisUser.completingCredit;
         }
     }
 
@@ -642,7 +659,7 @@ void dashboard()
     {
         // Clear the thisUser struct (for demonstration purposes)
         memset(&thisUser, 0, sizeof(struct userInfo));
-        getSemeterInfo();
+        getSemesterInfo();
 
         if (thisUser.semester > 1)
         {
@@ -976,7 +993,7 @@ void dashboard()
         case 0:
             clr();
             loadUserData(thisUserFile);
-            changeSemeter();
+            changeSemester();
             saveUserData(thisUserFile);
             showUserData();
             editMenu();
