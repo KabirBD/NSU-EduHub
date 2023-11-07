@@ -147,3 +147,27 @@ void getTrailCourses(int trail)
         break;
     }
 }
+
+char *analyseReq(const char require[20])
+{
+    char result[25]; // Fixed-size buffer for the result
+
+    if (strlen(require) > 1)
+    {
+        if (require[1] == '-')
+        {
+            int credit = atoi(strtok(require + 2, "-"));
+            snprintf(result, sizeof(result), "%d credits", credit);
+        }
+        else
+        {
+            snprintf(result, sizeof(result), "%s", require);
+        }
+    }
+    else
+    {
+        snprintf(result, sizeof(result), "N/A");
+    }
+
+    return strdup(result);
+}
