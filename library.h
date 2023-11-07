@@ -46,6 +46,8 @@ void toUpperCase(char *str);
 const char *getSuffix(int n);
 // wait for a chaacter input to complete the function
 void closeDialog();
+// return 1 if float need decimal else return 0 if float is an integer num
+int needDeci(float n);
 
 // print logo
 void logo();
@@ -71,6 +73,7 @@ struct courseObj *trailCourses;
 int trailLnth;
 // get a particular trail courses in trailCourses object with traillnth from the index of trail
 void getTrailCourses(int trail);
+char *analyseReq(const char require[20]);
 
 // course manager
 void courseInfoQuery();
@@ -90,5 +93,3 @@ void manageClassSchedule();
 void cgpaInsight();
 
 void courseAdvisor();
-
-

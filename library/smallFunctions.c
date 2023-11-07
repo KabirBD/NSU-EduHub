@@ -55,3 +55,8 @@ void closeDialog()
     if (getch())
         ;
 }
+
+int needDeci(float n)
+{
+    return (n) ? (n != (int)n) : 0;
+}

@@ -35,7 +35,6 @@ void dashboard()
         struct courseInfo enrollingCourses[20];
     } thisUser; // logged in user info will be stored in thisUser object
 
-
     int totalCourses = 0;
     int indexZ = 1;
 
@@ -98,7 +97,7 @@ void dashboard()
         }
 
         // Write user data to the file
-        fwrite(&courseList, sizeof(courseList),1, file);
+        fwrite(&courseList, sizeof(courseList), 1, file);
         fwrite(&thisUser, sizeof(struct userInfo), 1, file);
 
         fclose(file);
@@ -116,7 +115,7 @@ void dashboard()
         }
 
         // Read user data from the file
-        fread(&courseList, sizeof(courseList),1, file);
+        fread(&courseList, sizeof(courseList), 1, file);
         fread(&thisUser, sizeof(struct userInfo), 1, file);
 
         // if there is no completed course and enrolling course
@@ -168,9 +167,9 @@ void dashboard()
         setColor("g");
         printf("\t%-45s: %d\n", "Number of Currently Enrolling Courses", thisUser.numOfEnrollingCourses);
         setColor("c");
-        printf("\t%-45s: %.1f\n", "Total Credits of Completed Courses", thisUser.completedCredit);
+        printf("\t%-45s: %.*f\n", "Total Credits of Completed Courses", needDeci(thisUser.completedCredit), thisUser.completedCredit);
         setColor("c");
-        printf("\t%-45s: %.1f\n", "Total Credits of Currently Enrolling Courses", thisUser.completingCredit);
+        printf("\t%-45s: %.*f\n", "Total Credits of Currently Enrolling Courses", needDeci(thisUser.completingCredit), thisUser.completingCredit);
         resetColor();
         printf("\n\n");
         // if user has completed any course
@@ -181,7 +180,7 @@ void dashboard()
             colorPrint("\n\tInitial        Course Name                                                 Credit    Grade  Point\n", "b");
             for (int i = 0; i < thisUser.numOfEnrolledCourses; i++)
             {
-                printf("\t%-15s%-60s%-10.1f%-7s%-3.1f\n", thisUser.enrolledCourses[i].initial, thisUser.enrolledCourses[i].name, thisUser.enrolledCourses[i].credit, thisUser.enrolledCourses[i].grade, gradeToPoint(thisUser.enrolledCourses[i].grade));
+                printf("\t%-15s%-60s%-10.*f%-7s%-3.1f\n", thisUser.enrolledCourses[i].initial, thisUser.enrolledCourses[i].name, needDeci(thisUser.enrolledCourses[i].credit), thisUser.enrolledCourses[i].credit, thisUser.enrolledCourses[i].grade, gradeToPoint(thisUser.enrolledCourses[i].grade));
                 pointSum += thisUser.enrolledCourses[i].credit * gradeToPoint(thisUser.enrolledCourses[i].grade);
             }
             colorPrint("\t-------------------------------------------------------------------------------------------------", "y");
@@ -195,7 +194,7 @@ void dashboard()
             colorPrint("\n\n List of Currently Enrolling Courses:", "y");
             colorPrint("\n\tInitial        Course Name                                                 Credit\n", "b");
             for (int i = 0; i < thisUser.numOfEnrollingCourses; i++)
-                printf("\t%-15s%-60s%-10.1f\n", thisUser.enrollingCourses[i].initial, thisUser.enrollingCourses[i].name, thisUser.enrollingCourses[i].credit);
+                printf("\t%-15s%-60s%-10.*f\n", thisUser.enrollingCourses[i].initial, thisUser.enrollingCourses[i].name, needDeci(thisUser.enrollingCourses[i].credit), thisUser.enrollingCourses[i].credit);
             n();
             row(118);
             n();
@@ -545,8 +544,8 @@ void dashboard()
                     if (checkRequire(courseRequire))
                     {
                         strcpy(thisUser.enrolledCourses[i].initial, courseInit);
-                        strcpy(courseList[indexZ],courseInit);
-                        indexZ++;                       
+                        strcpy(courseList[indexZ], courseInit);
+                        indexZ++;
                         strcpy(thisUser.enrolledCourses[i].name, courseName);
                         char grade[5];
                         do
@@ -671,7 +670,7 @@ void dashboard()
         getEnrollingCourses();
 
         char totalCourse[10];
-        sprintf(totalCourse, "%d",totalCourses);
+        sprintf(totalCourse, "%d", totalCourses);
         strcpy(courseList[0], totalCourse);
         // Save user data to a file
         saveUserData(thisUserFile);
