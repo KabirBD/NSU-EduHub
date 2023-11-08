@@ -48,6 +48,8 @@ const char *getSuffix(int n);
 void closeDialog();
 // return 1 if float need decimal else return 0 if float is an integer num
 int needDeci(float n);
+// show a slider with range and return selected integer
+int slider(int min, int max);
 
 // print logo
 void logo();
