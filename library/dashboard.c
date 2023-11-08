@@ -4,7 +4,7 @@ typedef struct copyInfo
 {
     int userSemester;
     float doneCredit;
-}copyInfo;
+} copyInfo;
 
 copyInfo copy;
 
@@ -456,7 +456,7 @@ void dashboard()
         while (1)
         {
             colorPrint("\n Which semester are you studying? ", "b");
-            scanf("%d", &thisUser.semester);
+            thisUser.semester = slider(1, 12);
             copy.userSemester = thisUser.semester;
             if (thisUser.semester < 1 || thisUser.semester > 20)
             {
@@ -475,15 +475,8 @@ void dashboard()
         while (1)
         {
             colorPrint("\n Which semester are you studying? ", "b");
-            int semester;
-            scanf("%d", &semester);
-            if (semester < 1 || semester > 20)
-            {
-                colorPrint("Invalid Semester!", "r");
-                usleep(500000);
-                clr();
-            }
-            else if (semester == 1 && thisUser.numOfEnrolledCourses != 0)
+            int semester = slider(1, 12);
+            if (semester == 1 && thisUser.numOfEnrolledCourses != 0)
             {
                 colorPrint(" You can't have completed courses in 1st semester. Delete completed courses first.", "y");
                 usleep(1000000);
@@ -510,19 +503,8 @@ void dashboard()
         totalCourses = 0;
         copy.doneCredit = 0;
 
-        while (1)
-        {
-            colorPrint("\n How many courses have you completed (Including Lab courses)? ", "b");
-            scanf("%d", &thisUser.numOfEnrolledCourses);
-            if (thisUser.numOfEnrolledCourses < 1 || thisUser.numOfEnrolledCourses > 100)
-            {
-                colorPrint(" Invalid Number", "r");
-                usleep(500000);
-                clr();
-            }
-            else
-                break;
-        }
+        colorPrint("\n How many courses have you completed (Including Lab courses)? ", "b");
+        thisUser.numOfEnrolledCourses = slider(1, 60);
 
         totalCourses += thisUser.numOfEnrolledCourses;
         thisUser.completedCredit = 0;
@@ -575,7 +557,7 @@ void dashboard()
                 colorPrint(" No course matches with this initial!\n", "r");
                 i--;
             }
-            
+
             copy.doneCredit += thisUser.completedCredit;
         }
     }
@@ -583,19 +565,9 @@ void dashboard()
     // get courses for this semester from user
     void getEnrollingCourses()
     {
-        while (1)
-        {
-            colorPrint("\n How many courses have you taken this semester (Including Lab courses)? : ", "b");
-            scanf("%d", &thisUser.numOfEnrollingCourses);
-            if (thisUser.numOfEnrollingCourses < 1 || thisUser.numOfEnrollingCourses > 100)
-            {
-                colorPrint("Invalid Number!", "r");
-                usleep(500000);
-                clr();
-            }
-            else
-                break;
-        }
+
+        colorPrint("\n How many courses have you taken this semester (Including Lab courses)? : ", "b");
+        thisUser.numOfEnrollingCourses = slider(1, 15);
 
         totalCourses += thisUser.numOfEnrollingCourses;
         thisUser.completingCredit = 0;
