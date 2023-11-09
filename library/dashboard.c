@@ -167,7 +167,7 @@ void dashboard()
         setColor("g");
         printf("\t%-45s: %d\n", "Number of Currently Enrolling Courses", thisUser.numOfEnrollingCourses);
         setColor("c");
-        printf("\t%-45s: %.*f\n", "Total Credits of Completed Courses", needDeci(thisUser.completedCredit), thisUser.completedCredit);
+        printf("\t%-45s: %.*f\n", "Total Credits Completed", needDeci(thisUser.completedCredit), thisUser.completedCredit);
         setColor("c");
         printf("\t%-45s: %.*f\n", "Total Credits of Currently Enrolling Courses", needDeci(thisUser.completingCredit), thisUser.completingCredit);
         resetColor();
@@ -178,14 +178,19 @@ void dashboard()
             row(118);
             colorPrint("\n\n List of Completed Courses:", "y");
             colorPrint("\n\tInitial        Course Name                                                 Credit    Grade  Point\n", "b");
+            int listedCoursesCredit = 0;
             for (int i = 0; i < thisUser.numOfEnrolledCourses; i++)
             {
                 printf("\t%-15s%-60s%-10.*f%-7s%-3.1f\n", thisUser.enrolledCourses[i].initial, thisUser.enrolledCourses[i].name, needDeci(thisUser.enrolledCourses[i].credit), thisUser.enrolledCourses[i].credit, thisUser.enrolledCourses[i].grade, gradeToPoint(thisUser.enrolledCourses[i].grade));
                 pointSum += thisUser.enrolledCourses[i].credit * gradeToPoint(thisUser.enrolledCourses[i].grade);
+                listedCoursesCredit += thisUser.enrolledCourses[i].credit;
             }
             colorPrint("\t-------------------------------------------------------------------------------------------------", "y");
             colorPrint("\n\t                                                                              Current CGPA: ", "g");
-            printf("%.2f\n", pointSum / thisUser.completedCredit);
+            float cgpa = pointSum / listedCoursesCredit;
+            printf("%.2f\n", cgpa);
+            if (cgpa < 2)
+                colorPrint("\tYou are on probation! Please retake some courses you got lower grde.\n", "r");
             n();
         }
         if (thisUser.numOfEnrollingCourses)
@@ -259,6 +264,7 @@ void dashboard()
         {
             if (strcmp(thisUser.enrollingCourses[i].initial, givenInitial) == 0)
             {
+                foundAt = i;
                 flag = 1;
                 break; // Exit the loop when the match is found
             }
@@ -538,7 +544,8 @@ void dashboard()
                         } while (!isValidGrade(grade));
                         strcpy(thisUser.enrolledCourses[i].grade, grade);
                         thisUser.enrolledCourses[i].credit = courseCredit;
-                        thisUser.completedCredit += courseCredit;
+                        if (gradeToPoint(grade) > 0)
+                            thisUser.completedCredit += courseCredit;
                     }
                     else
                     {
@@ -586,9 +593,9 @@ void dashboard()
             {
                 if (!foundInEnrollingCurses(initial, i))
                 {
-                    if (foundInCompletedCurses(initial, thisUser.numOfEnrolledCourses) && gradeToPoint(thisUser.enrolledCourses[foundAt].grade) == 4)
+                    if (foundInCompletedCurses(initial, thisUser.numOfEnrolledCourses) && gradeToPoint(thisUser.enrolledCourses[foundAt].grade) > 3)
                     {
-                        colorPrint(" No need to retake this course. Already got highest grade.\n", "y");
+                        colorPrint(" You can't retake this course. Already got grade higher than B\n", "y");
                         i--;
                     }
                     else
@@ -682,7 +689,7 @@ void dashboard()
                             toUpperCase(grade);
                         } while (!isValidGrade(grade));
 
-                        if (foundInEnrollingCurses(initial, thisUser.numOfEnrollingCourses) && gradeToPoint(grade) == 4)
+                        if (foundInEnrollingCurses(initial, thisUser.numOfEnrollingCourses) && gradeToPoint(grade) > 3)
                         {
                             colorPrint(" Deleted this course from enrolling courses list. No need to retake.\n", "r");
                             usleep(1000000);
@@ -697,7 +704,8 @@ void dashboard()
                         }
                         strcpy(thisUser.enrolledCourses[index].grade, grade);
                         thisUser.enrolledCourses[index].credit = courseCredit;
-                        thisUser.completedCredit += courseCredit;
+                        if (gradeToPoint(grade) > 0)
+                            thisUser.completedCredit += courseCredit;
                         thisUser.numOfEnrolledCourses++;
                         saveUserData(thisUserFile);
                         break;
@@ -742,7 +750,8 @@ void dashboard()
         else
         {
             thisUser.numOfEnrolledCourses--;
-            thisUser.completedCredit -= thisUser.enrolledCourses[index].credit;
+            if (gradeToPoint(thisUser.enrolledCourses[index].grade) > 0)
+                thisUser.completedCredit -= thisUser.enrolledCourses[index].credit;
             for (int i = index; i < thisUser.numOfEnrolledCourses; i++)
             {
                 strcpy(thisUser.enrolledCourses[i].initial, thisUser.enrolledCourses[i + 1].initial);
@@ -768,9 +777,9 @@ void dashboard()
                 int index = thisUser.numOfEnrollingCourses;
                 if (!foundInEnrollingCurses(initial, index))
                 {
-                    if (foundInCompletedCurses(initial, thisUser.numOfEnrolledCourses) && gradeToPoint(thisUser.enrolledCourses[foundAt].grade) == 4)
+                    if (foundInCompletedCurses(initial, thisUser.numOfEnrolledCourses) && gradeToPoint(thisUser.enrolledCourses[foundAt].grade) > 3)
                     {
-                        colorPrint(" No need to retake this course. Already get highest grade.\n", "y");
+                        colorPrint(" You can't retake this course. Already got grade higher than B\n", "y");
                     }
                     else
                     {
@@ -879,7 +888,8 @@ void dashboard()
                 {
                     thisUser.numOfEnrolledCourses--;
                     index--;
-                    thisUser.completedCredit -= thisUser.enrolledCourses[foundAt].credit;
+                    if (gradeToPoint(thisUser.enrolledCourses[foundAt].grade) > 0)
+                        thisUser.completedCredit -= thisUser.enrolledCourses[foundAt].credit;
                     for (int j = foundAt; j < thisUser.numOfEnrolledCourses; j++)
                     {
                         strcpy(thisUser.enrolledCourses[j].initial, thisUser.enrolledCourses[j + 1].initial);
@@ -898,7 +908,8 @@ void dashboard()
             strcpy(thisUser.enrolledCourses[index].name, thisUser.enrollingCourses[i].name);
             strcpy(thisUser.enrolledCourses[index].grade, grade);
             thisUser.enrolledCourses[index].credit = thisUser.enrollingCourses[i].credit;
-            thisUser.completedCredit += thisUser.enrollingCourses[i].credit;
+            if (gradeToPoint(grade) > 0)
+                thisUser.completedCredit += thisUser.enrollingCourses[i].credit;
             thisUser.numOfEnrolledCourses++;
         }
         thisUser.semester++;
