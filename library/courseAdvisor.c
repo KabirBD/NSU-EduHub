@@ -10,6 +10,8 @@ void courseAdvisor()
     strcpy(thisUserCourseMap, userName);
     strcat(thisUserCourseMap, "map.txt");
 
+    int mock = 0;
+
     struct courseObj
     {
         char initial[10];
@@ -44,6 +46,7 @@ void courseAdvisor()
     int perSemCourse[30];
 
     float totalCredits = 0;
+    float totalCreditsCalc = copy.doneCredit;
 
     int totalSemester;
 
@@ -54,19 +57,29 @@ void courseAdvisor()
         FILE *file = fopen(filename, "rb");
         if (file == NULL) // if no file found named username.dat,
         {
-           // perror("Error opening file");
+            // perror("Error opening file");
             return;
         }
 
         // Read user data from the file
         fread(&courseList, sizeof(courseList), 1, file);
 
-        for (int i = 0; i < 90; i++) 
+        for (int i = 0; i < 90; i++)
         {
-            strcpy(courseListTemp[i],courseList[i]);
+            strcpy(courseListTemp[i], courseList[i]);
         }
 
         fclose(file);
+    }
+
+    int gedCheck(courseDetails * courseCore, const char *comp, int i)
+    {
+        courseDetails *changePtr = courseCore + i;
+
+        if (strncmp(courseCore[i].courseInitials, comp, 3) == 0)
+        {
+            changePtr->flag = 2;
+        }
     }
 
     void courseCopier(courseDetails * course, int copiedTo, int source)
@@ -92,10 +105,29 @@ void courseAdvisor()
         }
         if ((course[copiedTo].preReq1[0] == '\0' && course[copiedTo].preReq2[0] == '\0'))
         {
-            course[copiedTo].flag = 0; //2 = done(unavailable), 1 = unavailable, 0 = available.
-        } 
+            course[copiedTo].flag = 0;
+
+            if (course == core.uniCore)
+            {
+                if (strcmp(course[copiedTo].courseInitials, "POL104") == 0)
+                {
+                    gedCheck(course, "POL", copiedTo);
+                }
+                else if ((strcmp(course[copiedTo].courseInitials, "ENV203") == 0) || (strcmp(course[copiedTo].courseInitials, "ANT101") == 0))
+                {
+                    gedCheck(course, "ENV", copiedTo);
+                    gedCheck(course, "ANT", copiedTo);
+                }
+                else if (strcmp(course[copiedTo].courseInitials, "ECO104") == 0)
+                {
+                    gedCheck(course, "ECO", copiedTo);
+                }
+            }
+        }
         else
+        {
             course[copiedTo].flag = 1;
+        }
     }
 
     int getValidInput(int min, int max, const char *prompt)
@@ -167,15 +199,16 @@ void courseAdvisor()
 
             if (courseCore[i].flag == 0)
             {
-
                 recommendedCourses[numCourses + startIdx] = courseCore[i];
+                totalCreditsCalc += recommendedCourses[numCourses + startIdx].courseCredits;
 
                 if (strncmp(courseCore[i].courseInitials, courseCore[i + 1].courseInitials, 6) == 0) // checks if the next course is a lab course
                 {
                     recommendedCourses[numCourses + startIdx + 1] = courseCore[i + 1]; // if yes then adds it to recommended courses
-                    numCourses += 2;                                                   // increase numCourse by 2 because of extra lab course
-                    limitCourses++;                                                    // limit increased because of lab course
-                    i++;                                                               // i incremented to skip next course, which is the lab course
+                    totalCreditsCalc += recommendedCourses[numCourses + startIdx + 1].courseCredits;
+                    numCourses += 2; // increase numCourse by 2 because of extra lab course
+                    limitCourses++;  // limit increased because of lab course
+                    i++;             // i incremented to skip next course, which is the lab course
                 }
                 else
                 {
@@ -189,7 +222,7 @@ void courseAdvisor()
 
     int getInput()
     {
-        clr();
+        // clr()
 
         totalSemester = getValidInput(1, 8, "Enter the number of semesters(e.g. 1 if you want to be advised for your next semester): ");
 
@@ -199,10 +232,10 @@ void courseAdvisor()
 
         schoolCourse = getValidInput(1, 4, "Enter the number of School core courses you want per semester: ");
 
-        clr();
+        // clr()
     }
 
-    int preReqChecker(int courseCount,courseDetails * courseCore, int m)
+    int preReqChecker(int courseCount, courseDetails *courseCore, int m)
     {
         int preReq1_temp;
         int preReq2_temp;
@@ -241,7 +274,7 @@ void courseAdvisor()
                 preReq2_temp = 1; // preReq not completed so set to 1.
             }
         }
-        
+
         result = preReq2_temp || preReq1_temp;
 
         return result;
@@ -281,23 +314,66 @@ void courseAdvisor()
         {
             courseDetails *s_ptr = courseCore + m; // Pointer to the course in the core CSE courses.
 
-            if ((strcmp(courseListTemp[k], courseCore[m].courseInitials)) != 0 && courseCore[m].flag == 1) // checks if done course matches, the name of course in list. also checks if course is available(flag is set to 1 or 0)
+            if (strcmp(courseListTemp[k], courseCore[m].courseInitials) != 0 && courseCore[m].flag == 1) // checks if done course matches, the name of course in list. also checks if course is available(flag is set to 1 or 0)
             {
-                if ((courseCore[m].preReq1[0] == '\0' && courseCore[m].preReq2[0] == '\0')) // if both preReqs are null, meaning that there are no preReqs. so course is available.
+                if (strncmp("c-", courseCore[m].preReq1, 2) == 0)
                 {
-                    s_ptr->flag = 0;
+                    char req[15];
+                    strcpy(req, courseCore[m].preReq1);
+
+                    char *hyphen = strchr(req, '-');
+                    int creditLimit = atoi(hyphen + 1);
+
+                    if (totalCreditsCalc >= creditLimit)
+                    {
+
+                        s_ptr->flag = 0;
+                    }
+                    else
+                    {
+
+                        s_ptr->flag = 1;
+                    }
                 }
                 else // enters if preReq are not null. now checks if preReq courses are completed or not.
                 {
                     s_ptr->flag = preReqChecker(courseCount, courseCore, m); // changes the flag to 1 or 0. if both preReqs are done then sets it to 0, meaning course is available.
                 }
             }
-            else if ((strcmp(courseListTemp[k], courseCore[m].courseInitials)) == 0) // the course has already been completed. so flag is set to 2
+            else if (strcmp(courseListTemp[k], courseCore[m].courseInitials) == 0) // the course has already been completed. so flag is set to 2
             {
                 s_ptr->flag = 2;
+
+                if (courseCore == core.uniCore)
+                {
+                    if (strncmp(courseListTemp[k], "POL", 3) == 0) // if course is POL
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            gedCheck(courseCore, "POL", i);
+                        }
+                    }
+                    else if ((strncmp(courseListTemp[k], "ENV", 3) == 0) || (strncmp(courseListTemp[k], "ANT", 3) == 0) || (strncmp(courseListTemp[k], "SOC", 3) == 0))
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            gedCheck(courseCore, "ENV", i);
+                            gedCheck(courseCore, "ANT", i);
+                            gedCheck(courseCore, "SOC", i);
+                        }
+                    }
+                    else if ((strncmp(courseListTemp[k], "EC0", 3) == 0))
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            gedCheck(courseCore, "ECO", i);
+                        }
+                    }
+                }
             }
         }
     }
+
 
     int courseCheck(int courseCount, int initCount)
     {
@@ -336,13 +412,19 @@ void courseAdvisor()
         totalCredits = 0;
 
         colorPrint("The advisor system considers your currently enrolled courses as completed in order to function.", "b");
+        colorPrint("\n\n\tList of Advised Courses:\n\t", "y");
+        row(83);
+        n();
+        n();
+        n();
 
         for (int i = 0; i < totalSemester; i++)
         {
-            printf("\n\n");
-            colorPrint("Semester:","c");
+            printf("\t\t  ");
+            colorRow(2, "b", 25);
+            printf(" Semester:");
             printf(" %d ", (i) + 1 + copy.userSemester);
-            colorPrint("====================\n\n", "c");
+            colorRow(2, "b", 25);
 
             index += perSemCourse[i];
 
@@ -350,28 +432,37 @@ void courseAdvisor()
 
             semesterCredit = 0;
 
+            n();
+            colorPrint("\n\tInitial        Course Name                                                 Credit\n\t", "c");
+            row(83);
+            n();
             for (int j = index; j < limit; j++)
             {
-                colorPrint("Initials:", "y");
-                printf(" %s\n", recommendedCourses[j].courseInitials);
-                colorPrint("Name:", "y");
-                printf(" %s\n", recommendedCourses[j].name);
-                colorPrint("Credits:", "y");
-                printf(" %f\n", recommendedCourses[j].courseCredits);
-                printf("\n");
+                printf("\t%-15s%-60s%-10.1f\n", recommendedCourses[j].courseInitials, recommendedCourses[j].name, recommendedCourses[j].courseCredits);
+                colorPrint("\t-----------------------------------------------------------------------------------", "y");
+                n();
+
                 totalCredits += (float)recommendedCourses[j].courseCredits;
 
                 semesterCredit += (float)recommendedCourses[j].courseCredits;
             }
 
-            if(totalSemester > 1)
+            if (totalSemester > 1)
             {
-                colorPrint("Total credits for this semester: ","g");
+                colorPrint("\tTotal credits for this semester: ", "g");
                 printf("%.2f\n", semesterCredit);
             }
+            printf("\n");
+            n();
         }
 
-        printf("Total credits: %.2f\n", totalCredits);
+        printf("\tTotal credits: %.2f\n", totalCredits);
+        printf("\tTotal credits with your completed credits: %.2f\n", totalCreditsCalc);
+        printf("\tTotal credits without: %.2f\n\n", copy.doneCredit);
+
+        colorPrint("For certain GED courses with alternative options, the system automatically suggests:\n", "g");
+        colorPrint("\t1. SOC101 (SOC101/ANT101/ENV203)\n\t2. ECO101 (ECO101/ECO104)\n\t3. POL101 (POL101/POL104)\n", "y");
+        colorPrint("This is done for the sake of simplicity.","g");
     }
 
     void writeDataToFile(int totalSemester, const char *fileName)
@@ -380,12 +471,11 @@ void courseAdvisor()
         int limit = 0;
         float semesterCredit = 0;
 
-
         FILE *file = fopen(fileName, "w"); // Open the file for writing
 
         if (file == NULL)
         {
-            //printf("Error opening the file.\n");
+            // printf("Error opening the file.\n");
             return;
         }
 
@@ -413,57 +503,58 @@ void courseAdvisor()
         fclose(file); // Close the file when done
     }
 
-void mainSystem()
-{
-    int courseCount = atoi(courseListTemp[0]);
-    getInput();
-
-    int totalCount = cseCourse + uniCourse + schoolCourse;
-
-    courseDivider();
-
-    int recommendedCourseCount = 0;
-    int prevCount = 1;
-
-    int diffBef, diffAft;
-
-    perSemCourse[0] = 0;
-
-    for (int i = 0; i < totalSemester; i++)
+    void mainSystem()
     {
-        prevCount = courseCheck(courseCount, prevCount);
+        int courseCount = atoi(courseListTemp[0]);
+        getInput();
 
-        diffBef = recommendedCourseCount;
+        int totalCount = cseCourse + uniCourse + schoolCourse;
 
-        recommendedCourseCount += coursePicker(core.cseCore, cseCourse, recommendedCourses, recommendedCourseCount);
-        recommendedCourseCount += coursePicker(core.uniCore, uniCourse, recommendedCourses, recommendedCourseCount);
-        recommendedCourseCount += coursePicker(core.schoolCore, schoolCourse, recommendedCourses, recommendedCourseCount);
+        courseDivider();
 
-        diffAft = recommendedCourseCount;
+        int recommendedCourseCount = 0;
+        int prevCount = 1;
+        int recIndx = 0;
 
-        perSemCourse[i + 1] = diffAft - diffBef;
+        int diffBef, diffAft;
 
-        int recIndx = perSemCourse[i - 1] + perSemCourse[i];
+        perSemCourse[0] = 0;
 
-        if (i == 0)
+        for (int i = 0; i < totalSemester; i++)
         {
-            adder(perSemCourse[i + 1], 0);
+            colorPrint("CourseCheck called\n", "b");
+            prevCount = courseCheck(courseCount, prevCount);
+            diffBef = recommendedCourseCount;
+
+            colorPrint("picker called\n", "c");
+
+            recommendedCourseCount += coursePicker(core.cseCore, cseCourse, recommendedCourses, recommendedCourseCount);
+            recommendedCourseCount += coursePicker(core.uniCore, uniCourse, recommendedCourses, recommendedCourseCount);
+            recommendedCourseCount += coursePicker(core.schoolCore, schoolCourse, recommendedCourses, recommendedCourseCount);
+
+            diffAft = recommendedCourseCount;
+
+            perSemCourse[i + 1] = diffAft - diffBef;
+
+            if (i == 0)
+            {
+                adder(perSemCourse[i + 1], 0);
+            }
+            else
+                adder(perSemCourse[i + 1], diffBef);
+
+            courseCount = atoi(courseListTemp[0]);
         }
-        else
-            adder(perSemCourse[i + 1], recIndx);
 
-        courseCount = atoi(courseListTemp[0]);
+        printData(totalSemester);
+
+        closeDialog();
     }
-
-    printData(totalSemester);
-
-    closeDialog();
-}
     void showAdvisorMenu()
     {
-        clr();
-        char *options1[] = {"Export Course Map", "Change Parameters","Go back"};
-        //char *options2[] = {"Start","Go back"};
+        ////clr()
+        char *options1[] = {"Export Course Map", "Change Parameters", "Go back"};
+        // char *options2[] = {"Start","Go back"};
         switch (showOption("Select an option:", options1, 3))
         {
         case 0:
@@ -482,9 +573,9 @@ void mainSystem()
 
     void showAdvisorMenu2()
     {
-        clr();
+        // clr()
         char *options1[] = {"Start", "Go back"};
-        //char *options2[] = {"Start","Go back"};
+        // char *options2[] = {"Start","Go back"};
         switch (showOption("Select an option:", options1, 2))
         {
         case 0:
@@ -505,9 +596,8 @@ void mainSystem()
     {
         colorPrint("You haven't entered your data yet. Please enter your data in the Dashboard option.", "r");
         closeDialog();
-        return ;
+        return;
     }
 
     showAdvisorMenu2();
-
 }

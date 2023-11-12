@@ -509,7 +509,6 @@ void dashboard()
     void getCompletedCourses()
     {
         totalCourses = 0;
-        copy.doneCredit = 0;
 
         while (1)
         {
@@ -527,6 +526,7 @@ void dashboard()
 
         totalCourses += thisUser.numOfEnrolledCourses;
         thisUser.completedCredit = 0;
+        copy.doneCredit = 0;
         for (int i = 0; i < thisUser.numOfEnrolledCourses; i++)
         {
             n();
@@ -558,6 +558,7 @@ void dashboard()
                         strcpy(thisUser.enrolledCourses[i].grade, grade);
                         thisUser.enrolledCourses[i].credit = courseCredit;
                         thisUser.completedCredit += courseCredit;
+                        copy.doneCredit += courseCredit;
                     }
                     else
                     {
@@ -576,8 +577,6 @@ void dashboard()
                 colorPrint(" No course matches with this initial!\n", "r");
                 i--;
             }
-            
-            copy.doneCredit += thisUser.completedCredit;
         }
     }
 
@@ -630,6 +629,7 @@ void dashboard()
                             strcpy(thisUser.enrollingCourses[i].name, courseName);
                             thisUser.enrollingCourses[i].credit = courseCredit;
                             thisUser.completingCredit += courseCredit;
+                            copy.doneCredit += courseCredit;
                         }
                         else
                         {
@@ -649,8 +649,6 @@ void dashboard()
                 colorPrint(" No course matches with this initial!\n", "r");
                 i--;
             }
-
-            copy.doneCredit += thisUser.completingCredit;
         }
     }
 
