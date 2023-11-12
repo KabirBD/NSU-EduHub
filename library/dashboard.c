@@ -173,7 +173,6 @@ void dashboard()
         resetColor();
         printf("\n\n");
         
-        printf("\n CREDITS AMAR BA: %f\n", copy.doneCredit);
         // if user has completed any course
         if (thisUser.numOfEnrolledCourses)
         {
