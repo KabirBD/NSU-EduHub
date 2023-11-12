@@ -120,20 +120,13 @@ int authInterface()
         }
 
         user_num++;
-        printf("here1");
 
         saveData("usercred");
-        printf("here3");
         loadData("usercred");
 
-        printf("here2");
-
         namepassCheck(acc_num[n].name, acc_num[n].pass);
-        printf("here4");
 
         strcpy(userName, acc_num[n].name); // I need current username for saving user info (Kabir)
-
-        printf("here5");
 
         printf("Sign up successful.\n");
 
