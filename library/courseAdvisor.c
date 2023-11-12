@@ -1,6 +1,7 @@
 void courseAdvisor()
 {
     char courseListTemp[90][10];
+    char courseListTemp[90][10];
 
     char thisUserFile[25];
     strcpy(thisUserFile, userName);
@@ -31,12 +32,15 @@ void courseAdvisor()
         char preReq3[10];
         int flag; // if flag is set to 1, course is unavailable.
     } courseDetails;
+        int flag; // if flag is set to 1, course is unavailable.
+    } courseDetails;
 
     typedef struct coreCoursesdiv
     {
         courseDetails schoolCore[15];
         courseDetails cseCore[28];
         courseDetails uniCore[15];
+    } coreCoursesdiv;
     } coreCoursesdiv;
 
     coreCoursesdiv core;
@@ -131,13 +135,26 @@ void courseAdvisor()
     }
 
     int getValidInput(int min, int max, const char *prompt)
+    int getValidInput(int min, int max, const char *prompt)
     {
         int input;
         int validInput = 0; // Variable to track if the input is valid
 
         do
         {
+        int validInput = 0; // Variable to track if the input is valid
+
+        do
+        {
             printf("%s", prompt);
+            if (scanf("%d", &input) != 1)
+            {
+                printf("Invalid input. Please enter a number.\n");
+                // Clear the input buffer
+                while (getchar() != '\n')
+                    ;
+            }
+            else if (input < min || input > max)
             if (scanf("%d", &input) != 1)
             {
                 printf("Invalid input. Please enter a number.\n");
@@ -154,36 +171,52 @@ void courseAdvisor()
                 validInput = 1;
             }
         } while (!validInput);
+            else
+            {
+                validInput = 1;
+            }
+        } while (!validInput);
 
         return input;
     }
 
     void courseDivider()
     {
+    {
         int cse_count = 0, school_count = 0, uni_count = 0;
 
         for (int i = 0; i < (sizeof(coreCourses) / sizeof(coreCourses[0])); i++) // this whole part is a function
+        for (int i = 0; i < (sizeof(coreCourses) / sizeof(coreCourses[0])); i++) // this whole part is a function
         {
+            if (strncmp("CSE", coreCourses[i].initial, 3) == 0 || (strncmp("EEE", coreCourses[i].initial, 3) == 0))
             if (strncmp("CSE", coreCourses[i].initial, 3) == 0 || (strncmp("EEE", coreCourses[i].initial, 3) == 0))
             {
                 if (strncmp("EEE452", coreCourses[i].initial, 6) == 0 || strncmp("EEE154", coreCourses[i].initial, 6) == 0)
+                if (strncmp("EEE452", coreCourses[i].initial, 6) == 0 || strncmp("EEE154", coreCourses[i].initial, 6) == 0)
                 {
+                    courseCopier(core.schoolCore, school_count, i);
                     courseCopier(core.schoolCore, school_count, i);
                     school_count++;
                 }
                 else
                 {
                     courseCopier(core.cseCore, cse_count, i);
+                    courseCopier(core.cseCore, cse_count, i);
                     cse_count++;
+                }
                 }
             }
             else if (strncmp("MAT", coreCourses[i].initial, 3) == 0 || (strncmp("PHY", coreCourses[i].initial, 3) == 0) || (strncmp("CHE", coreCourses[i].initial, 3) == 0))
+            else if (strncmp("MAT", coreCourses[i].initial, 3) == 0 || (strncmp("PHY", coreCourses[i].initial, 3) == 0) || (strncmp("CHE", coreCourses[i].initial, 3) == 0))
             {
+                courseCopier(core.schoolCore, school_count, i);
+                school_count++;
                 courseCopier(core.schoolCore, school_count, i);
                 school_count++;
             }
             else
             {
+                courseCopier(core.uniCore, uni_count, i);
                 courseCopier(core.uniCore, uni_count, i);
                 uni_count++;
             }
@@ -191,17 +224,22 @@ void courseAdvisor()
     }
 
     int coursePicker(courseDetails * courseCore, int limitCourses, courseDetails *recommendedCourses, int startIdx)
+    int coursePicker(courseDetails * courseCore, int limitCourses, courseDetails *recommendedCourses, int startIdx)
     {
         int numCourses = 0;
 
         for (int i = 0; numCourses < limitCourses; i++)
         {
+        for (int i = 0; numCourses < limitCourses; i++)
+        {
 
+            if (courseCore[i].flag == 0)
             if (courseCore[i].flag == 0)
             {
                 recommendedCourses[numCourses + startIdx] = courseCore[i];
                 totalCreditsCalc += recommendedCourses[numCourses + startIdx].courseCredits;
 
+                if (strncmp(courseCore[i].courseInitials, courseCore[i + 1].courseInitials, 6) == 0) // checks if the next course is a lab course
                 if (strncmp(courseCore[i].courseInitials, courseCore[i + 1].courseInitials, 6) == 0) // checks if the next course is a lab course
                 {
                     recommendedCourses[numCourses + startIdx + 1] = courseCore[i + 1]; // if yes then adds it to recommended courses
@@ -225,11 +263,15 @@ void courseAdvisor()
         // clr()
 
         totalSemester = getValidInput(1, 8, "Enter the number of semesters(e.g. 1 if you want to be advised for your next semester): ");
+        totalSemester = getValidInput(1, 8, "Enter the number of semesters(e.g. 1 if you want to be advised for your next semester): ");
 
+        cseCourse = getValidInput(1, 4, "Enter the number of CSE core courses you want per semester: ");
         cseCourse = getValidInput(1, 4, "Enter the number of CSE core courses you want per semester: ");
 
         uniCourse = getValidInput(1, 4, "Enter the number of University core courses(GED) you want per semester: ");
+        uniCourse = getValidInput(1, 4, "Enter the number of University core courses(GED) you want per semester: ");
 
+        schoolCourse = getValidInput(1, 4, "Enter the number of School core courses you want per semester: ");
         schoolCourse = getValidInput(1, 4, "Enter the number of School core courses you want per semester: ");
 
         // clr()
@@ -285,17 +327,27 @@ void courseAdvisor()
         int j = recIndx;
 
         int z = atoi(courseListTemp[0]);
+        int z = atoi(courseListTemp[0]);
 
         for (int i = z + 1; i < z + 1 + recCount; i++)
+        for (int i = z + 1; i < z + 1 + recCount; i++)
         {
+
+            strcpy(courseListTemp[i], recommendedCourses[j].courseInitials);
 
             strcpy(courseListTemp[i], recommendedCourses[j].courseInitials);
             j++;
         }
 
         int newCount = z + recCount;
+        int newCount = z + recCount;
 
         char newC[3];
+
+        sprintf(newC, "%d", newCount);
+
+        strcpy(courseListTemp[0], newC);
+    }
 
         sprintf(newC, "%d", newCount);
 
@@ -306,10 +358,16 @@ void courseAdvisor()
     {
         memset(&courseListTemp, 0, sizeof(courseListTemp));
         loadUserData(thisUserFile);
+    void clearData()
+    {
+        memset(&courseListTemp, 0, sizeof(courseListTemp));
+        loadUserData(thisUserFile);
     }
 
     int courseAvailabilityChecker(courseDetails * courseCore, int n, int courseCount, int k)
+    int courseAvailabilityChecker(courseDetails * courseCore, int n, int courseCount, int k)
     {
+        for (int m = 0; m < n; m++)
         for (int m = 0; m < n; m++)
         {
             courseDetails *s_ptr = courseCore + m; // Pointer to the course in the core CSE courses.
@@ -380,24 +438,33 @@ void courseAdvisor()
         int i;
 
         for (i = initCount; i <= courseCount; i++)
+        for (i = initCount; i <= courseCount; i++)
         {
+            if (strncmp("CSE", courseListTemp[i], 3) == 0 || (strncmp("EEE", courseListTemp[i], 3) == 0))
             if (strncmp("CSE", courseListTemp[i], 3) == 0 || (strncmp("EEE", courseListTemp[i], 3) == 0))
             {
                 if (strncmp("EEE452", courseListTemp[i], 6) == 0 || strncmp("EEE154", courseListTemp[i], 6) == 0)
+                if (strncmp("EEE452", courseListTemp[i], 6) == 0 || strncmp("EEE154", courseListTemp[i], 6) == 0)
                 {
+                    courseAvailabilityChecker(core.schoolCore, 15, courseCount, i);
                     courseAvailabilityChecker(core.schoolCore, 15, courseCount, i);
                 }
                 else
                 {
                     courseAvailabilityChecker(core.cseCore, 28, courseCount, i);
                 }
+                    courseAvailabilityChecker(core.cseCore, 28, courseCount, i);
+                }
             }
             else if (strncmp("MAT", courseListTemp[i], 3) == 0 || (strncmp("PHY", courseListTemp[i], 3) == 0) || (strncmp("CHE", courseListTemp[i], 3) == 0))
+            else if (strncmp("MAT", courseListTemp[i], 3) == 0 || (strncmp("PHY", courseListTemp[i], 3) == 0) || (strncmp("CHE", courseListTemp[i], 3) == 0))
             {
+                courseAvailabilityChecker(core.schoolCore, 15, courseCount, i);
                 courseAvailabilityChecker(core.schoolCore, 15, courseCount, i);
             }
             else
             {
+                courseAvailabilityChecker(core.uniCore, 15, courseCount, i);
                 courseAvailabilityChecker(core.uniCore, 15, courseCount, i);
             }
         }
@@ -516,9 +583,9 @@ void courseAdvisor()
         int prevCount = 1;
         int recIndx = 0;
 
-        int diffBef, diffAft;
+    int diffBef, diffAft;
 
-        perSemCourse[0] = 0;
+    perSemCourse[0] = 0;
 
         for (int i = 0; i < totalSemester; i++)
         {
@@ -532,7 +599,7 @@ void courseAdvisor()
             recommendedCourseCount += coursePicker(core.uniCore, uniCourse, recommendedCourses, recommendedCourseCount);
             recommendedCourseCount += coursePicker(core.schoolCore, schoolCourse, recommendedCourses, recommendedCourseCount);
 
-            diffAft = recommendedCourseCount;
+        diffAft = recommendedCourseCount;
 
             perSemCourse[i + 1] = diffAft - diffBef;
 
@@ -546,7 +613,7 @@ void courseAdvisor()
             courseCount = atoi(courseListTemp[0]);
         }
 
-        printData(totalSemester);
+    printData(totalSemester);
 
         closeDialog();
     }

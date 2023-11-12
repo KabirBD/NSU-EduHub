@@ -8,7 +8,7 @@ int authInterface()
         char pass[50];
     } account;
 
-    account acc_num[35]; // declares an array of user structs
+    account acc_num[50]; // declares an array of user structs
 
     account *current_user = 0;
 
@@ -243,3 +243,4 @@ int authInterface()
 
     return checkSelected();
 }
+

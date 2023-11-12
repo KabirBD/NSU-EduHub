@@ -59,6 +59,8 @@ struct courseObj coreCourses[] = {
     {"CSE331L", "Microprocessor Interfacing & Embedded System Lab", 0, "CSE332", "This course provides an introduction to the fundamental concept of microprocessor architecture and microprocessor based embedded systems. A basic idea of the internal and external architecture of the microprocessor 8086 will be provided followed by the physical pin diagram of microprocessor 8086. The course will also cover the other peripheral devices of a microprocessor based system i.e. RAM 6116, PIO 8255 Controller and 7-Segment Display. The course will then cover the programming languages for interfacing: Assembly language followed by Interrupt and data conversion algorithm. A brief introduction to the Microcontroller 8051 will also be provided. Simulation software tool: emulator 8086 will be introduced in the laboratory classes for doing simulation-based project works. This course has separate mandatory laboratory session every week as CSE 331L"},
     {"EEE111", "Analog Electronics-I", 3, "EEE141", "In this course, a variety of electronic devices used in the design of analog electronics are studied. Basic understanding of semiconductor devices is covered. Emphasis is placed on diodes, BJT, and FET. Small and large signal characteristics and models of electronic devices, analysis and design of elementary electronic circuits are also included. This course has separate mandatory laboratory sessions every week as EEE 111L"},
     {"EEE111L", "Analog Electronics-I Lab", 1, "EEE141", "In this course, a variety of electronic devices used in the design of analog electronics are studied. Basic understanding of semiconductor devices is covered. Emphasis is placed on diodes, BJT, and FET. Small and large signal characteristics and models of electronic devices, analysis and design of elementary electronic circuits are also included. This course has separate mandatory laboratory sessions every week as EEE 111L"},
+    {"CSE332", "Computer Organization and Architecture", 3, "CSE231", "This course introduces students to the basic concepts of computers, their design and how they work. It encompasses the definition of the machine's instruction set architecture, its use in creating a program, and its implementation in hardware. The course addresses the bridge between gate logic and executable software, and includes programming both in assembly language (representing software) and HDL (representing hardware). It will cover modern computer principles using a typical processor and emphasize system-level issues, understanding process performance, and the use of abstraction as atool to manage complexity. It will then explain how efficient memory systems are designed to work closely with the processor. Next, it will introduce input/output (I/O) systems which bring the processor and memory together with a wide range of devices. Finally, we introduce systems with many processors"},
+    {"CSE332L", "Computer Organization and Architecture Lab", 0, "CSE231", "This course introduces students to the basic concepts of computers, their design and how they work. It encompasses the definition of the machine's instruction set architecture, its use in creating a program, and its implementation in hardware. The course addresses the bridge between gate logic and executable software, and includes programming both in assembly language (representing software) and HDL (representing hardware). It will cover modern computer principles using a typical processor and emphasize system-level issues, understanding process performance, and the use of abstraction as atool to manage complexity. It will then explain how efficient memory systems are designed to work closely with the processor. Next, it will introduce input/output (I/O) systems which bring the processor and memory together with a wide range of devices. Finally, we introduce systems with many processors"},
     {"CSE311", "Database Systems", 3, "CSE225", "This course introduces students with database management systems for the first time in their undergraduate study. Drawbacks of flat file system are demonstrated and advantages of relational database systems are introduced. The course examines the logical organization of databases: the entity-relationship model; the hierarchical, network, and relational data models and their languages. Functional dependencies and normal forms are discussed.  Design, implementation, and optimization of query languages; security and integrity; concurrency control, different level of indices, e.g., tree and hash based indices are introduced. Access costs are compared for different alternatives. This course has separate mandatory laboratory sessions every week in a separate course CSE 311L which has 0 credits, but the students (in group) use hands on SQL queries and as a culmination, they build a full fledged database system including a front end. The evaluation of the lab works is carried over to the theory part of the course."},
     {"CSE311L", "Database Systems Lab", 0, "CSE225", "This course introduces students with database management systems for the first time in their undergraduate study. Drawbacks of flat file system are demonstrated and advantages of relational database systems are introduced. The course examines the logical organization of databases: the entity-relationship model; the hierarchical, network, and relational data models and their languages. Functional dependencies and normal forms are discussed.  Design, implementation, and optimization of query languages; security and integrity; concurrency control, different level of indices, e.g., tree and hash based indices are introduced. Access costs are compared for different alternatives. This course has separate mandatory laboratory sessions every week in a separate course CSE 311L which has 0 credits, but the students (in group) use hands on SQL queries and as a culmination, they build a full fledged database system including a front end. The evaluation of the lab works is carried over to the theory part of the course"},
     {"CSE327", "Software Engineering", 3, "CSE311", "Follows the software life cycle - from requirement, specification, and design phases through the construction of actual software. Topics include management of programming teams, programming methodologies, debugging aids, documentation, evaluation and measurement of software, verification and testing techniques, and the problems of maintenance, modification, and portability"},
@@ -146,4 +148,28 @@ void getTrailCourses(int trail)
         trailLnth = sizeof(bioinformaticsCourses) / sizeof(bioinformaticsCourses[0]);
         break;
     }
+}
+
+char *analyseReq(const char require[20])
+{
+    char result[25]; // Fixed-size buffer for the result
+
+    if (strlen(require) > 1)
+    {
+        if (require[1] == '-')
+        {
+            int credit = atoi(strtok(require + 2, "-"));
+            snprintf(result, sizeof(result), "%d credits", credit);
+        }
+        else
+        {
+            snprintf(result, sizeof(result), "%s", require);
+        }
+    }
+    else
+    {
+        snprintf(result, sizeof(result), "N/A");
+    }
+
+    return strdup(result);
 }

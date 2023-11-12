@@ -2,7 +2,7 @@ void courseInfoQuery()
 {
     char *trails[] = {"Not Selected", "Algorithms and Computation", "Software Engineering", "Networks", "Computer Architecture and VLSI", "Artificial Intelligence", "Bioinformatics"};
 
-    colorPrint("Enter course initial (Format: cse115): ", "g");
+    colorPrint("\n Enter course initial (Format: cse115): ", "g");
     int courseFound = 0;
     char initial[10];
     scanf("%s", initial);
@@ -19,9 +19,9 @@ void courseInfoQuery()
             colorPrint("\nCourse Name: ", "g");
             printf("%s", coreCourses[i].name);
             colorPrint("\nCredit: ", "g");
-            printf("%.1f", coreCourses[i].credit);
+            printf("%.*f", needDeci(coreCourses[i].credit), coreCourses[i].credit);
             colorPrint("\nPre-requisites: ", "g");
-            printf("%s\n\n", coreCourses[i].require);
+            printf("%s\n\n", analyseReq(coreCourses[i].require));
             colorPrint("Description:\n", "g");
             printWrap(coreCourses[i].description, 80);
             n();

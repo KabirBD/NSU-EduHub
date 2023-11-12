@@ -1,5 +1,6 @@
 void availableCourses()
 {
+    char courseList[90][10];
     char thisUserFile[25];
     strcpy(thisUserFile, userName);
     strcat(thisUserFile, ".dat");
@@ -37,6 +38,7 @@ void availableCourses()
         }
 
         // Read user data from the file
+        fread(&courseList, sizeof(courseList), 1, file);
         fread(&thisUser, sizeof(struct userInfo), 1, file);
 
         fclose(file);
@@ -55,6 +57,8 @@ void availableCourses()
         }
         return flag;
     }
+
+    // if given initial is found in enrolling courses list
     int foundInEnrollingCurses(char givenInitial[10], int lnth)
     {
         int flag = 0;
@@ -69,6 +73,7 @@ void availableCourses()
         return flag;
     }
 
+    // check if requirement is fulfilled or not
     int checkRequire(char require[25])
     {
         if (strlen(require))
@@ -124,7 +129,7 @@ void availableCourses()
         colorPrint("\n This table contains all that courses which pre-requisites are fulfilled according to your selected trail,\n completed courses and enrolling courses. You can take any of these courses.\n\n", "y");
         int courseLenth;
         courseLenth = sizeof(coreCourses) / sizeof(coreCourses[0]);
-        colorPrint("Core Courses\n", "g");
+        colorPrint("University, School & CSE Core Courses\n", "g");
         setColor("b");
         row(107);
         printf("\n| %-10s| %-60s| %-8s| %-20s|\n", "Initial", "Name", "Credit", "Pre-requisites");
@@ -134,7 +139,7 @@ void availableCourses()
         {
             if (!foundInCompletedCurses(coreCourses[i].initial, thisUser.numOfEnrolledCourses) && !foundInEnrollingCurses(coreCourses[i].initial, thisUser.numOfEnrollingCourses) && checkRequire(coreCourses[i].require))
             {
-                printf("\n| %-10s| %-60s| %-8.1f| %-20s|\n", coreCourses[i].initial, coreCourses[i].name, coreCourses[i].credit, coreCourses[i].require);
+                printf("\n| %-10s| %-60s| %-8.*f| %-20s|\n", coreCourses[i].initial, coreCourses[i].name, needDeci(coreCourses[i].credit), coreCourses[i].credit, analyseReq(coreCourses[i].require));
                 row(107);
             }
         }
@@ -149,7 +154,7 @@ void availableCourses()
             {
                 if (!foundInCompletedCurses(trailCourses[i].initial, thisUser.numOfEnrolledCourses) && !foundInEnrollingCurses(trailCourses[i].initial, thisUser.numOfEnrollingCourses) && checkRequire(trailCourses[i].require))
                 {
-                    printf("\n| %-10s| %-60s| %-8.1f| %-20s|\n", trailCourses[i].initial, trailCourses[i].name, trailCourses[i].credit, trailCourses[i].require);
+                    printf("\n| %-10s| %-60s| %-8.*f| %-20s|\n", trailCourses[i].initial, trailCourses[i].name, needDeci(trailCourses[i].credit), trailCourses[i].credit, analyseReq(trailCourses[i].require));
                     row(107);
                 }
             }
