@@ -1,10 +1,9 @@
 // Header Section
 #include "library.h"
 
-// main function2
+// main function
 int main()
 {
-
     int status = authInterface();
     if (status == 1) 
         displayMenu();

@@ -172,6 +172,7 @@ void dashboard()
         printf("\t%-45s: %.*f\n", "Total Credits of Currently Enrolling Courses", needDeci(thisUser.completingCredit), thisUser.completingCredit);
         resetColor();
         printf("\n\n");
+        
         // if user has completed any course
         if (thisUser.numOfEnrolledCourses)
         {
@@ -545,7 +546,9 @@ void dashboard()
                         strcpy(thisUser.enrolledCourses[i].grade, grade);
                         thisUser.enrolledCourses[i].credit = courseCredit;
                         if (gradeToPoint(grade) > 0)
+                        {
                             thisUser.completedCredit += courseCredit;
+                        }
                     }
                     else
                     {
@@ -564,9 +567,8 @@ void dashboard()
                 colorPrint(" No course matches with this initial!\n", "r");
                 i--;
             }
-
-            copy.doneCredit += thisUser.completedCredit;
         }
+        copy.doneCredit += thisUser.completedCredit;
     }
 
     // get courses for this semester from user
@@ -627,9 +629,8 @@ void dashboard()
                 colorPrint(" No course matches with this initial!\n", "r");
                 i--;
             }
-
-            copy.doneCredit += thisUser.completingCredit;
         }
+        copy.doneCredit += thisUser.completingCredit;
     }
 
     // get all info from user

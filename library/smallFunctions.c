@@ -56,6 +56,25 @@ void closeDialog()
         ;
 }
 
+void colorRow(int symbol, char color[], int n) // print a horizontal line of n number of characters(-)
+{
+    if (symbol == 1)
+    {
+        for (int i = 1; i <= n; ++i)
+        {
+            colorPrint("-", color);
+        }
+    }
+
+    else
+    {
+        for (int i = 1; i <= n; ++i)
+        {
+            colorPrint("=", color);
+        }
+    }
+}
+
 // return 1 if input is a decimal number
 int needDeci(float n)
 {
