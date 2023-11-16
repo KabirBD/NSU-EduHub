@@ -17,6 +17,10 @@ void sp(int n) // print spaces of n number
     for (int i = 1; i <= n; ++i)
         printf(" ");
 }
+void tab()
+{
+    printf("\t");
+}
 
 void toUpperCase(char *str)
 {
@@ -58,11 +62,12 @@ void closeDialog()
 
 void colorRow(int symbol, char color[], int n) // print a horizontal line of n number of characters(-)
 {
+    setColor(color);
     if (symbol == 1)
     {
         for (int i = 1; i <= n; ++i)
         {
-            colorPrint("-", color);
+            printf("-");
         }
     }
 
@@ -70,9 +75,10 @@ void colorRow(int symbol, char color[], int n) // print a horizontal line of n n
     {
         for (int i = 1; i <= n; ++i)
         {
-            colorPrint("=", color);
+            printf("=");
         }
     }
+    resetColor();
 }
 
 // return 1 if input is a decimal number
@@ -110,11 +116,11 @@ int slider(int min, int max)
     {
         colorPrint("  [<<]", "y");
         printf("... %d", n - 1);
-        colorPrint(" [", "g"); 
+        colorPrint(" [", "g");
         setColor("b");
         printf(" %d ", n);
         resetColor();
-        colorPrint("] ", "g"); 
+        colorPrint("] ", "g");
         printf("%d ...", n + 1);
         colorPrint("[>>]   ", "y");
     }

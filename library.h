@@ -40,12 +40,16 @@ void n();
 void row(int n);
 // print spaces of n number
 void sp(int n);
+// print tab
+void tab();
 // string upper case
 void toUpperCase(char *str);
 // return suffix of a number
 const char *getSuffix(int n);
 // wait for a chaacter input to complete the function
 void closeDialog();
+// print a horizontal line of n number of characters(-)
+void colorRow(int symbol, char color[], int n);
 // return 1 if float need decimal else return 0 if float is an integer num
 int needDeci(float n);
 // show a slider with range and return selected integer

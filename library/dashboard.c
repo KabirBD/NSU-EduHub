@@ -37,7 +37,7 @@ void dashboard()
 
     int totalCourses = 0;
     int indexZ = 1;
-
+    int retakeCount;
     // global variable for this function
     char courseInit[5];
     char courseName[100];
@@ -140,6 +140,19 @@ void dashboard()
         return point[index];
     }
 
+    // count retake courses
+    void countRetake()
+    {
+        retakeCount=0;
+        for (int i = 0; i < thisUser.numOfEnrollingCourses; i++)
+        {
+            for (int j = 0; j < thisUser.numOfEnrolledCourses; j++)
+            {
+                if (strcmp(thisUser.enrolledCourses[j].initial, thisUser.enrollingCourses[i].initial) == 0)
+                    retakeCount++;
+            }
+        }
+    }
     // display user information from file
     void showUserData()
     {
@@ -150,34 +163,28 @@ void dashboard()
         row(50);
         colorPrint(" User Information ", "c");
         row(50);
-        void t()
-        {
-            printf("\t");
-            row(96);
-        }
         printf("\n\n");
         setColor("y");
         printf("\t%-45s: %s\n", "Username", userName);
-        setColor("m");
+        setColor("b");
         printf("\t%-45s: %d%s\n", "Current Semester", thisUser.semester, getSuffix(thisUser.semester));
-        setColor("m");
-        printf("\t%-45s: %s\n", "Trail", trails[thisUser.trail]);
+        printf("\t%-45s: %s\n", "Selected Trail", trails[thisUser.trail]);
         setColor("g");
-        printf("\t%-45s: %d\n", "Number of Completed Courses", thisUser.numOfEnrolledCourses);
-        setColor("g");
-        printf("\t%-45s: %d\n", "Number of Currently Enrolling Courses", thisUser.numOfEnrollingCourses);
+        printf("\t%-45s: %d Courses\n", "Number of Completed Courses", thisUser.numOfEnrolledCourses);
+        printf("\t%-45s: %.*f Credits\n", "Total Credits Completed", needDeci(thisUser.completedCredit), thisUser.completedCredit);
         setColor("c");
-        printf("\t%-45s: %.*f\n", "Total Credits Completed", needDeci(thisUser.completedCredit), thisUser.completedCredit);
-        setColor("c");
-        printf("\t%-45s: %.*f\n", "Total Credits of Currently Enrolling Courses", needDeci(thisUser.completingCredit), thisUser.completingCredit);
+        printf("\t%-45s: %d Courses\n", "Number of Currently Enrolling Courses", thisUser.numOfEnrollingCourses);
+        printf("\t%-45s: %.*f Credits\n", "Total Credits of Currently Enrolling Courses", needDeci(thisUser.completingCredit), thisUser.completingCredit);
         resetColor();
         printf("\n\n");
-        
+
         // if user has completed any course
         if (thisUser.numOfEnrolledCourses)
         {
             row(118);
-            colorPrint("\n\n List of Completed Courses:", "y");
+            colorPrint("\n\n\tList of Completed Courses:\n", "y");
+            tab();
+            colorRow(1, "y", 97);
             colorPrint("\n\tInitial        Course Name                                                 Credit    Grade  Point\n", "b");
             int listedCoursesCredit = 0;
             for (int i = 0; i < thisUser.numOfEnrolledCourses; i++)
@@ -186,7 +193,8 @@ void dashboard()
                 pointSum += thisUser.enrolledCourses[i].credit * gradeToPoint(thisUser.enrolledCourses[i].grade);
                 listedCoursesCredit += thisUser.enrolledCourses[i].credit;
             }
-            colorPrint("\t-------------------------------------------------------------------------------------------------", "y");
+            tab();
+            colorRow(1, "y", 97);
             colorPrint("\n\t                                                                              Current CGPA: ", "g");
             float cgpa = pointSum / listedCoursesCredit;
             printf("%.2f\n", cgpa);
@@ -197,20 +205,30 @@ void dashboard()
         if (thisUser.numOfEnrollingCourses)
         {
             row(118);
-            colorPrint("\n\n List of Currently Enrolling Courses:", "y");
+            colorPrint("\n\n\tList of Currently Enrolling Courses:\n", "y");
+            tab();
+            colorRow(1, "y", 81);
             colorPrint("\n\tInitial        Course Name                                                 Credit\n", "b");
             for (int i = 0; i < thisUser.numOfEnrollingCourses; i++)
                 printf("\t%-15s%-60s%-10.*f\n", thisUser.enrollingCourses[i].initial, thisUser.enrollingCourses[i].name, needDeci(thisUser.enrollingCourses[i].credit), thisUser.enrollingCourses[i].credit);
-            n();
+            tab();
+            colorRow(1, "y", 81);
+            countRetake();
+            colorPrint("\n\tNumber of Retaken Courses: ", "g");
+            printf("%d\n\n", retakeCount);
             row(118);
+            colorPrint("\n\n\tThis Semester tuition and other fees\n", "y");
+            tab();
+            colorRow(1, "y", 50);
             n();
-            colorPrint("\n This Semester tuition and other fees\n", "y");
             printf("\t%-40s%7.0lf TK\n", "Tuition fees", thisUser.completingCredit * 6500);
             printf("\t%-40s%7d TK\n", "Student Activity Fee", 4500);
             printf("\t%-40s%7d TK\n", "Computer Lab Fee", 3750);
             printf("\t%-40s%7d TK\n", "Library Fee", 2250);
             printf("\t%-40s%7d TK\n", "Science Lab Fee", 3750);
-            colorPrint("\t--------------------------------------------------\n", "y");
+            tab();
+            colorRow(1, "y", 50);
+            n();
             colorPrint("\tTotal fees:", "c");
             printf("%29s%7.0lf TK\n", " ", (thisUser.completingCredit * 6500 + 4500 + 3750 + 2250 + 3750));
         }
@@ -293,7 +311,8 @@ void dashboard()
                 if (comma != NULL)
                 {
                     char *
-                        requires[4];
+                        requires[
+                            4];
                     int n = 0;
                     char *c = strtok(require, ",");
                     while (c != NULL)
@@ -311,7 +330,7 @@ void dashboard()
                 }
                 else
                 {
-                    if (foundInCompletedCurses(require, thisUser.numOfEnrolledCourses) || foundInEnrollingCurses(require, thisUser.numOfEnrolledCourses))
+                    if (foundInCompletedCurses(require, thisUser.numOfEnrolledCourses) || foundInEnrollingCurses(require, thisUser.numOfEnrollingCourses))
                         return 1;
                     else
                         return 0;
@@ -347,7 +366,8 @@ void dashboard()
                     if (comma != NULL)
                     {
                         char *
-                            requires[4];
+                            requires[
+                                4];
                         int n = 0;
                         char *c = strtok(require, ",");
                         while (c != NULL)
@@ -389,7 +409,8 @@ void dashboard()
                     if (comma != NULL)
                     {
                         char *
-                            requires[4];
+                            requires[
+                                4];
                         int n = 0;
                         char *c = strtok(require, ",");
                         while (c != NULL)
@@ -431,7 +452,8 @@ void dashboard()
                     if (comma != NULL)
                     {
                         char *
-                            requires[4];
+                            requires[
+                                4];
                         int n = 0;
                         char *c = strtok(require, ",");
                         while (c != NULL)

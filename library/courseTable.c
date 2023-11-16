@@ -35,7 +35,6 @@ void courseTable()
             row(107);
         }
     }
-    colorPrint("\n\n # In pre-requisites, c-[n] means that the course requires [n] credits completed \n", "y");
     n();
     n();
 }
