@@ -70,9 +70,9 @@ int displayMenu()
     void mainMenu()
     {
         clr();
-        char *options[] = {"Dashboard", "Course Manager","Course Advisor", "Class Schedule", "CGPA Insight", "Helpline", "About", "Exit"};
+        char *options[] = {"Dashboard", "Course Manager","Course Advisor", "Class Schedule", "CGPA Insight", "About", "Exit"};
 
-        switch (showOption("Choose an option below:", options, 8))
+        switch (showOption("Choose an option below:", options, 7))
         {
         case 0: // 1
             dashboard();
@@ -97,16 +97,11 @@ int displayMenu()
             mainMenu();
             break;
         case 5: // 6
-            helpline();
-            closeDialog();
-            mainMenu();
-            break;
-        case 6: // 7
             about();
             closeDialog();
             mainMenu();
             break;
-        case 7: //8
+        case 6: //7
             exit();
             break;
         };
