@@ -486,7 +486,6 @@ void courseAdvisor()
                 fprintf(file, "Name: %s\n", recommendedCourses[j].name);
                 fprintf(file, "Credits: %f\n", recommendedCourses[j].courseCredits);
                 fprintf(file, "\n");
-                totalCredits += (float)recommendedCourses[j].courseCredits;
             }
         }
 
