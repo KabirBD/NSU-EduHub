@@ -1045,7 +1045,7 @@ void dashboard()
             else
             {
                 colorPrint("\n You Can Not Have a Completed Course in 1st Semester.", "r");
-                usleep(10000000);
+                usleep(1000000);
             }
             editMenu();
             break;
