@@ -1,13 +1,5 @@
 char courseList[90][10];
 
-typedef struct copyInfo
-{
-    int userSemester;
-    float doneCredit;
-} copyInfo;
-
-copyInfo copy;
-
 void dashboard()
 {
     // setting username.dat as this user file name
@@ -540,7 +532,6 @@ void dashboard()
     {
         colorPrint("\n Which semester are you studying? ", "b");
         thisUser.semester = slider(1, 12);
-        copy.userSemester = thisUser.semester;
     }
 
     // change semester of user
@@ -565,7 +556,6 @@ void dashboard()
             else
             {
                 thisUser.semester = semester;
-                copy.userSemester = semester;
                 break;
             }
         }
@@ -581,7 +571,6 @@ void dashboard()
     void getCompletedCourses()
     {
         totalCourses = 0;
-        copy.doneCredit = 0;
 
         colorPrint("\n How many courses have you completed (Including Lab courses)? ", "b");
         thisUser.numOfEnrolledCourses = slider(1, 60);
@@ -641,7 +630,6 @@ void dashboard()
                 i--;
             }
         }
-        copy.doneCredit += thisUser.completedCredit;
     }
 
     // get courses for this semester from user
@@ -703,7 +691,6 @@ void dashboard()
                 i--;
             }
         }
-        copy.doneCredit += thisUser.completingCredit;
     }
 
     // get all info from user
@@ -821,7 +808,9 @@ void dashboard()
                         strcpy(thisUser.enrolledCourses[index].grade, grade);
                         thisUser.enrolledCourses[index].credit = courseCredit;
                         if (gradeToPoint(grade) > 0)
+                        {
                             thisUser.completedCredit += courseCredit;
+                        }
                         thisUser.numOfEnrolledCourses++;
                         saveUserData(thisUserFile);
                         break;
@@ -867,7 +856,9 @@ void dashboard()
         {
             thisUser.numOfEnrolledCourses--;
             if (gradeToPoint(thisUser.enrolledCourses[index].grade) > 0)
+            {
                 thisUser.completedCredit -= thisUser.enrolledCourses[index].credit;
+            }
             for (int i = index; i < thisUser.numOfEnrolledCourses; i++)
             {
                 strcpy(thisUser.enrolledCourses[i].initial, thisUser.enrolledCourses[i + 1].initial);
@@ -878,7 +869,6 @@ void dashboard()
             if (!thisUser.numOfEnrolledCourses)
             {
                 thisUser.semester = 1;
-                copy.userSemester = 1;
                 deleteTrailCourses(thisUser.trail);
                 thisUser.trail = 0;
                 colorPrint(" No more completed course. Semester set to 1st, Trail removed.", "r");
@@ -1014,7 +1004,9 @@ void dashboard()
                     thisUser.numOfEnrolledCourses--;
                     index--;
                     if (gradeToPoint(thisUser.enrolledCourses[foundAt].grade) > 0)
+                    {
                         thisUser.completedCredit -= thisUser.enrolledCourses[foundAt].credit;
+                    }
                     for (int j = foundAt; j < thisUser.numOfEnrolledCourses; j++)
                     {
                         strcpy(thisUser.enrolledCourses[j].initial, thisUser.enrolledCourses[j + 1].initial);
@@ -1034,11 +1026,12 @@ void dashboard()
             strcpy(thisUser.enrolledCourses[index].grade, grade);
             thisUser.enrolledCourses[index].credit = thisUser.enrollingCourses[i].credit;
             if (gradeToPoint(grade) > 0)
+            {
                 thisUser.completedCredit += thisUser.enrollingCourses[i].credit;
+            }
             thisUser.numOfEnrolledCourses++;
         }
         thisUser.semester++;
-        copy.userSemester++;
         thisUser.completingCredit = 0;
         thisUser.numOfEnrollingCourses = 0;
 

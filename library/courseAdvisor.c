@@ -1,5 +1,26 @@
 void courseAdvisor()
 {
+
+    // structure used to store couse informations
+    struct courseInfo
+    {
+        char initial[10];
+        char name[100];
+        char grade[5];
+        float credit;
+    };
+    struct userInfo
+    {
+        int semester;
+        int trail;
+        float completedCredit;
+        float completingCredit;
+        int numOfEnrolledCourses;
+        struct courseInfo enrolledCourses[70];
+        int numOfEnrollingCourses;
+        struct courseInfo enrollingCourses[20];
+    } thisUser; // logged in user info will be stored in thisUser object
+
     char courseListTemp[90][10];
 
     char thisUserFile[25];
@@ -44,7 +65,7 @@ void courseAdvisor()
     int perSemCourse[30];
 
     float totalCredits = 0;
-    float totalCreditsCalc = copy.doneCredit;
+    float totalCreditsCalc = 0;
 
     int totalSemester;
 
@@ -61,11 +82,13 @@ void courseAdvisor()
 
         // Read user data from the file
         fread(&courseList, sizeof(courseList), 1, file);
+        fread(&thisUser, sizeof(struct userInfo), 1, file);
 
         for (int i = 0; i < 90; i++)
         {
             strcpy(courseListTemp[i], courseList[i]);
         }
+        totalCreditsCalc += thisUser.completedCredit + thisUser.completingCredit;
 
         fclose(file);
     }
@@ -392,7 +415,7 @@ void courseAdvisor()
             printf("\t\t  ");
             colorRow(2, "b", 25);
             printf(" Semester:");
-            printf(" %d ", (i) + 1 + copy.userSemester);
+            printf(" %d ", (i) + 1 + thisUser.semester);
             colorRow(2, "b", 25);
 
             index += perSemCourse[i];
@@ -427,7 +450,7 @@ void courseAdvisor()
 
         printf("\tTotal credits: %.2f\n", totalCredits);
         printf("\tTotal credits with your completed credits: %.2f\n", totalCreditsCalc);
-        printf("\tTotal credits without: %.2f\n\n", copy.doneCredit);
+        printf("\tTotal credits without: %.2f\n\n", thisUser.completedCredit + thisUser.completingCredit);
 
         colorPrint("For certain GED courses with alternative options, the system automatically suggests:\n", "g");
         colorPrint("\t1. SOC101 (SOC101/ANT101/ENV203)\n\t2. ECO101 (ECO101/ECO104)\n\t3. POL101 (POL101/POL104)\n", "y");
