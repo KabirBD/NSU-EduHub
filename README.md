@@ -1,8 +1,6 @@
 # NSU-EduHub
 This is an all-in-one student assistant for BSCSE students of NSU. It tracks academic progress, showcases course information, provides personalized course suggestions, and includes tools for creating class schedules and calculating CGPA. It efficiently supports multiple users, facilitating seamless tracking of academic journeys for various users.
 
-[Download Version 1.0.0](https://link-url-here.org](https://github.com/KabirBD/NSU-EduHub/blob/master/NSU_EduHub.exe))
-
 Login Interface
 ![image](https://github.com/KabirBD/NSU-EduHub/assets/70894887/f9108f89-ca03-4931-ae2d-8c547a001b46)
 
