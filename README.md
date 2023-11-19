@@ -1,2 +1,2 @@
 # NSU-EduHub
-NSU EduHub: a program designed to assist NSUers with some essential tools like CGPA calculators, course navigations, class schedules, mathematical problem solvers, converters, helpline and more.
+This is an all-in-one student assistant for BSCSE students of NSU. It tracks academic progress, showcases course information, provides personalized course suggestions, and includes tools for creating class schedules and calculating CGPA. It efficiently supports multiple users, facilitating seamless tracking of academic journeys for various users.
