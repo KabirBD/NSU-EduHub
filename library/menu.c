@@ -38,27 +38,28 @@ int displayMenu()
         printf("\n Class schedule"); // testing
     }
 
-    // What to do if Helpline selected
-    void helpline()
-    {
-        // helpline page
-        clr();
-        printf("\nHelpline Numbers:");
-        printf("\n\tZarraf Rahman");
-    }
-
     // if about selected
     void about()
     {
         // About Page design (We sill move this code into a function later)
         clr();
         logo();
-        printf("\n\n Version: 1.0.0");
-        printf("\n Developer: ");
-        printf("\n\tZarraf Rahman");
-        printf("\n\tMd. Kabir Hosen");
-        printf("\n\tMd. Hasibul Hasan Sarker");
-        printf("\n Website: https://nsueduhub.com\n\n\n");
+        printWrap("\n\n This is an all-in-one student assistant for BSCSE students at NSU. It tracks academic progress, showcases course information, provides personalized course suggestions, and includes tools for creating class schedules and calculating CGPA. It efficiently supports multiple users, facilitating seamless tracking of academic journeys for various users.\n\n", 64);
+        tab();
+        row(9);
+        colorPrint(" Developers ", "y");
+        row(9);
+        colorPrint("\n\tZarraf Rahman", "c");
+        printf("\n\t\t* User Authentication");
+        printf("\n\t\t* Course Advisor");
+        colorPrint("\n\tMd. Kabir Hosen", "c");
+        printf("\n\t\t* Dashboard");
+        printf("\n\t\t* Course Manager");
+        colorPrint("\n\tMd. Hasibul Hasan Sarker", "c");
+        printf("\n\t\t* Class Schedule");
+        printf("\n\t\t* CGPA Insight");
+        colorPrint("\n\n Version: ", "c");
+        printf("1.0.0\n");
     }
 
     void exit(){
@@ -69,7 +70,7 @@ int displayMenu()
     void mainMenu()
     {
         clr();
-        char *options[] = {"Dashboard", "Course Manager","Course Advisor", "Class Schedule", "CGPA Insight", "About", "Exit"};
+        char *options[] = {"Dashboard", "Course Manager", "Course Advisor", "Class Schedule", "CGPA Insight", "About", "Exit"};
 
         switch (showOption("Choose an option below:", options, 7))
         {
@@ -81,7 +82,7 @@ int displayMenu()
             courseMenu();
             mainMenu();
             break;
-        case 2: //3
+        case 2: // 3
             courseAdvisor();
             mainMenu();
             break;
@@ -99,7 +100,7 @@ int displayMenu()
             closeDialog();
             mainMenu();
             break;
-        case 6: //7
+        case 6: // 7
             exit();
             break;
         };

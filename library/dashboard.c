@@ -212,11 +212,12 @@ void dashboard()
             for (int i = 0; i < thisUser.numOfEnrollingCourses; i++)
                 printf("\t%-15s%-60s%-10.*f\n", thisUser.enrollingCourses[i].initial, thisUser.enrollingCourses[i].name, needDeci(thisUser.enrollingCourses[i].credit), thisUser.enrollingCourses[i].credit);
             countRetake();
-            if(retakeCount){
-            tab();
-            colorRow(1, "y", 81);
-            colorPrint("\n\tNumber of Retaken Courses: ", "g");
-            printf("%d\n", retakeCount);
+            if (retakeCount)
+            {
+                tab();
+                colorRow(1, "y", 81);
+                colorPrint("\n\tNumber of Retaken Courses: ", "g");
+                printf("%d\n", retakeCount);
             }
             n();
             row(118);
@@ -295,7 +296,59 @@ void dashboard()
     }
 
     // analyse requirement of the course
-    int checkRequire(char require[25])
+    int checkRequireInCompleted(char require[25])
+    {
+        if (strlen(require))
+        {
+            if (require[1] == '-')
+            {
+                char *hyphen = strchr(require, '-');
+                int credit = atoi(hyphen + 1);
+                if (thisUser.completedCredit >= credit)
+                    return 1;
+                else
+                    return 0;
+            }
+            else
+            {
+                char *comma = strchr(require, ',');
+                if (comma != NULL)
+                {
+                    char *
+                        requires[
+                            4];
+                    int n = 0;
+                    char *c = strtok(require, ",");
+                    while (c != NULL)
+                    {
+                        requires[n] = c;
+                        n++;
+                        c = strtok(NULL, ",");
+                    }
+                    for (int i = 0; i < n; i++)
+                    {
+                        if (!foundInCompletedCurses(requires[i], thisUser.numOfEnrolledCourses))
+                            return 0;
+                    }
+                    return 1;
+                }
+                else
+                {
+                    if (foundInCompletedCurses(require, thisUser.numOfEnrolledCourses))
+                        return 1;
+                    else
+                        return 0;
+                }
+            }
+        }
+        else
+        {
+            return 1;
+        }
+    }
+
+    // analyse requirement of the course
+    int checkRequireInBoth(char require[25])
     {
         if (strlen(require))
         {
@@ -550,7 +603,7 @@ void dashboard()
             {
                 if (!foundInCompletedCurses(initial, i))
                 {
-                    if (checkRequire(courseRequire))
+                    if (checkRequireInCompleted(courseRequire))
                     {
                         strcpy(thisUser.enrolledCourses[i].initial, courseInit);
                         strcpy(courseList[indexZ], courseInit);
@@ -622,7 +675,7 @@ void dashboard()
                     }
                     else
                     {
-                        if (checkRequire(courseRequire))
+                        if (checkRequireInBoth(courseRequire))
                         {
                             strcpy(thisUser.enrollingCourses[i].initial, courseInit);
                             strcpy(courseList[indexZ], courseInit);
@@ -740,7 +793,7 @@ void dashboard()
 
                 if (!foundInCompletedCurses(initial, index))
                 {
-                    if (checkRequire(courseRequire))
+                    if (checkRequireInCompleted(courseRequire))
                     {
                         strcpy(thisUser.enrolledCourses[index].initial, courseInit);
                         strcpy(thisUser.enrolledCourses[index].name, courseName);
@@ -825,6 +878,7 @@ void dashboard()
             if (!thisUser.numOfEnrolledCourses)
             {
                 thisUser.semester = 1;
+                copy.userSemester = 1;
                 deleteTrailCourses(thisUser.trail);
                 thisUser.trail = 0;
                 colorPrint(" No more completed course. Semester set to 1st, Trail removed.", "r");
@@ -854,7 +908,7 @@ void dashboard()
                     }
                     else
                     {
-                        if (checkRequire(courseRequire))
+                        if (checkRequireInBoth(courseRequire))
                         {
                             strcpy(thisUser.enrollingCourses[index].initial, courseInit);
                             strcpy(thisUser.enrollingCourses[index].name, courseName);
@@ -984,6 +1038,7 @@ void dashboard()
             thisUser.numOfEnrolledCourses++;
         }
         thisUser.semester++;
+        copy.userSemester++;
         thisUser.completingCredit = 0;
         thisUser.numOfEnrollingCourses = 0;
 

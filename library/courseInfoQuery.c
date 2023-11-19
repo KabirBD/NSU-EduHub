@@ -16,19 +16,19 @@ void courseInfoQuery()
             {
                 n();
                 row(80);
-                colorPrint("\n\nCourse Name: ", "g");
+                colorPrint("\n\n Course Name: ", "g");
                 printf("%s", coreCourses[i].name);
-                colorPrint("\nCourse Type: ", "g");
+                colorPrint("\n Course Type: ", "g");
                 printf("Core Course");
-                colorPrint("\nCredit: ", "g");
+                colorPrint("\n Credit: ", "g");
                 printf("%.*f", needDeci(coreCourses[i].credit), coreCourses[i].credit);
-                colorPrint("\nPre-requisites: ", "g");
+                colorPrint("\n Pre-requisites: ", "g");
                 printf("%s\n\n", analyseReq(coreCourses[i].require));
-                colorPrint("Description:\n", "g");
+                colorPrint(" Description:\n", "g");
                 printWrap(coreCourses[i].description, 80);
                 n();
                 row(80);
-                colorPrint("\nSource: http://ece.northsouth.edu/\n", "b");
+                colorPrint("\n Source: http://ece.northsouth.edu/\n", "b");
                 return;
             }
         }
@@ -41,15 +41,15 @@ void courseInfoQuery()
                 {
                     n();
                     row(80);
-                    colorPrint("\n\nCourse Name: ", "g");
+                    colorPrint("\n\n Course Name: ", "g");
                     printf("%s", trailCourses[i].name);
-                    colorPrint("\nCourse Type: ", "g");
+                    colorPrint("\n Course Type: ", "g");
                     printf(trails[trail]);
-                    colorPrint("\nCredit: ", "g");
+                    colorPrint("\n Credit: ", "g");
                     printf("%.1f", trailCourses[i].credit);
-                    colorPrint("\nPre-requisites: ", "g");
+                    colorPrint("\n Pre-requisites: ", "g");
                     printf("%s\n\n", trailCourses[i].require);
-                    colorPrint("Description:\n", "g");
+                    colorPrint(" Description:\n", "g");
                     printWrap(trailCourses[i].description, 80);
                     n();
                     row(80);
@@ -83,17 +83,17 @@ void courseInfoQuery()
             {
                 n();
                 row(100);
-                colorPrint("\n\nCourse Name: ", "g");
+                colorPrint("\n\n Course Name: ", "g");
                 printf("%s", coreCourses[i].name);
-                colorPrint("\nInitial: ", "g");
+                colorPrint("\n Initial: ", "g");
                 printf("%s", coreCourses[i].initial);
-                colorPrint("\nCourse Type: ", "g");
+                colorPrint("\n Course Type: ", "g");
                 printf("Core Course");
-                colorPrint("\nCredit: ", "g");
+                colorPrint("\n Credit: ", "g");
                 printf("%.*f", needDeci(coreCourses[i].credit), coreCourses[i].credit);
-                colorPrint("\nPre-requisites: ", "g");
+                colorPrint("\n Pre-requisites: ", "g");
                 printf("%s\n\n", analyseReq(coreCourses[i].require));
-                colorPrint("Description:\n", "g");
+                colorPrint(" Description:\n", "g");
                 printWrap(coreCourses[i].description, 100);
                 n();
                 courseFound++;
@@ -110,26 +110,27 @@ void courseInfoQuery()
                 {
                     n();
                     row(100);
-                    colorPrint("\n\nCourse Name: ", "g");
+                    colorPrint("\n\n Course Name: ", "g");
                     printf("%s", trailCourses[i].name);
-                    colorPrint("\nInitial: ", "g");
+                    colorPrint("\n Initial: ", "g");
                     printf("%s", trailCourses[i].initial);
-                    colorPrint("\nCourse Type: ", "g");
+                    colorPrint("\n Course Type: ", "g");
                     printf(trails[trail]);
-                    colorPrint("\nCredit: ", "g");
+                    colorPrint("\n Credit: ", "g");
                     printf("%.1f", trailCourses[i].credit);
-                    colorPrint("\nPre-requisites: ", "g");
+                    colorPrint("\n Pre-requisites: ", "g");
                     printf("%s\n\n", trailCourses[i].require);
-                    colorPrint("Description:\n", "g");
+                    colorPrint(" Description:\n", "g");
                     printWrap(trailCourses[i].description, 100);
                     n();
+                    courseFound++;
                 }
             }
         }
         if (courseFound)
         {
             row(100);
-            colorPrint("\nResults Found: ", "b");
+            colorPrint("\n Results Found: ", "b");
             printf("%d\n\n\n", courseFound);
         }
         else

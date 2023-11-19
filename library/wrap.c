@@ -3,6 +3,7 @@ void printWrap(const char *text, int lineWidth)
     int length = strlen(text);
     int currentPosition = 0;
 
+    putchar(' ');
     while (currentPosition < length)
     {
         int wrapPosition = currentPosition + lineWidth;
@@ -27,7 +28,7 @@ void printWrap(const char *text, int lineWidth)
             putchar(text[i]);
         }
         putchar('\n');
-
+        putchar(' ');
         currentPosition = wrapPosition + 1;
     }
 }
