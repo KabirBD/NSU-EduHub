@@ -17,7 +17,6 @@ int displayMenu()
         case 1:
             clr();
             courseInfoQuery();
-            closeDialog();
             courseMenu();
             break;
         case 2:
@@ -88,7 +87,6 @@ int displayMenu()
             break;
         case 3: // 4
             manageClassSchedule();
-            closeDialog();
             mainMenu();
             break;
         case 4: // 5

@@ -172,8 +172,6 @@ void availableCourses()
     {
         // if no this user data not found then get user information
         clr();
-        colorPrint("\n\n You haven't enterd your information yet.\n\n", "r");
-        usleep(2000000);
-        clr();
+        colorPrint("\n\n You haven't entered your information yet.\n\n", "r");
     }
 }

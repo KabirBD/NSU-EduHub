@@ -143,7 +143,7 @@ void dashboard()
     // count retake courses
     void countRetake()
     {
-        retakeCount=0;
+        retakeCount = 0;
         for (int i = 0; i < thisUser.numOfEnrollingCourses; i++)
         {
             for (int j = 0; j < thisUser.numOfEnrolledCourses; j++)
@@ -199,7 +199,7 @@ void dashboard()
             float cgpa = pointSum / listedCoursesCredit;
             printf("%.2f\n", cgpa);
             if (cgpa < 2)
-                colorPrint("\tYou are on probation! Please retake some courses you got lower grde.\n", "r");
+                colorPrint("\tYou are in probation! Please retake some courses in which you had comparatively lower grde.\n", "r");
             n();
         }
         if (thisUser.numOfEnrollingCourses)
@@ -482,20 +482,9 @@ void dashboard()
     // get semester info from user
     void getSemesterInfo()
     {
-        while (1)
-        {
-            colorPrint("\n Which semester are you studying? ", "b");
-            thisUser.semester = slider(1, 12);
-            copy.userSemester = thisUser.semester;
-            if (thisUser.semester < 1 || thisUser.semester > 20)
-            {
-                colorPrint(" Invalid Semester", "r");
-                usleep(500000);
-                clr();
-            }
-            else
-                break;
-        }
+        colorPrint("\n Which semester are you studying? ", "b");
+        thisUser.semester = slider(1, 12);
+        copy.userSemester = thisUser.semester;
     }
 
     // change semester of user
@@ -505,9 +494,15 @@ void dashboard()
         {
             colorPrint("\n Which semester are you studying? ", "b");
             int semester = slider(1, 12);
-            if (semester == 1 && thisUser.numOfEnrolledCourses != 0)
+            if (semester == 1 && thisUser.numOfEnrolledCourses)
             {
                 colorPrint(" You can't have completed courses in 1st semester. Delete completed courses first.", "y");
+                usleep(1000000);
+                clr();
+            }
+            else if (semester == 12 && thisUser.numOfEnrollingCourses)
+            {
+                colorPrint(" You can't have enrolling courses last semester. Delete erollig courses or select lower semester.", "y");
                 usleep(1000000);
                 clr();
             }
@@ -668,8 +663,11 @@ void dashboard()
             clr();
             getCompletedCourses();
         }
-        clr();
-        getEnrollingCourses();
+        if (thisUser.semester < 12)
+        {
+            clr();
+            getEnrollingCourses();
+        }
 
         char totalCourse[10];
         sprintf(totalCourse, "%d", totalCourses);
@@ -683,6 +681,45 @@ void dashboard()
         usleep(500000);
         clr();
         showUserData();
+    }
+
+    // delete all coursers of this trail from completed and enrolling courses
+    void deleteTrailCourses(int trail)
+    {
+        getTrailCourses(trail);
+        for (int i = 0; i < trailLnth; i++)
+        {
+            for (int j = 0; j < thisUser.numOfEnrolledCourses; j++)
+            {
+                if (strcmp(trailCourses[i].initial, thisUser.enrolledCourses[j].initial) == 0)
+                {
+                    thisUser.numOfEnrolledCourses--;
+                    thisUser.completedCredit -= thisUser.enrolledCourses[j].credit;
+                    for (int k = j; j < thisUser.numOfEnrolledCourses; j++)
+                    {
+                        strcpy(thisUser.enrolledCourses[k].initial, thisUser.enrolledCourses[k + 1].initial);
+                        strcpy(thisUser.enrolledCourses[k].name, thisUser.enrolledCourses[k + 1].name);
+                        strcpy(thisUser.enrolledCourses[k].grade, thisUser.enrolledCourses[k + 1].grade);
+                        thisUser.enrolledCourses[k].credit = thisUser.enrolledCourses[k + 1].credit;
+                    }
+                }
+            }
+            for (int j = 0; j < thisUser.numOfEnrollingCourses; j++)
+            {
+                if (strcmp(trailCourses[i].initial, thisUser.enrollingCourses[j].initial) == 0)
+                {
+                    thisUser.numOfEnrollingCourses--;
+                    thisUser.completingCredit -= thisUser.enrollingCourses[j].credit;
+                    for (int k = j; j < thisUser.numOfEnrollingCourses; j++)
+                    {
+                        strcpy(thisUser.enrollingCourses[k].initial, thisUser.enrollingCourses[k + 1].initial);
+                        strcpy(thisUser.enrollingCourses[k].name, thisUser.enrollingCourses[k + 1].name);
+                        strcpy(thisUser.enrollingCourses[k].grade, thisUser.enrollingCourses[k + 1].grade);
+                        thisUser.enrollingCourses[k].credit = thisUser.enrollingCourses[k + 1].credit;
+                    }
+                }
+            }
+        }
     }
 
     // add a course in completed courses list
@@ -781,6 +818,14 @@ void dashboard()
                 strcpy(thisUser.enrolledCourses[i].name, thisUser.enrolledCourses[i + 1].name);
                 strcpy(thisUser.enrolledCourses[i].grade, thisUser.enrolledCourses[i + 1].grade);
                 thisUser.enrolledCourses[i].credit = thisUser.enrolledCourses[i + 1].credit;
+            }
+            if (!thisUser.numOfEnrolledCourses)
+            {
+                thisUser.semester = 1;
+                deleteTrailCourses(thisUser.trail);
+                thisUser.trail = 0;
+                colorPrint(" No more completed course. Semester set to 1st, Trail removed.", "r");
+                usleep(2000000);
             }
             saveUserData(thisUserFile);
         }
@@ -939,52 +984,16 @@ void dashboard()
         thisUser.completingCredit = 0;
         thisUser.numOfEnrollingCourses = 0;
 
-        switch (showOption("\n Do you want to add new courses for this semester now?", yesno, 2))
+        if (thisUser.semester < 12)
         {
-        case 0:
-            clr();
-            getEnrollingCourses();
+            switch (showOption("\n Do you want to add new courses for this semester now?", yesno, 2))
+            {
+            case 0:
+                clr();
+                getEnrollingCourses();
+            }
         }
         saveUserData(thisUserFile);
-    }
-
-    // delete all coursers of this trail from completed and enrolling courses
-    void deleteTrailCourses(int trail)
-    {
-        getTrailCourses(trail);
-        for (int i = 0; i < trailLnth; i++)
-        {
-            for (int j = 0; j < thisUser.numOfEnrolledCourses; j++)
-            {
-                if (strcmp(trailCourses[i].initial, thisUser.enrolledCourses[j].initial) == 0)
-                {
-                    thisUser.numOfEnrolledCourses--;
-                    thisUser.completedCredit -= thisUser.enrolledCourses[j].credit;
-                    for (int k = j; j < thisUser.numOfEnrolledCourses; j++)
-                    {
-                        strcpy(thisUser.enrolledCourses[k].initial, thisUser.enrolledCourses[k + 1].initial);
-                        strcpy(thisUser.enrolledCourses[k].name, thisUser.enrolledCourses[k + 1].name);
-                        strcpy(thisUser.enrolledCourses[k].grade, thisUser.enrolledCourses[k + 1].grade);
-                        thisUser.enrolledCourses[k].credit = thisUser.enrolledCourses[k + 1].credit;
-                    }
-                }
-            }
-            for (int j = 0; j < thisUser.numOfEnrollingCourses; j++)
-            {
-                if (strcmp(trailCourses[i].initial, thisUser.enrollingCourses[j].initial) == 0)
-                {
-                    thisUser.numOfEnrollingCourses--;
-                    thisUser.completingCredit -= thisUser.enrollingCourses[j].credit;
-                    for (int k = j; j < thisUser.numOfEnrollingCourses; j++)
-                    {
-                        strcpy(thisUser.enrollingCourses[k].initial, thisUser.enrollingCourses[k + 1].initial);
-                        strcpy(thisUser.enrollingCourses[k].name, thisUser.enrollingCourses[k + 1].name);
-                        strcpy(thisUser.enrollingCourses[k].grade, thisUser.enrollingCourses[k + 1].grade);
-                        thisUser.enrollingCourses[k].credit = thisUser.enrollingCourses[k + 1].credit;
-                    }
-                }
-            }
-        }
     }
 
     // user info edit functionalities
@@ -1013,8 +1022,10 @@ void dashboard()
                     switch (showOption("\n If you change the trail, courses of your previous trail will be removed from\n completed and currently enrolling courses lists.\n Do you want to continue?", yesno, 2))
                     {
                     case 0:
-                        deleteTrailCourses(thisUser.trail);
+                        int prevTrail = thisUser.trail;
                         getTrailInfo();
+                        if (thisUser.trail != prevTrail)
+                            deleteTrailCourses(prevTrail);
                         saveUserData(thisUserFile);
                         showUserData();
                         break;
@@ -1067,8 +1078,16 @@ void dashboard()
         case 4:
             clr();
             loadUserData(thisUserFile);
-            addEnrollingCourse();
-            showUserData();
+            if (thisUser.semester < 12)
+            {
+                addEnrollingCourse();
+                showUserData();
+            }
+            else
+            {
+                colorPrint("\n Reached to maximum semester. You can't enroll any course.\n Change semester number to enroll more courses", "r");
+                usleep(3000000);
+            }
             editMenu();
             break;
         case 5:
@@ -1101,7 +1120,7 @@ void dashboard()
             showDashboardMenu();
             break;
         case 1:
-            if (thisUser.numOfEnrollingCourses)
+            if (thisUser.numOfEnrollingCourses && thisUser.semester < 12)
             {
                 switch (showOption("\n All your currently enrolling courses will be moved to completed courses list with their grades.\n Do you want to continue?", yesno, 2))
                 {
@@ -1111,6 +1130,13 @@ void dashboard()
                 case 1:
                     showDashboardMenu();
                 }
+            }
+            else if (thisUser.semester == 12)
+            {
+                clr();
+                colorPrint("\n You have reached to max semester.\n Please change your semester number to add more courses", "r");
+                usleep(1000000);
+                showDashboardMenu();
             }
             else
             {
@@ -1148,10 +1174,11 @@ void dashboard()
     {
         // if this user data not found then get user information
         clr();
-        colorPrint("\n\n You haven't enterd your information yet.\n\n", "r");
-        usleep(1000000);
-        clr();
-        getUserInfo();
-        showDashboardMenu();
+        switch (showOption("\n You haven't entered your information yet.\n Do you want to add now?", yesno, 2))
+        {
+        case 0:
+            clr();
+            getUserInfo();
+        }
     }
 }

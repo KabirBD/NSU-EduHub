@@ -131,7 +131,7 @@ int slider(int min, int max)
     colorPrint(" [<<] ", "y");
     colorPrint("Use Arrow Keys", "c");
     colorPrint("  [>>]", "y");
-    usleep(1000000);
+    usleep(500000);
     setCursorPosition(x, y);
     showNum(count);
 

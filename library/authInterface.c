@@ -42,7 +42,7 @@ int authInterface()
         FILE *file = fopen(filename, "rb");
         if (file == NULL) // if no file found named username.dat,
         {
-            perror("Error opening file");
+            // perror("Error opening file");
             saveData("usercred");
         }
 
@@ -83,7 +83,7 @@ int authInterface()
 
         if (user_num >= 30)
         {
-            printf("Sorry max user number reached.\n");
+            printf("Sorry, the maximum number of users has been reached.\n");
             return 0;
         }
 
@@ -94,11 +94,11 @@ int authInterface()
         do
         {
             getInput(acc_num[user_num].name);
-            if (strlen(acc_num[user_num].name) <= 4)
+            if (strlen(acc_num[user_num].name) <= 3)
             {
-                printf("The username is too short.\n");
+                printf("The username must be at least 4 characters long.\n");
             }
-        } while (strlen(acc_num[user_num].name) <= 4);
+        } while (strlen(acc_num[user_num].name) <= 3);
 
         colorPrint("Enter your password: ", "c");
         do
@@ -106,7 +106,7 @@ int authInterface()
             getInput(acc_num[user_num].pass);
             if (strlen(acc_num[user_num].pass) <= 5)
             {
-                printf("The password is too short.\n");
+                printf("The password must be at least 6 characters long.\n");
             }
         } while (strlen(acc_num[user_num].pass) <= 5);
 
@@ -223,17 +223,16 @@ int authInterface()
                 printf("Exit selected");
                 exit(0);
             default:
-                printf("Invalid choice. Please try again.\n");
+                printf("Press 1, 2 or 3 to select an option.\n");
             };
         }
     }
 
     clr();
     n();
-    printf("\t      ============= Welcome To =============\n");
+    printf("\t       ============= Welcome To =============\n");
     logo();
     printf("\t [ 1. Sign-in ]    [ 2. Sign-up ]    [ 3. Exit ]\n\n\n");
 
     return checkSelected();
 }
-
