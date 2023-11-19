@@ -7,7 +7,7 @@ Login Interface
 Dashboard
 ![image](https://github.com/KabirBD/NSU-EduHub/assets/70894887/4ad78ff6-5ef6-40b3-b338-ef600a4d6ff9)
 
-Course query
+Course Query
 ![image](https://github.com/KabirBD/NSU-EduHub/assets/70894887/da0ac450-d5d6-4009-bd25-e2bc84e9f7cb)
 
 Course Advising
