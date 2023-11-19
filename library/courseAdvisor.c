@@ -128,34 +128,6 @@ void courseAdvisor()
         }
     }
 
-    int getValidInput(int min, int max, const char *prompt)
-    {
-        int input;
-        int validInput = 0; // Variable to track if the input is valid
-
-        do
-        {
-            printf("%s", prompt);
-            if (scanf("%d", &input) != 1)
-            {
-                printf("Invalid input. Please enter a number.\n");
-                // Clear the input buffer
-                while (getchar() != '\n')
-                    ;
-            }
-            else if (input < min || input > max)
-            {
-                printf("Please enter a number between %d and %d.\n", min, max);
-            }
-            else
-            {
-                validInput = 1;
-            }
-        } while (!validInput);
-
-        return input;
-    }
-
     void courseDivider()
     {
         int cse_count = 0, school_count = 0, uni_count = 0;
@@ -219,13 +191,18 @@ void courseAdvisor()
 
     int getInput()
     {
-        totalSemester = getValidInput(1, 8, "Enter the number of semesters(e.g. 1 if you want to be advised for your next semester): ");
-
-        cseCourse = getValidInput(1, 4, "Enter the number of CSE core courses you want per semester: ");
-
-        uniCourse = getValidInput(1, 4, "Enter the number of University core courses(GED) you want per semester: ");
-
-        schoolCourse = getValidInput(1, 4, "Enter the number of School core courses you want per semester: ");
+        clr();
+        colorPrint("\n This program will automatically suggest you which courses you should take on your next semesters.", "c");
+        colorPrint("\n (Considering your completed and enrolling courses)\n\n", "c");
+        colorPrint("Get advice for how many semesters:", "g");
+        totalSemester = slider(1, 8);
+        colorPrint("How many CSE core courses you want per semester: ", "g");
+        cseCourse = slider(1, 4);
+        colorPrint("How many University core courses(GED) you want per semester: ", "g");
+        uniCourse = slider(1, 4);
+        colorPrint("How many School core courses you want per semester: ", "g");
+        schoolCourse = slider(1, 4);
+        clr();
     }
 
     int preReqChecker(int courseCount, courseDetails *courseCore, int m)
@@ -403,7 +380,7 @@ void courseAdvisor()
         float semesterCredit;
         totalCredits = 0;
 
-        colorPrint("The advisor system considers your currently enrolled courses as completed in order to function.", "b");
+        colorPrint("\n The advisor system considers your currently enrolled courses as completed in order to function.", "b");
         colorPrint("\n\n\tList of Advised Courses:\n\t", "y");
         row(83);
         n();
@@ -454,7 +431,7 @@ void courseAdvisor()
 
         colorPrint("For certain GED courses with alternative options, the system automatically suggests:\n", "g");
         colorPrint("\t1. SOC101 (SOC101/ANT101/ENV203)\n\t2. ECO101 (ECO101/ECO104)\n\t3. POL101 (POL101/POL104)\n", "y");
-        colorPrint("This is done for the sake of simplicity.", "g");
+        colorPrint("This is done for the sake of simplicity.\n\n", "g");
     }
 
     void writeDataToFile(int totalSemester, const char *fileName)
@@ -541,8 +518,7 @@ void courseAdvisor()
     void showAdvisorMenu()
     {
         ////clr()
-        char *options1[] = {"Export Course Map", "Change Parameters", "Go back"};
-        // char *options2[] = {"Start","Go back"};
+        char *options1[] = {"Export Course Map", "Change Parameters", "Go Back"};
         switch (showOption("Select an option:", options1, 3))
         {
         case 0:
@@ -562,8 +538,7 @@ void courseAdvisor()
     void showAdvisorMenu2()
     {
         // clr()
-        char *options1[] = {"Start", "Go back"};
-        // char *options2[] = {"Start","Go back"};
+        char *options1[] = {"Start", "Go Back"};
         switch (showOption("Select an option:", options1, 2))
         {
         case 0:
@@ -582,7 +557,8 @@ void courseAdvisor()
 
     if (courseCount == 0)
     {
-        colorPrint("You haven't entered your data yet. Please enter your data in the Dashboard option.", "r");
+        clr();
+        colorPrint("You haven't entered your data yet. Please enter your data in the Dashboard option.\n\n", "r");
         closeDialog();
         return;
     }
