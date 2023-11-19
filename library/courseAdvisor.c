@@ -380,7 +380,7 @@ void courseAdvisor()
         float semesterCredit;
         totalCredits = 0;
 
-        colorPrint("\n The advisor system considers your currently enrolling courses as completed in order to function.", "b");
+        colorPrint("\n The advisor system considers your currently enrolled courses as completed in order to function.", "b");
         colorPrint("\n\n\tList of Advised Courses:\n\t", "y");
         row(83);
         n();
