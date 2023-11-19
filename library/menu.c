@@ -60,6 +60,8 @@ int displayMenu()
         printf("\n\t\t* CGPA Insight");
         colorPrint("\n\n Version: ", "c");
         printf("1.0.0\n");
+        colorPrint(" Open Source:", "g");
+        colorPrint(" https://github.com/KabirBD/NSU-EduHub \n", "b");
     }
 
     void exit(){
