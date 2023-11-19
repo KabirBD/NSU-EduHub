@@ -211,11 +211,14 @@ void dashboard()
             colorPrint("\n\tInitial        Course Name                                                 Credit\n", "b");
             for (int i = 0; i < thisUser.numOfEnrollingCourses; i++)
                 printf("\t%-15s%-60s%-10.*f\n", thisUser.enrollingCourses[i].initial, thisUser.enrollingCourses[i].name, needDeci(thisUser.enrollingCourses[i].credit), thisUser.enrollingCourses[i].credit);
+            countRetake();
+            if(retakeCount){
             tab();
             colorRow(1, "y", 81);
-            countRetake();
             colorPrint("\n\tNumber of Retaken Courses: ", "g");
-            printf("%d\n\n", retakeCount);
+            printf("%d\n", retakeCount);
+            }
+            n();
             row(118);
             colorPrint("\n\n\tThis Semester tuition and other fees\n", "y");
             tab();
